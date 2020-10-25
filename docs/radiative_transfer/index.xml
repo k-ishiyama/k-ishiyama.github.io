@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Radiative Transfer on Notes</title>
+    <link>https://example.com/docs/radiative_transfer/</link>
+    <description>Recent content in Radiative Transfer on Notes</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://example.com/docs/radiative_transfer/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Radiative Transfer Equation</title>
+      <link>https://example.com/docs/radiative_transfer/radiative_transfer_equation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/radiative_transfer/radiative_transfer_equation/</guid>
+      <description>Linear Boltzmann Equation for Photons #  平衡状態にある散乱媒質と, 光子に関する Linear Boltzmann 方程式 を考える. 全ての光子は速度 \(c\) で運動するとし, 散乱媒質はその速度に比べて十分遅いとする. また, 光子の密度関数を 分光放射輝度 として \(L(\bm{\omega})=L(\bm{x},\bm{\omega},\nu,t)\) と書き, 散乱媒質に対する光の入射方向を \(\bm{\omega}_i\), 出射方向を \(\bm{\omega}_o\) と書く.
+このとき, Linear Boltzmann 方程式は   \[	\frac{1}{c}\frac{\partial L(\bm{\omega}_o)}{\partial t} &amp;#43; \bm{\omega}_o\cdot\frac{\partial L(\bm{\omega}_o)}{\partial\bm{x}} = \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{\omega}_i)d\bm{\omega}_i - \mu_s L(\bm{\omega}_o)\]  となる [ Cercignani, 1988].
+Scattering Coefficient #  \(\mu_s\)は散乱係数と呼ばれる量で, 単位長さあたりに存在する媒質粒子数を表す.
+散乱媒質の 密度関数 を \(F(\bm{x},\bm{p},t)\) とかけば, その個数密度は \(n(\bm{x},t)=\int F(\bm{x},\bm{p},t)d\bm{p}\) と得られる. これと 散乱断面積 \(\sigma_s\) から, 散乱係数は  \[	\mu_s(\bm{x},t) := n(\bm{x},t)\,\sigma_s\qquad[\text{m}^{-1}]\]  と与えられる.</description>
+    </item>
+    
+    <item>
+      <title>Rendering Equation</title>
+      <link>https://example.com/docs/radiative_transfer/rendering_equation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/radiative_transfer/rendering_equation/</guid>
+      <description>Volume Rendering Equation #  時間に依存しない Radiative Transfer 方程式 を考える.   \[	\left(\bm{\omega}_o\cdot\nabla &amp;#43; \mu_t\right)L(\bm{x},\bm{\omega}_o,\nu) = s(\bm{x},\bm{\omega}_o) &amp;#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  これを, Volume Rendering 方程式 [ Jensen et al., 2001] と呼ぶことにする.
+ただし, 光の放出は熱放射に限らないとして, 黒体輻射の輝度 \(B\) を source 項  \[	s(\bm{x},\bm{\omega}_o) = \mu_t L_\epsilon(\bm{x}) &amp;#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o)\]  で置き換えた. \(L_\epsilon\) は媒質の自己放射で, \(L_\text{re}\) は媒質が吸収した光の再放出とする.
+Rendering Equation #  物体の表面として, 衝突率が 100% の媒質を考える. この場合, 光が媒質を通り抜けることはないから, \(\bm{\omega}_o\cdot\nabla L(\bm{x},\bm{\omega}_o,\nu) = 0\) となる. 従って Volume Rendering 方程式 は,  \[	\mu_tL(\bm{x},\bm{\omega}_o,\nu) = \mu_t L_\epsilon(\bm{x}) &amp;#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o) &amp;#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  となる.</description>
+    </item>
+    
+    <item>
+      <title>Microfacet Model</title>
+      <link>https://example.com/docs/radiative_transfer/microfacet_model/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/radiative_transfer/microfacet_model/</guid>
+      <description>Microfacet Model #   Rendering 方程式 では, 物体表面上の光反射は   \[	L(\bm{x},\bm{\omega}_o,\nu) = \int_{H^&amp;#43;}f(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]  と表された.
+いま, 粗い面による光反射を表現するために, 表面が微細な凸凹の集まりによってできていると仮定する. そして, 微細な凸凹の情報は, 法線分布関数やマスキング関数といった, 統計的な量に格納されているとする. このようにして粗い面をモデル化したものを, Microfacet モデルと呼ぶ. 以後, 微細な凸凹のひとつひとつを Microsurface、その集まりによってできた面を Macrosurface と呼んで区別する [ Pharr et al., 2018].
+なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く. これは後に, 法線分布関数 を Microsurface の幾何形状から求めることを可能にする狙いがある.
+Half Vector #  入射光の方向を \(\bm{\omega}_i\), 反射光の方向を \(\bm{\omega}_o\) とし, 次の量  \[	\bm{\omega}_h := \frac{\bm{\omega}_i &amp;#43; \bm{\omega}_o}{|\bm{\omega}_i &amp;#43; \bm{\omega}_o|}\]  をハーフベクトルと呼ぶ.</description>
+    </item>
+    
+    <item>
+      <title>References</title>
+      <link>https://example.com/docs/radiative_transfer/references/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/radiative_transfer/references/</guid>
+      <description>References #  Chandrasekhar, S. (1960). Radiative transfer. Dover Publications Inc. #  Cook, R. L. and Torrance, K. E. (1982). A reﬂectance model for computer graphics. ACM Trans. Graph., 1(1):7–24. #  Kajiya, J. T. (1986). The rendering equation. SIGGRAPH Comput. Graph., 20(4):143–150. #  Cercignani, C. (1988). The Boltzmann Equation and Its Applications. Springer-Verlaq. #  Arvo, J. (1993). Transfer equations in global illumination. Global Illumination, SIGGRAPH’93 Course Notes.</description>
+    </item>
+    
+  </channel>
+</rss>

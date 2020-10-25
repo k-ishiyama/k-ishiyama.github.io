@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" dir=>
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Volume Rendering Equation #  時間に依存しない Radiative Transfer 方程式 を考える.   \[	\left(\bm{\omega}_o\cdot\nabla &#43; \mu_t\right)L(\bm{x},\bm{\omega}_o,\nu) = s(\bm{x},\bm{\omega}_o) &#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  これを, Volume Rendering 方程式 [ Jensen et al., 2001] と呼ぶことにする.
+ただし, 光の放出は熱放射に限らないとして, 黒体輻射の輝度 \(B\) を source 項  \[	s(\bm{x},\bm{\omega}_o) = \mu_t L_\epsilon(\bm{x}) &#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o)\]  で置き換えた. \(L_\epsilon\) は媒質の自己放射で, \(L_\text{re}\) は媒質が吸収した光の再放出とする.
+Rendering Equation #  物体の表面として, 衝突率が 100% の媒質を考える. この場合, 光が媒質を通り抜けることはないから, \(\bm{\omega}_o\cdot\nabla L(\bm{x},\bm{\omega}_o,\nu) = 0\) となる. 従って Volume Rendering 方程式 は,  \[	\mu_tL(\bm{x},\bm{\omega}_o,\nu) = \mu_t L_\epsilon(\bm{x}) &#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o) &#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  となる.">
+<meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Rendering Equation" />
+<meta property="og:description" content="Volume Rendering Equation #  時間に依存しない Radiative Transfer 方程式 を考える.   \[	\left(\bm{\omega}_o\cdot\nabla &#43; \mu_t\right)L(\bm{x},\bm{\omega}_o,\nu) = s(\bm{x},\bm{\omega}_o) &#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  これを, Volume Rendering 方程式 [ Jensen et al., 2001] と呼ぶことにする.
+ただし, 光の放出は熱放射に限らないとして, 黒体輻射の輝度 \(B\) を source 項  \[	s(\bm{x},\bm{\omega}_o) = \mu_t L_\epsilon(\bm{x}) &#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o)\]  で置き換えた. \(L_\epsilon\) は媒質の自己放射で, \(L_\text{re}\) は媒質が吸収した光の再放出とする.
+Rendering Equation #  物体の表面として, 衝突率が 100% の媒質を考える. この場合, 光が媒質を通り抜けることはないから, \(\bm{\omega}_o\cdot\nabla L(\bm{x},\bm{\omega}_o,\nu) = 0\) となる. 従って Volume Rendering 方程式 は,  \[	\mu_tL(\bm{x},\bm{\omega}_o,\nu) = \mu_t L_\epsilon(\bm{x}) &#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o) &#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  となる." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/docs/radiative_transfer/rendering_equation/" />
+<meta property="article:modified_time" content="2020-10-25T08:39:32+09:00" />
+<title>Rendering Equation | Notes</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
+<script defer src="/en.search.min.2d21992138c7c266276c490b9a80d0d857f9f79a6782eade0d5603e4934380c3.js" integrity="sha256-LSGZITjHwmYnbEkLmoDQ2Ff595pngureDVYD5JNDgMM="></script>
+
+<script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body dir=>
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/"><span>Notes</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/" class="">Physics</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/analytical_mechanics/" class="">Analytical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/geometrical_optics/" class="">Geometrical Optics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/particle_mechanics/" class="">Particle Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/statistical_mechanics/" class="">Statistical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/" class="">Radiative Transfer</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/radiative_transfer_equation/" class="">Radiative Transfer Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/rendering_equation/" class=" active">Rendering Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/microfacet_model/" class="">Microfacet Model</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://twitter.com/ishiyama_" target="_blank" rel="noopener">
+        Twitter
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Rendering Equation</strong>
+
+  <label for="toc-control">
+    
+  </label>
+</div>
+
+
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="volume-rendering-equation">
+  Volume Rendering Equation
+  <a class="anchor" href="#volume-rendering-equation">#</a>
+</h1>
+<p>時間に依存しない
+
+  <a href="../radiative_transfer_equation/#radiative-transfer-equation">Radiative Transfer 方程式</a>
+を考える.
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[	\left(\bm{\omega}_o\cdot\nabla &#43; \mu_t\right)L(\bm{x},\bm{\omega}_o,\nu)
+	= s(\bm{x},\bm{\omega}_o) &#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]
+</span>
+
+これを, Volume Rendering 方程式 [
+  <a href="../references/#JMLH2001">Jensen et al., 2001</a>] と呼ぶことにする.</p>
+<p>ただし, 光の放出は熱放射に限らないとして, 黒体輻射の輝度 \(B\) を source 項
+<span>
+  \[	s(\bm{x},\bm{\omega}_o) = \mu_t L_\epsilon(\bm{x}) &#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o)\]
+</span>
+
+で置き換えた.
+\(L_\epsilon\) は媒質の自己放射で, \(L_\text{re}\) は媒質が吸収した光の再放出とする.</p>
+<h1 id="rendering-equation">
+  Rendering Equation
+  <a class="anchor" href="#rendering-equation">#</a>
+</h1>
+<p>物体の表面として, 衝突率が 100% の媒質を考える.
+この場合, 光が媒質を通り抜けることはないから, \(\bm{\omega}_o\cdot\nabla L(\bm{x},\bm{\omega}_o,\nu) = 0\) となる.
+従って 
+  <a href="/docs/radiative_transfer/rendering_equation/#volume-rendering-equation">Volume Rendering 方程式</a> は,
+<span>
+  \[	\mu_tL(\bm{x},\bm{\omega}_o,\nu)
+	= \mu_t L_\epsilon(\bm{x}) &#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o) &#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]
+</span>
+
+となる.
+ここで反射率 \(k_s:=\frac{\mu_s}{\mu_t}\), 吸収率 \(k_a:=\frac{\mu_s}{\mu_t}\) という量を定義し,
+表面の法線を \(\bm{\omega}_n\) として
+\(p(\bm{\omega}_i,\bm{\omega}_o) \rightarrow f_r(\bm{\omega}_i,\bm{\omega}_o)(\bm{\omega}_n\cdot\bm{\omega}_i)\)
+と書き換えれば,
+<span>
+  \[	L(\bm{x},\bm{\omega}_o,\nu)
+	= L_\epsilon(\bm{x}) &#43; k_a L_\text{re}(\bm{x},\bm{\omega}_o)
+ 	&#43; k_s\int_{H^&#43;}f(\bm{\omega}_i, \bm{\omega}_o)(\bm{\omega}_n\cdot\bm{\omega}_i)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]
+</span>
+
+が得られる. この文書では, これを Rendering 方程式とよぶ.
+なお, 位置 \(\bm{x}\) で \(\bm{\omega}_n\) を法線とする半球面を
+\(H^+:=\{\bm{\omega}\in S^2 : \bm{\omega}\cdot\bm{\omega}_n(\bm{x})\ge0\}\) と書いた.</p>
+<h2 id="bidirectional-reflectance-distribution-function">
+  Bidirectional Reflectance Distribution Function
+  <a class="anchor" href="#bidirectional-reflectance-distribution-function">#</a>
+</h2>
+<p>上記の 
+  <a href="/docs/radiative_transfer/rendering_equation/#rendering-equation">Rendering 方程式</a> では,
+
+  <a href="../radiative_transfer_equation/#phase-function">散乱の位相関数</a> \(p(\bm{\omega}_i,\bm{\omega}_o)\) を
+\(f_r(\bm{\omega}_i,\bm{\omega}_o)(\bm{\omega}_n\cdot\bm{\omega}_i)\) と置き換えた.
+この \(f_r(\bm{\omega}_i,\bm{\omega}_o)\) を Bidirectional Reflectance Distribution Function (BRDF) と呼ぶ.</p>
+<p>法線 \(\bm{\omega}_n\) を持つ表面の散乱断面積から, BRDF の定義を与えることを考える.
+法線 \(\bm{\omega}_n\) を持つ微小面を \(d\sigma_n\), その面を \(\bm{\omega}_i\) 方向へ射影した面を
+\(d\sigma=\cos\theta_nd\sigma_n\) と書く.
+このとき, 散乱断面積は
+<span>
+  \[	\sigma_s
+	= \int_{H^&#43;}\left|\frac{d\bm{\sigma}}{d\bm{\omega}_i}\right|d\bm{\omega}_i
+	= \int_{H^&#43;}\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]
+</span>
+
+となる.
+この 
+  <a href="../../physics/statistical_mechanics/#differential-cross-section">微分散乱断面積</a>
+\(\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|\)
+を散乱断面積 \(\sigma_s\) で規格化した量を, BRDFとして定義する
+<span>
+  \[	f(\bm{\omega}_i,\bm{\omega}_o)
+	= \frac{1}{\sigma_s} \left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|
+	\qquad[\text{sr}^{-1}]\]
+</span>
+</p>
+<p>定義より, BRDF は次の規格化条件を満たす.
+<span>
+  \[	\int_{H^&#43;}f(\bm{\omega}_i,\bm{\omega}_o)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i = 1\]
+</span>
+</p>
+<!--
+## Misc.
+[Rendering 方程式](./rendering_equation/#rendering-equation) で
+\\(k_a=0\\) としたとき, Kajiya の Rendering 方程式 \[[Kajiya, 1986](../references/#Kajiya1986)\] が得られる.
+また, \\(L_\epsilon = 0\\), \\(L_\text{re}\\) を diffuse 反射としたとき, Cook-Torrance モデルが得られる.
+
+[Radiative Transfer 方程式](radiative_transfer_equation/#radiative-transfer-equation)
+で導入した関係 \\(\mu_s + \mu_a = \mu_t\\) より, 反射率と吸収率の間には \\(k_s+k_a=1\\) の関係がある.
+-->
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

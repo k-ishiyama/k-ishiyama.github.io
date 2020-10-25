@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" dir=>
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Analytical Mechanics #  Hamilton&rsquo;s Principle #  \(N\)次元ユークリッド空間を考えて, 時間を \(t\), 座標を \(\bm{q}(t)=\begin{pmatrix}q_1(t) \\ q_2(t) \\ \vdots \\ q_N(t)\end{pmatrix}\) と書く.
+そして, 時間による微分を	\(\dot{\bm{q}}:=\frac{d\bm{q}}{dt}\) と略記する.
+空間中にラグランジアン \(L(\bm{q},\dot{\bm{q}},t)\) なる量を考え, 曲線 \(\bm{q}(t)\) に沿った線積分   \[	S[\bm{q}] = \int^b_aL(\bm{q},\dot{\bm{q}},t)dt \tag{hp.1}\]  を作用と呼ぶ.
+作用は \(\bm{q}(t)\) を引数とする汎関数になっている. 作用が停留点をとる経路上では, その変分 \(\delta S\) が 0 になる  \[	\delta S[\bm{q}] = 0. \tag{hp.2}\]  この式 (hp.2) を Hamilton の原理と呼ぶ.
+このような経路は, 力学では質点の運動の軌跡, 幾何光学では光線の軌跡, 幾何音響学では音響エネルギーの軌跡に対応する. この原理の元に構築される解析力学の手法は, 各分野に共通して用いることができる.
+Euler-Lagrange Equation #  作用 \(S\) について, 始点 \(\bm{q}(a)\) と終点 \(\bm{q}(b)\) を固定し, \(S\) が停留値をとる \(\bm{q}(t)\) を求めるとする.">
+<meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Analytical Mechanics" />
+<meta property="og:description" content="Analytical Mechanics #  Hamilton&rsquo;s Principle #  \(N\)次元ユークリッド空間を考えて, 時間を \(t\), 座標を \(\bm{q}(t)=\begin{pmatrix}q_1(t) \\ q_2(t) \\ \vdots \\ q_N(t)\end{pmatrix}\) と書く.
+そして, 時間による微分を	\(\dot{\bm{q}}:=\frac{d\bm{q}}{dt}\) と略記する.
+空間中にラグランジアン \(L(\bm{q},\dot{\bm{q}},t)\) なる量を考え, 曲線 \(\bm{q}(t)\) に沿った線積分   \[	S[\bm{q}] = \int^b_aL(\bm{q},\dot{\bm{q}},t)dt \tag{hp.1}\]  を作用と呼ぶ.
+作用は \(\bm{q}(t)\) を引数とする汎関数になっている. 作用が停留点をとる経路上では, その変分 \(\delta S\) が 0 になる  \[	\delta S[\bm{q}] = 0. \tag{hp.2}\]  この式 (hp.2) を Hamilton の原理と呼ぶ.
+このような経路は, 力学では質点の運動の軌跡, 幾何光学では光線の軌跡, 幾何音響学では音響エネルギーの軌跡に対応する. この原理の元に構築される解析力学の手法は, 各分野に共通して用いることができる.
+Euler-Lagrange Equation #  作用 \(S\) について, 始点 \(\bm{q}(a)\) と終点 \(\bm{q}(b)\) を固定し, \(S\) が停留値をとる \(\bm{q}(t)\) を求めるとする." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/docs/physics/analytical_mechanics/" />
+<meta property="article:modified_time" content="2020-10-25T08:39:32+09:00" />
+<title>Analytical Mechanics | Notes</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
+<script defer src="/en.search.min.2d21992138c7c266276c490b9a80d0d857f9f79a6782eade0d5603e4934380c3.js" integrity="sha256-LSGZITjHwmYnbEkLmoDQ2Ff595pngureDVYD5JNDgMM="></script>
+
+<script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body dir=>
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/"><span>Notes</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/" class="">Physics</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/analytical_mechanics/" class=" active">Analytical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/geometrical_optics/" class="">Geometrical Optics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/particle_mechanics/" class="">Particle Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/statistical_mechanics/" class="">Statistical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/" class="">Radiative Transfer</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/radiative_transfer_equation/" class="">Radiative Transfer Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/rendering_equation/" class="">Rendering Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/microfacet_model/" class="">Microfacet Model</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://twitter.com/ishiyama_" target="_blank" rel="noopener">
+        Twitter
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Analytical Mechanics</strong>
+
+  <label for="toc-control">
+    
+  </label>
+</div>
+
+
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="analytical-mechanics">
+  Analytical Mechanics
+  <a class="anchor" href="#analytical-mechanics">#</a>
+</h1>
+<h2 id="hamiltons-principle">
+  Hamilton&rsquo;s Principle
+  <a class="anchor" href="#hamiltons-principle">#</a>
+</h2>
+<p>\(N\)次元ユークリッド空間を考えて,
+時間を \(t\), 座標を
+\(\bm{q}(t)=\begin{pmatrix}q_1(t) \\ q_2(t) \\ \vdots \\ q_N(t)\end{pmatrix}\) と書く.<br>
+そして, 時間による微分を	\(\dot{\bm{q}}:=\frac{d\bm{q}}{dt}\) と略記する.</p>
+<p>空間中にラグランジアン \(L(\bm{q},\dot{\bm{q}},t)\) なる量を考え, 曲線 \(\bm{q}(t)\) に沿った線積分
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[	S[\bm{q}] = \int^b_aL(\bm{q},\dot{\bm{q}},t)dt
+	\tag{hp.1}\]
+</span>
+
+を作用と呼ぶ.</p>
+<p>作用は \(\bm{q}(t)\) を引数とする汎関数になっている.
+作用が停留点をとる経路上では, その変分 \(\delta S\) が 0 になる
+<span>
+  \[	\delta S[\bm{q}] = 0.
+	\tag{hp.2}\]
+</span>
+
+この式 (hp.2) を Hamilton の原理と呼ぶ.</p>
+<p>このような経路は, 力学では質点の運動の軌跡, 幾何光学では光線の軌跡, 幾何音響学では音響エネルギーの軌跡に対応する.
+この原理の元に構築される解析力学の手法は, 各分野に共通して用いることができる.</p>
+<h2 id="euler-lagrange-equation">
+  Euler-Lagrange Equation
+  <a class="anchor" href="#euler-lagrange-equation">#</a>
+</h2>
+<p>作用 \(S\) について, 始点 \(\bm{q}(a)\) と終点 \(\bm{q}(b)\) を固定し, \(S\) が停留値をとる
+\(\bm{q}(t)\) を求めるとする.
+そのような \(\bm{q}\) に対する条件は, Euler-Lagrange 方程式
+<span>
+  \[	\frac{\partial L}{\partial\bm{q}} - \frac{d}{dt}\left(\frac{\partial L}{\partial\dot{\bm{q}}}\right) = 0
+	\tag{el.1}\]
+</span>
+
+で与えられる.</p>
+<h2 id="hamiltons-equations">
+  Hamilton&rsquo;s Equations
+  <a class="anchor" href="#hamiltons-equations">#</a>
+</h2>
+<p>運動量を
+<span>
+  \[	\bm{p} := \frac{\partial L}{\partial\dot{\bm{q}}}
+	\tag{he.1}\]
+</span>
+
+と定義し, Legendre 変換
+<span>
+  \[	H(\bm{q},\bm{p},t) := \bm{p}\cdot\dot{\bm{q}} - L(\bm{q},\dot{\bm{q}},t)
+	\tag{he.2}\]
+</span>
+
+によって, 変数 \(\dot{\bm{q}}\) を \(\bm{p}\) へ変換する.
+ここで導入した \(H(\bm{q},\bm{p},t)\) を Hamiltonian という.</p>
+<p>これにより, 作用が停留値をとる条件は
+<span>
+  \[	\dot{\bm{q}} = \frac{\partial H}{\partial\bm{p}},\quad
+	\dot{\bm{p}} = -\frac{\partial H}{\partial\bm{q}}
+	\tag{he.3}\]
+</span>
+
+となる. これを Hamilton の運動方程式という.</p>
+<p>質点の座標 \(\bm{q}\) を持つ空間を配位空間, 座標と運動量 \((\bm{q},\bm{p})\) を持つ空間を相空間と呼ぶ.</p>
+<h2 id="hamilton--jacobi-equation">
+  Hamilton&ndash;­Jacobi Equation
+  <a class="anchor" href="#hamilton--jacobi-equation">#</a>
+</h2>
+<p>作用 \(S\) について, 始点 \(\bm{q}(a)\) を固定し, 終点 \(\bm{q}(t)\) を自由に動かすとする.
+このとき, 停留値を取る \(\bm{q}(t)\) を与える \(S(\bm{q},t)\) について, Hamilton-Jacobi 方程式
+<span>
+  \[	-\frac{\partial S}{\partial t} = H\left(\bm{q},\frac{\partial S}{\partial q},t\right)\]
+</span>
+
+が成り立つ.</p>
+<h2 id="canonical-transformation">
+  Canonical Transformation
+  <a class="anchor" href="#canonical-transformation">#</a>
+</h2>
+<p>変数変換 \( (\bm{q},\bm{p})\rightarrow(\bm{Q},\bm{P}) \) を考える.
+<span>
+  \[	\bm{q}\rightarrow \bm{Q}(\bm{q},\bm{p},t),\quad
+	\bm{p}\rightarrow \bm{P}(\bm{q},\bm{p},t)
+	\tag{ct.1}\]
+</span>
+
+この変換に伴って変化した Hamiltonian を \(K(\bm{Q},\bm{P},t)\) と書き, 新しい変数 \((\bm{Q},\bm{P})\)
+についても Hamilton の運動方程式 (he.3)
+<span>
+  \[	\dot{\bm{Q}} = \frac{\partial K}{\partial\bm{P}},\quad
+	\dot{\bm{P}} = -\frac{\partial K}{\partial\bm{Q}}
+	\tag{ct.2}\]
+</span>
+
+が成り立つとき, 変数変換 \((\bm{q},\bm{p})\rightarrow(\bm{Q},\bm{P})\) を正準変換と呼ぶ.</p>
+<p>正準変換は, Hamilton の原理 (hp.2) から導かれるから,
+<span>
+  \[	\int^b_a\left(\bm{p}\cdot\dot{\bm{q}}-H(\bm{p},\bm{q})\right)dt
+	= \int^b_a\left(\bm{P}\cdot\dot{\bm{Q}} - K(\bm{Q},\bm{P}) &#43; \frac{dG(\bm{q},\bm{p},\bm{Q},\bm{P},t)}{dt}\right)dt
+	\tag{ct.3}\]
+</span>
+
+より
+<span>
+  \[	\bm{p}\cdot\dot{\bm{q}}-H(\bm{p},\bm{q})
+	= \bm{P}\cdot\dot{\bm{Q}} - K(\bm{Q},\bm{P}) &#43; \frac{dG(\bm{q},\bm{p},\bm{Q},\bm{P},t)}{dt}
+	\tag{ct.4}\]
+</span>
+
+が成り立つ必要がある.
+ここで, \(\bm{p}\cdot\dot{\bm{q}}\) が \(\bm{P}\cdot\dot{\bm{Q}}\) に変化したぶんの補正で,
+ハミルトニアンの変化のほかに任意関数 \(G(\bm{q},\bm{p},\bm{Q},\bm{P},t)\) で表されるとした.</p>
+<h3 id="generating-function">
+  Generating Function
+  <a class="anchor" href="#generating-function">#</a>
+</h3>
+<p>式(ct.3)で導入した任意関数 \( G \) の \(4N\) 個の引数 \( \bm{q},\bm{p},\bm{Q},\bm{P} \) のうち, 独立な変数は \( 2N \) 個となっている.
+従って, その独立変数の選び方には \( (\bm{q},\bm{Q}),(\bm{q},\bm{P}),(\bm{p},\bm{Q}),(\bm{p},\bm{P}) \) の4通りがある.</p>
+<p>はじめに \( (\bm{q},\bm{Q}) \) を考える.
+この場合の \(G\) を \(G=G_1(\bm{q},\bm{Q},t)\) と書く. \(G_1\)の全微分を取ると,
+<span>
+  \[	\frac{dG_1(\bm{q},\bm{Q},t)}{dt}
+	= \frac{\partial G_1}{\partial\bm{q}}\cdot\dot\bm{q}
+		&#43; \frac{\partial G_1}{\partial\bm{Q}}\cdot\dot\bm{Q}
+		&#43; \frac{\partial G_1}{\partial t}\]
+</span>
+
+となる.
+これを式 (ct.4) へ代入すると,
+<span>
+  \[	\bm{p}\cdot\dot{\bm{q}} - \bm{P}\cdot\dot{\bm{Q}} &#43; (K - H)
+	= \frac{\partial G_1}{\partial\bm{q}}\cdot\dot\bm{q}
+		&#43; \frac{\partial G_1}{\partial\bm{Q}}\cdot\dot\bm{Q}
+		&#43; \frac{\partial G_1}{\partial t}\]
+</span>
+
+となる.
+両辺の各項を比較すれば,
+<span>
+  \[	\bm{p} = \frac{\partial G_1(\bm{q},\bm{Q},t)}{\partial\bm{q}},\quad
+	\bm{P} = -\frac{\partial G_1(\bm{q},\bm{Q},t)}{\partial\bm{Q}},\quad
+	K = H &#43; \frac{\partial G_1(\bm{q},\bm{Q},t)}{\partial t}\]
+</span>
+
+が得られる.
+任意関数 \(G_1\) は, \(\bm{q},\bm{Q}\) を引数として \(\bm{p},\bm{P}\) を生成することから, 生成母関数とよぶ.</p>
+<p>そのほか, \((\bm{q},\bm{P}),(\bm{p},\bm{Q}),(\bm{p},\bm{P})\) についても, Legendre 変換によって変数変換を繰り返すことで, 同様の関係を得ることができる.
+これをまとめると, 下記の表となる.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Generating function</th>
+<th style="text-align:left">Dependent variables</th>
+<th style="text-align:left">New Hamiltonian</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">\(G = G_1(\bm{q},\bm{Q},t)\)</td>
+<td style="text-align:left">\(\bm{p}=\frac{\partial G_1}{\partial\bm{q}},\; \bm{P} = -\frac{\partial G_1}{\partial\bm{Q}}\)</td>
+<td style="text-align:left">\(K = H + \frac{\partial G_1}{\partial t}\)</td>
+</tr>
+<tr>
+<td style="text-align:left">\(G = -\bm{P}\cdot\bm{Q}+G_2(\bm{q},\bm{P},t)\)</td>
+<td style="text-align:left">\(\bm{p}=\frac{\partial G_2}{\partial\bm{q}},\; \bm{Q} = -\frac{\partial G_2}{\partial\bm{P}}\)</td>
+<td style="text-align:left">\(K = H + \frac{\partial G_2}{\partial t}\)</td>
+</tr>
+<tr>
+<td style="text-align:left">\(G = \bm{p}\cdot\bm{q}+G_3(\bm{q},\bm{P},t)\)</td>
+<td style="text-align:left">\(\bm{q}=-\frac{\partial G_3}{\partial\bm{p}},\; \bm{P} = -\frac{\partial G_3}{\partial\bm{Q}}\)</td>
+<td style="text-align:left">\(K = H + \frac{\partial G_3}{\partial t}\)</td>
+</tr>
+<tr>
+<td style="text-align:left">\(G = \bm{p}\cdot\bm{q}-\bm{P}\cdot\bm{Q}+G_4(\bm{q},\bm{P},t)\)</td>
+<td style="text-align:left">\(\bm{q}=-\frac{\partial G_4}{\partial\bm{p}},\; \bm{Q} = \frac{\partial G_4}{\partial\bm{P}}\)</td>
+<td style="text-align:left">\(K = H + \frac{\partial G_4}{\partial t}\)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="symplectic-approach">
+  Symplectic Approach
+  <a class="anchor" href="#symplectic-approach">#</a>
+</h3>
+<p>\(2N\) ベクトル \(\bm{\eta}:=\begin{pmatrix}\bm{q} \\ \bm{p}\end{pmatrix}\) と, \(2N\times 2N\) 行列 \(\Omega\),
+<span>
+  \[	\Omega:=
+	\begin{pmatrix}
+		0	&amp; \bm{1} \\
+		-\bm{1} &amp; 0
+	\end{pmatrix}\]
+</span>
+
+を使って, Hamilton の運動方程式 (he.3) を
+<span>
+  \[	\dot{\bm{\eta}} = \Omega\frac{\partial H}{\partial\bm{\eta}}\]
+</span>
+
+と書く.
+また, 正準変換 (ct.1) も \(\bm{\xi}(\bm{\eta}):=\begin{pmatrix}\bm{Q} \\ \bm{P}\end{pmatrix}\)
+とまとめて書くと, その時間微分は</p>
+<p><span>
+  \[	\dot{\bm{\xi}} = M\dot{\bm{\eta}},\quad
+	M := \frac{\partial\bm{\xi}}{\partial\bm{\eta}}\]
+</span>
+
+と表される. ただし \(M\) は変数変換のヤコビアン.</p>
+<span>
+  \[	\dot{\bm{\xi}}
+	= M\Omega\frac{\partial H}{\partial\bm{\eta}}
+	= M\Omega\frac{\partial H}{\partial\bm{\xi}}\frac{\partial\bm{\xi}}{\partial\bm{\eta}}
+	= M\Omega M^T\frac{\partial H}{\partial\bm{\xi}}\]
+</span>
+
+<p>従って
+<span>
+  \[	M\Omega M^T = \Omega\]
+</span>
+
+が正準変換の条件になる.
+この条件を Symplectic 関係式, \(M\)を Symplectic 行列と呼ぶ.</p>
+<h3 id="identical-transformation">
+  Identical Transformation
+  <a class="anchor" href="#identical-transformation">#</a>
+</h3>
+<p>生成母関数を \(G_2(\bm{q},\bm{P},t)=\bm{q}\cdot\bm{P}\) ととると,
+<span>
+  \[	\bm{p}=\frac{\partial G_2}{\partial\bm{q}}=\bm{P},\quad
+	\bm{Q} = -\frac{\partial G_2}{\partial\bm{P}}=\bm{q},\quad
+ 	K = H
+	\tag{it.1}\]
+</span>
+
+となる. これは正準変換で何も変わらない. これを恒等変換という.</p>
+<h3 id="infinitesimal-canonical-transformation">
+  Infinitesimal Canonical Transformation
+  <a class="anchor" href="#infinitesimal-canonical-transformation">#</a>
+</h3>
+<p>無限小の量を \(\epsilon\) と書き, 恒等変換から \(\epsilon G(\bm{q},\bm{P})\) だけずれた変換を考える.
+<span>
+  \[	G_2(\bm{q},\bm{P},t)=\bm{q}\cdot\bm{P}&#43;\epsilon G(\bm{q},\bm{P})\]
+</span>
+
+(it.1)式より
+<span>
+  \[\begin{aligned}
+	\bm{Q}
+		&amp;= \bm{q} &#43; \epsilon\frac{\partial G(\bm{q},\bm{P})}{\partial\bm{P}}\\
+	\bm{P}
+		&amp;= \bm{p} - \epsilon\frac{\partial G(\bm{q},\bm{P})}{\partial\bm{q}}
+\end{aligned}
+	\tag{ic.1}\]
+</span>
+</p>
+<p>これが正準変換になっているかどうかを確かめる. 上式をまとめて書くと
+<span>
+  \[	\bm{\xi} = \bm{\eta} &#43; \epsilon \Omega\frac{\partial G}{\partial\bm{\eta}}\]
+</span>
+</p>
+<p>これが Symplectic 関係式を満たすかどうかを調べる.
+Symplectic行列 \(M\) は
+<span>
+  \[\begin{aligned}
+	M
+		&amp;= \frac{\partial\bm{\xi}}{\partial\bm{\eta}}
+		= \bm{1} &#43; \epsilon\Omega\frac{\partial^2G}{\partial\bm{\eta}\partial\bm{\eta}}\\
+	M^T
+		&amp;= \bm{1} - \epsilon\frac{\partial^2G}{\partial\bm{\eta}\partial\bm{\eta}}\Omega
+\end{aligned}\]
+</span>
+</p>
+<p>となる. これにより, Symplectic 関係式は
+<span>
+  \[\begin{aligned}
+	M\Omega M^T &amp;=
+		\left(\bm{1} &#43; \epsilon\Omega\frac{\partial^2G}{\partial\bm{\eta}\partial\bm{\eta}}\right)
+		\Omega
+		\left(\bm{1} - \epsilon\frac{\partial^2G}{\partial\bm{\eta}\partial\bm{\eta}}\Omega\right)\\
+	&amp;= \Omega &#43; \epsilon\Omega\frac{\partial^2G}{\partial\bm{\eta}\partial\bm{\eta}}\Omega
+		 - \epsilon\Omega\frac{\partial^2G}{\partial\bm{\eta}\partial\bm{\eta}}\Omega\\
+	&amp;= \Omega
+\end{aligned}\]
+</span>
+
+となる.
+従って, 無限小変換 (ic.1) は正準変換であることがわかる.</p>
+<h3 id="time-evolution">
+  Time Evolution
+  <a class="anchor" href="#time-evolution">#</a>
+</h3>
+<p>時間 \(t\) に \((\bm{q}(t), \bm{p}(t))\) であった状態が,
+\(dt\) だけ経過したのち \((\bm{q}(t+dt), \bm{p}(t+dt))\) になったとする.
+<span>
+  \[\begin{aligned}
+	\bm{Q}(t) &amp;:= \bm{q}(t&#43;dt) = \bm{q}(t) &#43; \dot{\bm{q}}(t)dt\\
+	\bm{P}(t) &amp;:= \bm{p}(t&#43;dt) = \bm{p}(t) &#43; \dot{\bm{p}}(t)dt
+\end{aligned}\]
+</span>
+</p>
+<p>\(\dot{\bm{q}}, \dot{\bm{p}}\) にHamilton の運動方程式を適用すると
+<span>
+  \[\begin{aligned}
+	\bm{Q}(t) &amp;= \bm{q}(t) &#43; \frac{\partial H}{\partial\bm{p}}dt\\
+	\bm{P}(t) &amp;= \bm{p}(t) - \frac{\partial H}{\partial\bm{q}}dt
+\end{aligned}\]
+</span>
+</p>
+<p>
+  <a href="/#infinitesimal-canonical-transformation">無限小正準変換</a> で考察した内容から,
+時間発展は正準変換であり, その生成子は Hamiltonian であることがわかる.</p>
+<h3 id="liouville-theorem">
+  Liouville Theorem
+  <a class="anchor" href="#liouville-theorem">#</a>
+</h3>
+<p>正準変換 \((\bm{q},\bm{p})\rightarrow(\bm{Q},\bm{P})\) による変数変換は
+<span>
+  \[	\int d\bm{Q}d\bm{P} = \int|\det M|d\bm{q}d\bm{p}\]
+</span>
+
+と書ける.</p>
+<p>Symplectic関係式の行列式をとると
+<span>
+  \[	(\det M)^2\det\Omega = \det\Omega\]
+</span>
+
+だから, \(|M|=\pm 1\) となる.</p>
+<p>従って, 正準変換で相空間の体積要素 \(d\bm{q}d\bm{p}\) は変化しない.
+これを Liouville の定理という.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Notes</title>
+    <link>https://example.com/</link>
+    <description>Recent content on Notes</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Analytical Mechanics</title>
+      <link>https://example.com/docs/physics/analytical_mechanics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/physics/analytical_mechanics/</guid>
+      <description>Analytical Mechanics #  Hamilton&amp;rsquo;s Principle #  \(N\)次元ユークリッド空間を考えて, 時間を \(t\), 座標を \(\bm{q}(t)=\begin{pmatrix}q_1(t) \\ q_2(t) \\ \vdots \\ q_N(t)\end{pmatrix}\) と書く.
+そして, 時間による微分を	\(\dot{\bm{q}}:=\frac{d\bm{q}}{dt}\) と略記する.
+空間中にラグランジアン \(L(\bm{q},\dot{\bm{q}},t)\) なる量を考え, 曲線 \(\bm{q}(t)\) に沿った線積分   \[	S[\bm{q}] = \int^b_aL(\bm{q},\dot{\bm{q}},t)dt \tag{hp.1}\]  を作用と呼ぶ.
+作用は \(\bm{q}(t)\) を引数とする汎関数になっている. 作用が停留点をとる経路上では, その変分 \(\delta S\) が 0 になる  \[	\delta S[\bm{q}] = 0. \tag{hp.2}\]  この式 (hp.2) を Hamilton の原理と呼ぶ.
+このような経路は, 力学では質点の運動の軌跡, 幾何光学では光線の軌跡, 幾何音響学では音響エネルギーの軌跡に対応する. この原理の元に構築される解析力学の手法は, 各分野に共通して用いることができる.
+Euler-Lagrange Equation #  作用 \(S\) について, 始点 \(\bm{q}(a)\) と終点 \(\bm{q}(b)\) を固定し, \(S\) が停留値をとる \(\bm{q}(t)\) を求めるとする.</description>
+    </item>
+    
+    <item>
+      <title>Radiative Transfer Equation</title>
+      <link>https://example.com/docs/radiative_transfer/radiative_transfer_equation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/radiative_transfer/radiative_transfer_equation/</guid>
+      <description>Linear Boltzmann Equation for Photons #  平衡状態にある散乱媒質と, 光子に関する Linear Boltzmann 方程式 を考える. 全ての光子は速度 \(c\) で運動するとし, 散乱媒質はその速度に比べて十分遅いとする. また, 光子の密度関数を 分光放射輝度 として \(L(\bm{\omega})=L(\bm{x},\bm{\omega},\nu,t)\) と書き, 散乱媒質に対する光の入射方向を \(\bm{\omega}_i\), 出射方向を \(\bm{\omega}_o\) と書く.
+このとき, Linear Boltzmann 方程式は   \[	\frac{1}{c}\frac{\partial L(\bm{\omega}_o)}{\partial t} &amp;#43; \bm{\omega}_o\cdot\frac{\partial L(\bm{\omega}_o)}{\partial\bm{x}} = \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{\omega}_i)d\bm{\omega}_i - \mu_s L(\bm{\omega}_o)\]  となる [ Cercignani, 1988].
+Scattering Coefficient #  \(\mu_s\)は散乱係数と呼ばれる量で, 単位長さあたりに存在する媒質粒子数を表す.
+散乱媒質の 密度関数 を \(F(\bm{x},\bm{p},t)\) とかけば, その個数密度は \(n(\bm{x},t)=\int F(\bm{x},\bm{p},t)d\bm{p}\) と得られる. これと 散乱断面積 \(\sigma_s\) から, 散乱係数は  \[	\mu_s(\bm{x},t) := n(\bm{x},t)\,\sigma_s\qquad[\text{m}^{-1}]\]  と与えられる.</description>
+    </item>
+    
+    <item>
+      <title>Geometrical Optics</title>
+      <link>https://example.com/docs/physics/geometrical_optics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/physics/geometrical_optics/</guid>
+      <description>Geometrical Optics #  Ray of Light #  細く絞った光のビームを考え, その光が通った経路を光線と呼ぶ.
+ここで考えた光線は, のちに同じ波面を共有する光子の集団として正当化する(ToDo).
+Index of Refraction #  光は, 真空中では速さ \(c\;[\text{m}/\text{s}]\) で空間を伝搬する. そして, 物質中を伝わる光の速さ \(v\;[\text{m}/\text{s}]\) は真空中よりも遅くなる. この速度の比   \[	n = \frac{c}{v}\quad\;[-]\]  を屈折率と呼ぶ.
+物質中で光が遅くなる理由は, のちに誘電体の分極から説明する( Born and Wolf, 1999, Sec. 2.2)(ToDo).
+Optical Path Length #  時間 \(t\;[\text{s}]\) のあいだに光が真空中を進む距離は \(ct\;[\text{m}]\), 屈折率 \(n\) の媒質中を進む距離は \(vt\;[\text{m}]\) となる. このとき, 媒質中を進む距離に屈折率を掛け, 真空中を進む距離に換算した量 \(nvt\;[\text{m}]\) を光路長と呼ぶ.
+Fermat&amp;rsquo;s Principle #  光線は屈折率の変動に応じて曲がる. その経路は, フェルマーの原理「光線は光路長が停留値となる経路をとる」によって決まる ( Born and Wolf, 1999, 山本, 2014).</description>
+    </item>
+    
+    <item>
+      <title>Rendering Equation</title>
+      <link>https://example.com/docs/radiative_transfer/rendering_equation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/radiative_transfer/rendering_equation/</guid>
+      <description>Volume Rendering Equation #  時間に依存しない Radiative Transfer 方程式 を考える.   \[	\left(\bm{\omega}_o\cdot\nabla &amp;#43; \mu_t\right)L(\bm{x},\bm{\omega}_o,\nu) = s(\bm{x},\bm{\omega}_o) &amp;#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  これを, Volume Rendering 方程式 [ Jensen et al., 2001] と呼ぶことにする.
+ただし, 光の放出は熱放射に限らないとして, 黒体輻射の輝度 \(B\) を source 項  \[	s(\bm{x},\bm{\omega}_o) = \mu_t L_\epsilon(\bm{x}) &amp;#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o)\]  で置き換えた. \(L_\epsilon\) は媒質の自己放射で, \(L_\text{re}\) は媒質が吸収した光の再放出とする.
+Rendering Equation #  物体の表面として, 衝突率が 100% の媒質を考える. この場合, 光が媒質を通り抜けることはないから, \(\bm{\omega}_o\cdot\nabla L(\bm{x},\bm{\omega}_o,\nu) = 0\) となる. 従って Volume Rendering 方程式 は,  \[	\mu_tL(\bm{x},\bm{\omega}_o,\nu) = \mu_t L_\epsilon(\bm{x}) &amp;#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o) &amp;#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  となる.</description>
+    </item>
+    
+    <item>
+      <title>Microfacet Model</title>
+      <link>https://example.com/docs/radiative_transfer/microfacet_model/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/radiative_transfer/microfacet_model/</guid>
+      <description>Microfacet Model #   Rendering 方程式 では, 物体表面上の光反射は   \[	L(\bm{x},\bm{\omega}_o,\nu) = \int_{H^&amp;#43;}f(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]  と表された.
+いま, 粗い面による光反射を表現するために, 表面が微細な凸凹の集まりによってできていると仮定する. そして, 微細な凸凹の情報は, 法線分布関数やマスキング関数といった, 統計的な量に格納されているとする. このようにして粗い面をモデル化したものを, Microfacet モデルと呼ぶ. 以後, 微細な凸凹のひとつひとつを Microsurface、その集まりによってできた面を Macrosurface と呼んで区別する [ Pharr et al., 2018].
+なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く. これは後に, 法線分布関数 を Microsurface の幾何形状から求めることを可能にする狙いがある.
+Half Vector #  入射光の方向を \(\bm{\omega}_i\), 反射光の方向を \(\bm{\omega}_o\) とし, 次の量  \[	\bm{\omega}_h := \frac{\bm{\omega}_i &amp;#43; \bm{\omega}_o}{|\bm{\omega}_i &amp;#43; \bm{\omega}_o|}\]  をハーフベクトルと呼ぶ.</description>
+    </item>
+    
+    <item>
+      <title>Particle Mechanics</title>
+      <link>https://example.com/docs/physics/particle_mechanics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/physics/particle_mechanics/</guid>
+      <description>Particle Mechanics #  Position and Velocity #  時間を \(t\), 3次元ユークリッド空間上の座標を \(\bm{q}(t)=\begin{pmatrix}q_1(t) \\ q_2(t) \\ \vdots \\ q_N(t)\end{pmatrix}\) と書く.
+時間についての微分を, 関数の頭にドットをつけて \(\dot{\bm{r}}(t):=\frac{d\bm{r}(t)}{dt}\) を略記する.
+座標を時間で微分したものを速度 \(\bm{v}:=\dot{\bm{r}}\), 速度を時間で微分したものを加速度 \(\bm{a}:=\dot{\bm{v}}\) とよぶ.
+Newton&amp;rsquo;s Law of Motion #  空間に点粒子を考え, その位置を \(\bm{r}(t)\) とする. 粒子に加速度を与えるものを力 \(\bm{F}\), 点粒子が力に影響される割合を質量 \(m\) とし, 質量を持った点粒子を質点と呼ぶ.
+加速度と力の関係は, ニュートンの運動方程式 (の第2法則)   \[	\bm{F}=m{\bm{a}} \tag{nl.1}\]  によって決まる. これにより, 質点の運動が決まる.
+このようにモデル化する対象を力学系と呼び, 力学系の位置や速度の時間発展を運動と呼ぶ.
+Hamilton&amp;rsquo;s Principle #  ニュートンの運動方程式 (nl.1) を一般化することで, 運動は作用  \[	S[\bm{q}(t)] = \int^{b}_{a}L(\bm{q},\dot{\bm{q}},t)dt \tag{hp.</description>
+    </item>
+    
+    <item>
+      <title>Statistical Mechanics</title>
+      <link>https://example.com/docs/physics/statistical_mechanics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/physics/statistical_mechanics/</guid>
+      <description>Statistical Mechanics #  Phase Space Distribution Function #  3次元直交座標上の粒子の座標を \(\bm{x}\;[\text{m}]\), 運動量を \(\bm{p}\;[\text{kg}\;\text{m}\;\text{s}^{-1}]\), 相空間内の点 \((\bm{x},\bm{p})\) の周りの体積素片を \(d\bm{V}:=d\bm{x}d\bm{p}\;[\text{J}^3\;\text{s}^3]\) と書く.
+相空間内の閉領域 \(V\) に \(N\)個の粒子を考え, 相空間分布関数   \[	\int_V f(\bm{x},\bm{p},t)d\bm{V} = N \qquad[\text{-}],\]  を導入する. なお, Liouville 方程式 より全粒子数は時間変化しないため, 上式の \(N\) は定数となる.
+このとき, 粒子数密度は  \[	n(\bm{x},t) = \int f(\bm{x},\bm{p},t)d\bm{p}	\qquad[\text{m}^{-3}]\]  と得られる.
+Liouville&amp;rsquo;s Equation #  いま, Hamiltonの運動方程式 に従って運動している \(N\) 個の粒子が, 相空間分布関数 \(f(\bm{x},\bm{p},t)\) で表されるとする. このとき, 分布関数に対する運動方程式を求めたい.
+いま, 単位時間当たりに\(V\) 内に粒子が増加する量 \(\int_V\frac{\partial f}{\partial t}d\bm{V}\) と, 単位時間あたりに \(V\) の境界 \(S\) を通って粒子が流出する量 \(\int_S(f\bm{v})\cdot\bm{n}dS\) が等しいとして  \[	\int_V\frac{\partial f}{\partial t}d\bm{V} &amp;#43; \int_S(f\bm{v})\cdot\bm{n}dS = 0\]  とする.</description>
+    </item>
+    
+    <item>
+      <title>References</title>
+      <link>https://example.com/docs/physics/references/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/physics/references/</guid>
+      <description>References #  Born, M and Wolf, E. (1999). Principles of Optics (7th Ed.). Cambridge University Press, 7th ed. #  Goldstein, H., Poole, C., and Safko, J. (2002). Classical Mechanics. Addison Wesley, 3rd ed. #  Tong, D. (2005). Lectures on Classical Dynamics. https://www.damtp.cam.ac.uk/user/tong/dynamics.html. #  山本, 義隆. (2014). 幾何光学の正準理論. 数学書房. #  </description>
+    </item>
+    
+    <item>
+      <title>References</title>
+      <link>https://example.com/docs/radiative_transfer/references/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/docs/radiative_transfer/references/</guid>
+      <description>References #  Chandrasekhar, S. (1960). Radiative transfer. Dover Publications Inc. #  Cook, R. L. and Torrance, K. E. (1982). A reﬂectance model for computer graphics. ACM Trans. Graph., 1(1):7–24. #  Kajiya, J. T. (1986). The rendering equation. SIGGRAPH Comput. Graph., 20(4):143–150. #  Cercignani, C. (1988). The Boltzmann Equation and Its Applications. Springer-Verlaq. #  Arvo, J. (1993). Transfer equations in global illumination. Global Illumination, SIGGRAPH’93 Course Notes.</description>
+    </item>
+    
+    <item>
+      <title>Setting up this site with hugo</title>
+      <link>https://example.com/posts/20201021_setting_up_this_site_with_hugo/</link>
+      <pubDate>Wed, 21 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/posts/20201021_setting_up_this_site_with_hugo/</guid>
+      <description>このウェブサイトは、 https://themes.gohugo.io/theme/hugo-book/ を元に作った。 そのときの備忘録をこの記事に残しておく。
+インストール #   https://github.com/spf13/hugo/releases から実行ファイルを取得  手元の環境は Windows 10 64bit なので、hugo_0.75.1_Windows-64bit を選択   hugo.exe を適当なディレクトリに置き、パスを通す  サイトの作成 #   サイトを作る  hugo new site [サイト名] 作成したサイトのディレクトリで git init して、そこを Git のリポジトリにする  テーマの適用 #   https://themes.gohugo.io/hugo-book/ を適用する  git submodule add https://github.com/alex-shpak/hugo-book themes/book あとは https://github.com/alex-shpak/hugo-book にある説明を見て記事を作成していく  </description>
+    </item>
+    
+  </channel>
+</rss>

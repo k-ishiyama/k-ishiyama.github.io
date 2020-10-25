@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" dir=>
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Particle Mechanics #  Position and Velocity #  時間を \(t\), 3次元ユークリッド空間上の座標を \(\bm{q}(t)=\begin{pmatrix}q_1(t) \\ q_2(t) \\ \vdots \\ q_N(t)\end{pmatrix}\) と書く.
+時間についての微分を, 関数の頭にドットをつけて \(\dot{\bm{r}}(t):=\frac{d\bm{r}(t)}{dt}\) を略記する.
+座標を時間で微分したものを速度 \(\bm{v}:=\dot{\bm{r}}\), 速度を時間で微分したものを加速度 \(\bm{a}:=\dot{\bm{v}}\) とよぶ.
+Newton&rsquo;s Law of Motion #  空間に点粒子を考え, その位置を \(\bm{r}(t)\) とする. 粒子に加速度を与えるものを力 \(\bm{F}\), 点粒子が力に影響される割合を質量 \(m\) とし, 質量を持った点粒子を質点と呼ぶ.
+加速度と力の関係は, ニュートンの運動方程式 (の第2法則)   \[	\bm{F}=m{\bm{a}} \tag{nl.1}\]  によって決まる. これにより, 質点の運動が決まる.
+このようにモデル化する対象を力学系と呼び, 力学系の位置や速度の時間発展を運動と呼ぶ.
+Hamilton&rsquo;s Principle #  ニュートンの運動方程式 (nl.1) を一般化することで, 運動は作用  \[	S[\bm{q}(t)] = \int^{b}_{a}L(\bm{q},\dot{\bm{q}},t)dt \tag{hp.">
+<meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Particle Mechanics" />
+<meta property="og:description" content="Particle Mechanics #  Position and Velocity #  時間を \(t\), 3次元ユークリッド空間上の座標を \(\bm{q}(t)=\begin{pmatrix}q_1(t) \\ q_2(t) \\ \vdots \\ q_N(t)\end{pmatrix}\) と書く.
+時間についての微分を, 関数の頭にドットをつけて \(\dot{\bm{r}}(t):=\frac{d\bm{r}(t)}{dt}\) を略記する.
+座標を時間で微分したものを速度 \(\bm{v}:=\dot{\bm{r}}\), 速度を時間で微分したものを加速度 \(\bm{a}:=\dot{\bm{v}}\) とよぶ.
+Newton&rsquo;s Law of Motion #  空間に点粒子を考え, その位置を \(\bm{r}(t)\) とする. 粒子に加速度を与えるものを力 \(\bm{F}\), 点粒子が力に影響される割合を質量 \(m\) とし, 質量を持った点粒子を質点と呼ぶ.
+加速度と力の関係は, ニュートンの運動方程式 (の第2法則)   \[	\bm{F}=m{\bm{a}} \tag{nl.1}\]  によって決まる. これにより, 質点の運動が決まる.
+このようにモデル化する対象を力学系と呼び, 力学系の位置や速度の時間発展を運動と呼ぶ.
+Hamilton&rsquo;s Principle #  ニュートンの運動方程式 (nl.1) を一般化することで, 運動は作用  \[	S[\bm{q}(t)] = \int^{b}_{a}L(\bm{q},\dot{\bm{q}},t)dt \tag{hp." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/docs/physics/particle_mechanics/" />
+<meta property="article:modified_time" content="2020-10-25T08:39:32+09:00" />
+<title>Particle Mechanics | Notes</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
+<script defer src="/en.search.min.2d21992138c7c266276c490b9a80d0d857f9f79a6782eade0d5603e4934380c3.js" integrity="sha256-LSGZITjHwmYnbEkLmoDQ2Ff595pngureDVYD5JNDgMM="></script>
+
+<script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body dir=>
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/"><span>Notes</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/" class="">Physics</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/analytical_mechanics/" class="">Analytical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/geometrical_optics/" class="">Geometrical Optics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/particle_mechanics/" class=" active">Particle Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/statistical_mechanics/" class="">Statistical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/" class="">Radiative Transfer</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/radiative_transfer_equation/" class="">Radiative Transfer Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/rendering_equation/" class="">Rendering Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/microfacet_model/" class="">Microfacet Model</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://twitter.com/ishiyama_" target="_blank" rel="noopener">
+        Twitter
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Particle Mechanics</strong>
+
+  <label for="toc-control">
+    
+  </label>
+</div>
+
+
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="particle-mechanics">
+  Particle Mechanics
+  <a class="anchor" href="#particle-mechanics">#</a>
+</h1>
+<h2 id="position-and-velocity">
+  Position and Velocity
+  <a class="anchor" href="#position-and-velocity">#</a>
+</h2>
+<p>時間を \(t\), 3次元ユークリッド空間上の座標を
+\(\bm{q}(t)=\begin{pmatrix}q_1(t) \\ q_2(t) \\ \vdots \\ q_N(t)\end{pmatrix}\) と書く.<br>
+時間についての微分を, 関数の頭にドットをつけて \(\dot{\bm{r}}(t):=\frac{d\bm{r}(t)}{dt}\) を略記する.<br>
+座標を時間で微分したものを速度 \(\bm{v}:=\dot{\bm{r}}\),
+速度を時間で微分したものを加速度 \(\bm{a}:=\dot{\bm{v}}\) とよぶ.</p>
+<h2 id="newtons-law-of-motion">
+  Newton&rsquo;s Law of Motion
+  <a class="anchor" href="#newtons-law-of-motion">#</a>
+</h2>
+<p>空間に点粒子を考え, その位置を \(\bm{r}(t)\) とする.
+粒子に加速度を与えるものを力 \(\bm{F}\), 点粒子が力に影響される割合を質量 \(m\) とし, 質量を持った点粒子を質点と呼ぶ.</p>
+<p>加速度と力の関係は, ニュートンの運動方程式 (の第2法則)
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[	\bm{F}=m{\bm{a}}
+	\tag{nl.1}\]
+</span>
+
+によって決まる.
+これにより, 質点の運動が決まる.</p>
+<p>このようにモデル化する対象を力学系と呼び, 力学系の位置や速度の時間発展を運動と呼ぶ.</p>
+<h2 id="hamiltons-principle">
+  Hamilton&rsquo;s Principle
+  <a class="anchor" href="#hamiltons-principle">#</a>
+</h2>
+<!--
+空間に分布する物理量を場という.<br>
+力の場を力場という.<br>
+-->
+<p>ニュートンの運動方程式 (nl.1) を一般化することで,
+運動は作用
+<span>
+  \[	S[\bm{q}(t)] = \int^{b}_{a}L(\bm{q},\dot{\bm{q}},t)dt
+	\tag{hp.1}\]
+</span>
+
+が停留点
+<span>
+  \[	\delta S[\bm{q}(t)] = 0
+	\tag{hp.2}\]
+</span>
+
+をとる軌跡 \(\bm{q}(t)\) を求める, 変分問題に帰着する.
+式 (hp.2) を Hamilton の原理という.</p>
+<p>ただし,
+<span>
+  \[	L(\bm{q},\dot{\bm{q}},t) = K(\bm{q},\dot{\bm{q}},t) - V(\bm{q},\dot{\bm{q}},t)\]
+</span>
+
+はラグランジアン.
+\(K(\bm{q}(t),\dot{\bm{q}}(t),t)\) は 力学系の運動エネルギー,
+\(V(\bm{q}(t),\dot{\bm{q}}(t),t)\)はポテンシャルエネルギー.</p>
+<p>詳しくは, 
+  <a href="../analytical_mechanics/#hamiltons-principle">Hamiltonの原理</a> に記述する.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

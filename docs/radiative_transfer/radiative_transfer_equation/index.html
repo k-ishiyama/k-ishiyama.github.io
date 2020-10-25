@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" dir=>
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Linear Boltzmann Equation for Photons #  平衡状態にある散乱媒質と, 光子に関する Linear Boltzmann 方程式 を考える. 全ての光子は速度 \(c\) で運動するとし, 散乱媒質はその速度に比べて十分遅いとする. また, 光子の密度関数を 分光放射輝度 として \(L(\bm{\omega})=L(\bm{x},\bm{\omega},\nu,t)\) と書き, 散乱媒質に対する光の入射方向を \(\bm{\omega}_i\), 出射方向を \(\bm{\omega}_o\) と書く.
+このとき, Linear Boltzmann 方程式は   \[	\frac{1}{c}\frac{\partial L(\bm{\omega}_o)}{\partial t} &#43; \bm{\omega}_o\cdot\frac{\partial L(\bm{\omega}_o)}{\partial\bm{x}} = \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{\omega}_i)d\bm{\omega}_i - \mu_s L(\bm{\omega}_o)\]  となる [ Cercignani, 1988].
+Scattering Coefficient #  \(\mu_s\)は散乱係数と呼ばれる量で, 単位長さあたりに存在する媒質粒子数を表す.
+散乱媒質の 密度関数 を \(F(\bm{x},\bm{p},t)\) とかけば, その個数密度は \(n(\bm{x},t)=\int F(\bm{x},\bm{p},t)d\bm{p}\) と得られる. これと 散乱断面積 \(\sigma_s\) から, 散乱係数は  \[	\mu_s(\bm{x},t) := n(\bm{x},t)\,\sigma_s\qquad[\text{m}^{-1}]\]  と与えられる.">
+<meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Radiative Transfer Equation" />
+<meta property="og:description" content="Linear Boltzmann Equation for Photons #  平衡状態にある散乱媒質と, 光子に関する Linear Boltzmann 方程式 を考える. 全ての光子は速度 \(c\) で運動するとし, 散乱媒質はその速度に比べて十分遅いとする. また, 光子の密度関数を 分光放射輝度 として \(L(\bm{\omega})=L(\bm{x},\bm{\omega},\nu,t)\) と書き, 散乱媒質に対する光の入射方向を \(\bm{\omega}_i\), 出射方向を \(\bm{\omega}_o\) と書く.
+このとき, Linear Boltzmann 方程式は   \[	\frac{1}{c}\frac{\partial L(\bm{\omega}_o)}{\partial t} &#43; \bm{\omega}_o\cdot\frac{\partial L(\bm{\omega}_o)}{\partial\bm{x}} = \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{\omega}_i)d\bm{\omega}_i - \mu_s L(\bm{\omega}_o)\]  となる [ Cercignani, 1988].
+Scattering Coefficient #  \(\mu_s\)は散乱係数と呼ばれる量で, 単位長さあたりに存在する媒質粒子数を表す.
+散乱媒質の 密度関数 を \(F(\bm{x},\bm{p},t)\) とかけば, その個数密度は \(n(\bm{x},t)=\int F(\bm{x},\bm{p},t)d\bm{p}\) と得られる. これと 散乱断面積 \(\sigma_s\) から, 散乱係数は  \[	\mu_s(\bm{x},t) := n(\bm{x},t)\,\sigma_s\qquad[\text{m}^{-1}]\]  と与えられる." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/docs/radiative_transfer/radiative_transfer_equation/" />
+<meta property="article:modified_time" content="2020-10-25T08:39:32+09:00" />
+<title>Radiative Transfer Equation | Notes</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
+<script defer src="/en.search.min.2d21992138c7c266276c490b9a80d0d857f9f79a6782eade0d5603e4934380c3.js" integrity="sha256-LSGZITjHwmYnbEkLmoDQ2Ff595pngureDVYD5JNDgMM="></script>
+
+<script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body dir=>
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/"><span>Notes</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/" class="">Physics</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/analytical_mechanics/" class="">Analytical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/geometrical_optics/" class="">Geometrical Optics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/particle_mechanics/" class="">Particle Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/statistical_mechanics/" class="">Statistical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/" class="">Radiative Transfer</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/radiative_transfer_equation/" class=" active">Radiative Transfer Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/rendering_equation/" class="">Rendering Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/microfacet_model/" class="">Microfacet Model</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://twitter.com/ishiyama_" target="_blank" rel="noopener">
+        Twitter
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Radiative Transfer Equation</strong>
+
+  <label for="toc-control">
+    
+  </label>
+</div>
+
+
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h2 id="linear-boltzmann-equation-for-photons">
+  Linear Boltzmann Equation for Photons
+  <a class="anchor" href="#linear-boltzmann-equation-for-photons">#</a>
+</h2>
+<p>平衡状態にある散乱媒質と, 光子に関する
+
+  <a href="../../physics/statistical_mechanics/#linear-boltzmann-equation">Linear Boltzmann 方程式</a> を考える.
+全ての光子は速度 \(c\) で運動するとし, 散乱媒質はその速度に比べて十分遅いとする.
+また, 光子の密度関数を
+
+  <a href="/docs/physics/statistical_mechanics/#spectral-radiance">分光放射輝度</a>
+として \(L(\bm{\omega})=L(\bm{x},\bm{\omega},\nu,t)\) と書き,
+散乱媒質に対する光の入射方向を \(\bm{\omega}_i\), 出射方向を \(\bm{\omega}_o\) と書く.</p>
+<p>このとき, Linear Boltzmann 方程式は
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[	\frac{1}{c}\frac{\partial L(\bm{\omega}_o)}{\partial t} &#43; \bm{\omega}_o\cdot\frac{\partial L(\bm{\omega}_o)}{\partial\bm{x}}
+	= \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{\omega}_i)d\bm{\omega}_i - \mu_s L(\bm{\omega}_o)\]
+</span>
+
+となる [
+  <a href="../references#Cercignani1988">Cercignani, 1988</a>].</p>
+<h2 id="scattering-coefficient">
+  Scattering Coefficient
+  <a class="anchor" href="#scattering-coefficient">#</a>
+</h2>
+<p>\(\mu_s\)は散乱係数と呼ばれる量で, 単位長さあたりに存在する媒質粒子数を表す.<br>
+散乱媒質の
+  <a href="../../physics/statistical_mechanics/#phase-space-density-function">密度関数</a>
+を \(F(\bm{x},\bm{p},t)\) とかけば, その個数密度は \(n(\bm{x},t)=\int F(\bm{x},\bm{p},t)d\bm{p}\) と得られる.
+これと 
+  <a href="../../physics/statistical_mechanics/#total-cross-section">散乱断面積</a>
+\(\sigma_s\) から, 散乱係数は
+<span>
+  \[	\mu_s(\bm{x},t) := n(\bm{x},t)\,\sigma_s\qquad[\text{m}^{-1}]\]
+</span>
+
+と与えられる.</p>
+<h2 id="phase-function">
+  Phase Function
+  <a class="anchor" href="#phase-function">#</a>
+</h2>
+<p>
+  <a href="../../physics/statistical_mechanics/#differential-cross-section">微分散乱断面積</a> \(g(\bm{\omega}_i,\bm{\omega}_o)\) を
+散乱断面積 \(\sigma_s\) で規格化した量,
+<span>
+  \[	p(\bm{\omega}_i,\bm{\omega}_o) = \frac{1}{\sigma_s}\,g(\bm{\omega}_i,\bm{\omega}_o) \qquad [\text{sr}^{-1}]\]
+</span>
+
+を散乱の位相関数と呼ぶ.</p>
+<h2 id="local-thermodynamic-equilibrium">
+  Local Thermodynamic Equilibrium
+  <a class="anchor" href="#local-thermodynamic-equilibrium">#</a>
+</h2>
+<p>
+  <a href="/docs/radiative_transfer/radiative_transfer_equation/#linear-boltzmann-equation-for-photons">光子に対する Linear Boltzmann 方程式</a>
+の右辺は, 散乱媒質に衝突した光子の獲得と消失を表現している.
+これに, 媒質による光子の吸収と放出を加えたい.</p>
+<p>この際, 吸収と放出は少なくとも局所的に平衡状態にあるとして,
+放出は熱放射で起こると仮定する[
+  <a href="../references/#Chandrasekhar1960">Chandrasekhar, 1960</a>].</p>
+<p>光子の吸収は, 吸収係数 \(\mu_a\) を導入して, \(\mu_a L\) と表現する.<br>
+キルヒホッフの法則より, 吸収した光子が媒質粒子内部で熱となる割合は吸収係数に等しいから,
+放出は黒体輻射の輝度 \(B(\nu,T)\) を使って \(\mu_a B\) と表現する.
+また, 熱放射は等方的とする.</p>
+<h2 id="radiative-transfer-equation">
+  Radiative Transfer Equation
+  <a class="anchor" href="#radiative-transfer-equation">#</a>
+</h2>
+<p>
+  <a href="/docs/radiative_transfer/radiative_transfer_equation/#linear-boltzmann-equation-for-photons">光子に対する Linear Boltzmann 方程式</a>
+へ, 
+  <a href="/docs/radiative_transfer/radiative_transfer_equation/#local-thermodynamic-equilibrium">局所熱平衡</a> による光子の吸収と放出を加えた式
+<span>
+  \[	\left(\frac{1}{c}\frac{\partial}{\partial t} &#43; \bm{\omega}_o\cdot\nabla &#43; \mu_t\right)L(\bm{x},\bm{\omega}_o,\nu,t)
+	= \mu_a B(\nu,T) &#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu,t)d\bm{\omega}_i\]
+</span>
+
+を, Radiative Transfer 方程式と呼ぶ.
+ここで \(\mu_t=\mu_s+\mu_a\) と書いた.</p>
+<!--
+## Beer-Lambert law
+媒質が光子を吸収のみするとき, Beer-Lambert law が導かれる.
+-->
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

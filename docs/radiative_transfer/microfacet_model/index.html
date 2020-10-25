@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en" dir=>
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Microfacet Model #   Rendering 方程式 では, 物体表面上の光反射は   \[	L(\bm{x},\bm{\omega}_o,\nu) = \int_{H^&#43;}f(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]  と表された.
+いま, 粗い面による光反射を表現するために, 表面が微細な凸凹の集まりによってできていると仮定する. そして, 微細な凸凹の情報は, 法線分布関数やマスキング関数といった, 統計的な量に格納されているとする. このようにして粗い面をモデル化したものを, Microfacet モデルと呼ぶ. 以後, 微細な凸凹のひとつひとつを Microsurface、その集まりによってできた面を Macrosurface と呼んで区別する [ Pharr et al., 2018].
+なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く. これは後に, 法線分布関数 を Microsurface の幾何形状から求めることを可能にする狙いがある.
+Half Vector #  入射光の方向を \(\bm{\omega}_i\), 反射光の方向を \(\bm{\omega}_o\) とし, 次の量  \[	\bm{\omega}_h := \frac{\bm{\omega}_i &#43; \bm{\omega}_o}{|\bm{\omega}_i &#43; \bm{\omega}_o|}\]  をハーフベクトルと呼ぶ.">
+<meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Microfacet Model" />
+<meta property="og:description" content="Microfacet Model #   Rendering 方程式 では, 物体表面上の光反射は   \[	L(\bm{x},\bm{\omega}_o,\nu) = \int_{H^&#43;}f(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]  と表された.
+いま, 粗い面による光反射を表現するために, 表面が微細な凸凹の集まりによってできていると仮定する. そして, 微細な凸凹の情報は, 法線分布関数やマスキング関数といった, 統計的な量に格納されているとする. このようにして粗い面をモデル化したものを, Microfacet モデルと呼ぶ. 以後, 微細な凸凹のひとつひとつを Microsurface、その集まりによってできた面を Macrosurface と呼んで区別する [ Pharr et al., 2018].
+なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く. これは後に, 法線分布関数 を Microsurface の幾何形状から求めることを可能にする狙いがある.
+Half Vector #  入射光の方向を \(\bm{\omega}_i\), 反射光の方向を \(\bm{\omega}_o\) とし, 次の量  \[	\bm{\omega}_h := \frac{\bm{\omega}_i &#43; \bm{\omega}_o}{|\bm{\omega}_i &#43; \bm{\omega}_o|}\]  をハーフベクトルと呼ぶ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/docs/radiative_transfer/microfacet_model/" />
+<meta property="article:modified_time" content="2020-10-25T08:39:32+09:00" />
+<title>Microfacet Model | Notes</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
+<script defer src="/en.search.min.2d21992138c7c266276c490b9a80d0d857f9f79a6782eade0d5603e4934380c3.js" integrity="sha256-LSGZITjHwmYnbEkLmoDQ2Ff595pngureDVYD5JNDgMM="></script>
+
+<script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body dir=>
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/"><span>Notes</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/" class="">Physics</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/analytical_mechanics/" class="">Analytical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/geometrical_optics/" class="">Geometrical Optics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/particle_mechanics/" class="">Particle Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/statistical_mechanics/" class="">Statistical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/" class="">Radiative Transfer</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/radiative_transfer_equation/" class="">Radiative Transfer Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/rendering_equation/" class="">Rendering Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/microfacet_model/" class=" active">Microfacet Model</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://twitter.com/ishiyama_" target="_blank" rel="noopener">
+        Twitter
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Microfacet Model</strong>
+
+  <label for="toc-control">
+    
+  </label>
+</div>
+
+
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="microfacet-model">
+  Microfacet Model
+  <a class="anchor" href="#microfacet-model">#</a>
+</h1>
+<p>
+  <a href="../rendering_equation/#rendering-equation">Rendering 方程式</a> では, 物体表面上の光反射は
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[	L(\bm{x},\bm{\omega}_o,\nu)
+ 	= \int_{H^&#43;}f(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]
+</span>
+
+と表された.</p>
+<p>いま, 粗い面による光反射を表現するために, 表面が微細な凸凹の集まりによってできていると仮定する.
+そして, 微細な凸凹の情報は, 法線分布関数やマスキング関数といった, 統計的な量に格納されているとする.
+このようにして粗い面をモデル化したものを, Microfacet モデルと呼ぶ.
+以後, 微細な凸凹のひとつひとつを Microsurface、その集まりによってできた面を Macrosurface と呼んで区別する
+[
+  <a href="/docs/radiative_transfer/references/#PJH2018">Pharr et al., 2018</a>].</p>
+<p>なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ
+[
+  <a href="../references/#WMLT2007">Walter et al., 2007</a>, 
+  <a href="../references/#Heitz2014">Heitz, 2014</a>]
+と異なり,
+
+  <a href="../../physics/statistical_mechanics/#differential-cross-section">微分散乱断面積</a>
+から Macrosurface の BRDF を導く.
+これは後に,
+
+  <a href="/docs/radiative_transfer/microfacet_model/#normal-distribution-function">法線分布関数</a>
+を Microsurface の幾何形状から求めることを可能にする狙いがある.</p>
+<h2 id="half-vector">
+  Half Vector
+  <a class="anchor" href="#half-vector">#</a>
+</h2>
+<p>入射光の方向を \(\bm{\omega}_i\), 反射光の方向を \(\bm{\omega}_o\) とし, 次の量
+<span>
+  \[	\bm{\omega}_h := \frac{\bm{\omega}_i &#43; \bm{\omega}_o}{|\bm{\omega}_i &#43; \bm{\omega}_o|}\]
+</span>
+
+をハーフベクトルと呼ぶ.</p>
+<p>以後, Microsurface の表面が完全鏡面であると仮定したとき, Microsurface の法線 \(\bm{\omega}_m\) は
+ハーフベクトル \(\bm{\omega}_h\) に等しい.
+<span>
+  \[	\bm{\omega}_m = \bm{\omega}_h\]
+</span>
+</p>
+<h2 id="normal-distribution-function">
+  Normal Distribution Function
+  <a class="anchor" href="#normal-distribution-function">#</a>
+</h2>
+<p>単位立体角当たりの散乱断面積である
+
+  <a href="../../physics/statistical_mechanics/#differential-cross-section">微分散乱断面積</a>
+と同様の議論で,
+単位立体角当たりの Microsurface 表面積である法線分布関数を導入する.</p>
+<p>\(\bm{\omega}_i\) から入射した光が, 法線\(\bm{\omega}_m\) の Microsurface に当たり,
+\(\bm{\omega}_o\) へ反射することを考える.
+また, Microsurface は完全鏡面であると仮定する.</p>
+<p>\(\bm{\omega}_i\) と \(\bm{\omega}_m\) のなす角を \(\theta_m,\phi_m\),
+微小立体角を \(d\bm{\omega}_m=\sin\theta_m d\theta_m d\phi_m\) と書く.
+このとき, 微小散乱断面積 \(d\sigma\) と Microsurface 上の微小面積 \(d\sigma_m\) には,
+\(d\sigma = \cos\theta_m d\sigma_m\) という関係がある.</p>
+<p>Microsurface 上の半球面 \(H^+\) を考えて, 散乱断面積 \(\sigma_s\) を
+<span>
+  \[	\sigma_s
+	= \int_{H^&#43;}d\bm{\sigma}
+	= \int_{H^&#43;}\left|\frac{d\bm{\sigma}}{d\bm{\omega}_m}\right|d\bm{\omega}_m
+	= \int_{H^&#43;}\left|\frac{d\bm{\sigma}_m}{d\bm{\omega}_m}\right|\cos\theta_md\bm{\omega}_m\]
+</span>
+
+と表す.</p>
+<p>そして, 散乱断面積で規格化した, 単位立体角あたりの Microsurface 表面積
+<span>
+  \[	D(\bm{\omega}_m) := \frac{1}{\sigma_s}\left|\frac{d\bm{\sigma}_m}{d\bm{\omega}_m}\right|\]
+</span>
+
+を法線分布関数と呼ぶ.</p>
+<p>この定義から, 法線分布関数は
+<span>
+  \[	\int_{H^&#43;}D(\bm{\omega}_m)\cos\theta_m d\bm{\omega}_m = 1\]
+</span>
+
+と規格化されている.</p>
+<h2 id="masking-function">
+  Masking Function
+  <a class="anchor" href="#masking-function">#</a>
+</h2>
+<p>Microsurface によって作られる粗い面は, 同じ法線分布関数 \(D(\bm{\omega}_m)\) を持つ限り,
+同じ形状が連なっている.
+この場合, 隣接する Microsurface 同士の遮蔽を考慮する必要がある.</p>
+<p>いま, 法線 \(\bm{\omega}_n\) を持つ Macrosurface を \(\bm{\omega}_o\) から眺めたとする.
+このとき, \(\bm{\omega}_o\) 方向から眺めた散乱断面積は
+\(|\bm{\omega}_o\cdot\bm{\omega}_n|\sigma_s\) となる.
+これを考慮して, Microsurface 同士の遮蔽を表す Masking 関数 \(G_1(\bm{\omega}_o,\bm{\omega}_m)\) を次のように導入する
+<span>
+  \[	|\bm{\omega}_o\cdot\bm{\omega}_n|\sigma_s
+	= \int_{H^&#43;}G_1(\bm{\omega}_o,\bm{\omega}_m)\left|\frac{d\bm{\sigma}}{d\bm{\omega}_m}\right|d\bm{\omega}_m\]
+</span>
+</p>
+<p>法線分布関数に対しては
+<span>
+  \[	|\bm{\omega}_o\cdot\bm{\omega}_n|
+	= \int_{H^&#43;}G_1(\bm{\omega}_o,\bm{\omega}_m)D(\bm{\omega}_m)\cos\theta_m d\bm{\omega}_m\]
+</span>
+
+となる.</p>
+<h2 id="shadowing-masking-function">
+  Shadowing-Masking Function
+  <a class="anchor" href="#shadowing-masking-function">#</a>
+</h2>
+<p>光の入射方向と反射方向の, 両者の Microsurface同士の遮蔽を考慮した量を Shadowing-Masking 関数
+\(G_2(\bm{\omega}_i,\bm{\omega}_o,\bm{\omega}_m)\) として導入する.
+<span>
+  \[	\int_{H^&#43;}G_2(\bm{\omega}_i,\bm{\omega}_o,\bm{\omega}_m)D(\bm{\omega}_m)\cos\theta_m d\bm{\omega}_m\]
+</span>
+</p>
+<!--
+これは, Microfacet 上の多重散乱を考慮しない限り, エネルギー保存則は満たさない(Heitz2014).
+-->
+<p>(後日追記予定)</p>
+<h2 id="fresnel-term">
+  Fresnel Term
+  <a class="anchor" href="#fresnel-term">#</a>
+</h2>
+<p>フレネル反射を \(F(\bm{\omega}_m)\) と書く.</p>
+<p>(後日追記予定)</p>
+<h2 id="brdf-for-rough-surfaces">
+  BRDF for Rough Surfaces
+  <a class="anchor" href="#brdf-for-rough-surfaces">#</a>
+</h2>
+<p>以上で導入した法線分布関数と Shadowing-Masking 関数,
+そしてフレネル項 \(F(\bm{\omega}_m)\) を用いて, Microfacet モデルの BRDF を求める.</p>
+<p>
+  <a href="../rendering_equation/#bidirectional-reflectance-distribution-function">BRDF</a>,
+そして 
+  <a href="/docs/radiative_transfer/microfacet_model/#masking-function">Masking 関数</a> で行った議論から, 散乱断面積 \(\sigma_s\) は
+<span>
+  \[\begin{aligned}
+	\sigma_s &amp;= \sigma_s\int_{H^&#43;_n}f_r(\bm{\omega}_i,\omega_o)(\bm{\omega}_i\cdot\bm{\omega}_n)d\bm{\omega}_i\\
+	\sigma_s
+		&amp;= \sigma_s\int_{H^&#43;_m}\frac{G_1(\bm{\omega}_o,\bm{\omega}_m)D(\bm{\omega}_m)}{(\bm{\omega}_o\cdot\bm{\omega}_n)}(\bm{\omega}_i\cdot\bm{\omega}_m)d\bm{\omega}_m
+\end{aligned}\]
+</span>
+
+となる.
+ここで \(\left|\frac{d\bm{\omega}_m}{d\bm{\omega}_i}\right|=\frac{1}{4(\bm{\omega}_i\cdot\bm{\omega}_m)}\) を使い,
+2番目の式を \(\bm{\omega}_m\) から \(\bm{\omega}_i\) に変数変換すれば,
+<span>
+  \[	\sigma_s
+		= \sigma_s\int_{H^&#43;_n}\frac{G_1(\bm{\omega}_o,\bm{\omega}_m)D(\bm{\omega}_m)}{4(\bm{\omega}_o\cdot\bm{\omega}_n)(\bm{\omega}_i\cdot\bm{\omega}_n)}(\bm{\omega}_i\cdot\bm{\omega}_n)d\bm{\omega}_i\]
+</span>
+
+となる.
+従って, これに対応する BRDF は
+<span>
+  \[	f_r(\bm{\omega}_i,\bm{\omega}_o)
+		= \frac{G_1(\bm{\omega}_o,\bm{\omega}_m)D(\bm{\omega}_m)}{4(\bm{\omega}_o\cdot\bm{\omega}_n)(\bm{\omega}_i\cdot\bm{\omega}_n)}\]
+</span>
+
+となる.
+これに, 入射光に対する Microsurface の遮蔽を考慮して Masking 関数 \(G_1(\bm{\omega}_o,\bm{\omega}_m)\) を
+Shadowing-Masking 関数 \(G_2(\bm{\omega}_i,\bm{\omega}_o,\bm{\omega}_m)\) に変え,
+さらにフレネル反射項 \(F(\bm{\omega}_m)\) を導入すれば,
+<span>
+  \[	f_r(\bm{\omega}_i,\bm{\omega}_o)
+		= \frac{F(\bm{\omega}_m)G_2(\bm{\omega}_i,\bm{\omega}_o,\bm{\omega}_m)D(\bm{\omega}_m)}{4(\bm{\omega}_o\cdot\bm{\omega}_n)(\bm{\omega}_i\cdot\bm{\omega}_n)}\]
+</span>
+
+が得られる.
+これは, Microfacet モデルの BRDF として知られている.</p>
+<!--
+ただし, ここで求めた BRDF は 1回反射に対するものであり, 多重反射は考慮していない.
+-->
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

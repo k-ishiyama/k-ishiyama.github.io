@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en" dir=>
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Statistical Mechanics #  Phase Space Distribution Function #  3次元直交座標上の粒子の座標を \(\bm{x}\;[\text{m}]\), 運動量を \(\bm{p}\;[\text{kg}\;\text{m}\;\text{s}^{-1}]\), 相空間内の点 \((\bm{x},\bm{p})\) の周りの体積素片を \(d\bm{V}:=d\bm{x}d\bm{p}\;[\text{J}^3\;\text{s}^3]\) と書く.
+相空間内の閉領域 \(V\) に \(N\)個の粒子を考え, 相空間分布関数   \[	\int_V f(\bm{x},\bm{p},t)d\bm{V} = N \qquad[\text{-}],\]  を導入する. なお, Liouville 方程式 より全粒子数は時間変化しないため, 上式の \(N\) は定数となる.
+このとき, 粒子数密度は  \[	n(\bm{x},t) = \int f(\bm{x},\bm{p},t)d\bm{p}	\qquad[\text{m}^{-3}]\]  と得られる.
+Liouville&rsquo;s Equation #  いま, Hamiltonの運動方程式 に従って運動している \(N\) 個の粒子が, 相空間分布関数 \(f(\bm{x},\bm{p},t)\) で表されるとする. このとき, 分布関数に対する運動方程式を求めたい.
+いま, 単位時間当たりに\(V\) 内に粒子が増加する量 \(\int_V\frac{\partial f}{\partial t}d\bm{V}\) と, 単位時間あたりに \(V\) の境界 \(S\) を通って粒子が流出する量 \(\int_S(f\bm{v})\cdot\bm{n}dS\) が等しいとして  \[	\int_V\frac{\partial f}{\partial t}d\bm{V} &#43; \int_S(f\bm{v})\cdot\bm{n}dS = 0\]  とする.">
+<meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Statistical Mechanics" />
+<meta property="og:description" content="Statistical Mechanics #  Phase Space Distribution Function #  3次元直交座標上の粒子の座標を \(\bm{x}\;[\text{m}]\), 運動量を \(\bm{p}\;[\text{kg}\;\text{m}\;\text{s}^{-1}]\), 相空間内の点 \((\bm{x},\bm{p})\) の周りの体積素片を \(d\bm{V}:=d\bm{x}d\bm{p}\;[\text{J}^3\;\text{s}^3]\) と書く.
+相空間内の閉領域 \(V\) に \(N\)個の粒子を考え, 相空間分布関数   \[	\int_V f(\bm{x},\bm{p},t)d\bm{V} = N \qquad[\text{-}],\]  を導入する. なお, Liouville 方程式 より全粒子数は時間変化しないため, 上式の \(N\) は定数となる.
+このとき, 粒子数密度は  \[	n(\bm{x},t) = \int f(\bm{x},\bm{p},t)d\bm{p}	\qquad[\text{m}^{-3}]\]  と得られる.
+Liouville&rsquo;s Equation #  いま, Hamiltonの運動方程式 に従って運動している \(N\) 個の粒子が, 相空間分布関数 \(f(\bm{x},\bm{p},t)\) で表されるとする. このとき, 分布関数に対する運動方程式を求めたい.
+いま, 単位時間当たりに\(V\) 内に粒子が増加する量 \(\int_V\frac{\partial f}{\partial t}d\bm{V}\) と, 単位時間あたりに \(V\) の境界 \(S\) を通って粒子が流出する量 \(\int_S(f\bm{v})\cdot\bm{n}dS\) が等しいとして  \[	\int_V\frac{\partial f}{\partial t}d\bm{V} &#43; \int_S(f\bm{v})\cdot\bm{n}dS = 0\]  とする." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/docs/physics/statistical_mechanics/" />
+<meta property="article:modified_time" content="2020-10-25T08:39:32+09:00" />
+<title>Statistical Mechanics | Notes</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
+<script defer src="/en.search.min.2d21992138c7c266276c490b9a80d0d857f9f79a6782eade0d5603e4934380c3.js" integrity="sha256-LSGZITjHwmYnbEkLmoDQ2Ff595pngureDVYD5JNDgMM="></script>
+
+<script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body dir=>
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/"><span>Notes</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/" class="">Physics</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/analytical_mechanics/" class="">Analytical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/geometrical_optics/" class="">Geometrical Optics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/particle_mechanics/" class="">Particle Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/statistical_mechanics/" class=" active">Statistical Mechanics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/physics/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/" class="">Radiative Transfer</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/radiative_transfer_equation/" class="">Radiative Transfer Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/rendering_equation/" class="">Rendering Equation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/microfacet_model/" class="">Microfacet Model</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://example.com/docs/radiative_transfer/references/" class="">References</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://twitter.com/ishiyama_" target="_blank" rel="noopener">
+        Twitter
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Statistical Mechanics</strong>
+
+  <label for="toc-control">
+    
+  </label>
+</div>
+
+
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="statistical-mechanics">
+  Statistical Mechanics
+  <a class="anchor" href="#statistical-mechanics">#</a>
+</h1>
+<h2 id="phase-space-distribution-function">
+  Phase Space Distribution Function
+  <a class="anchor" href="#phase-space-distribution-function">#</a>
+</h2>
+<p>3次元直交座標上の粒子の座標を \(\bm{x}\;[\text{m}]\), 運動量を \(\bm{p}\;[\text{kg}\;\text{m}\;\text{s}^{-1}]\),
+相空間内の点 \((\bm{x},\bm{p})\) の周りの体積素片を \(d\bm{V}:=d\bm{x}d\bm{p}\;[\text{J}^3\;\text{s}^3]\) と書く.<br>
+相空間内の閉領域 \(V\) に \(N\)個の粒子を考え, 相空間分布関数
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[	\int_V f(\bm{x},\bm{p},t)d\bm{V} = N \qquad[\text{-}],\]
+</span>
+
+を導入する.
+なお, 
+  <a href="/docs/physics/statistical_mechanics/#liouvilles-equation">Liouville 方程式</a> より全粒子数は時間変化しないため,
+上式の \(N\) は定数となる.</p>
+<p>このとき, 粒子数密度は
+<span>
+  \[	n(\bm{x},t) = \int f(\bm{x},\bm{p},t)d\bm{p}	\qquad[\text{m}^{-3}]\]
+</span>
+
+と得られる.</p>
+<h2 id="liouvilles-equation">
+  Liouville&rsquo;s Equation
+  <a class="anchor" href="#liouvilles-equation">#</a>
+</h2>
+<p>いま, 
+  <a href="../particle_mechanics/#hamiltons-equations">Hamiltonの運動方程式</a> に従って運動している \(N\) 個の粒子が,
+
+  <a href="/docs/physics/statistical_mechanics/#phase-space-distribution-function">相空間分布関数</a> \(f(\bm{x},\bm{p},t)\) で表されるとする.
+このとき, 分布関数に対する運動方程式を求めたい.</p>
+<p>いま, 単位時間当たりに\(V\) 内に粒子が増加する量
+\(\int_V\frac{\partial f}{\partial t}d\bm{V}\)
+と, 単位時間あたりに \(V\) の境界 \(S\) を通って粒子が流出する量
+\(\int_S(f\bm{v})\cdot\bm{n}dS\)
+が等しいとして
+<span>
+  \[	\int_V\frac{\partial f}{\partial t}d\bm{V} &#43; \int_S(f\bm{v})\cdot\bm{n}dS = 0\]
+</span>
+
+とする.
+ここで, 相空間の速度ベクトルを \(\dot{\bm{\eta}} := \begin{pmatrix}\dot{\bm{x}} \\ \dot{\bm{p}}\end{pmatrix}\),
+領域 \(V\) の外側へ向かう単位ベクトルを \(\bm{n}\) と書いた.</p>
+<p>上式の第2項に Gauss の発散定理を用いれば,
+<span>
+  \[	\int_V\left(\frac{\partial f}{\partial t} &#43; \nabla\cdot\left(f\dot{\bm{\eta}}\right)\right)d\bm{V} = 0\]
+</span>
+
+が得られる.
+ここで \(\nabla:=\begin{pmatrix}\frac{\partial}{\partial\bm{x}} \\ \frac{\partial}{\partial\bm{p}}\end{pmatrix}\) とした.</p>
+<p>さらに第2項は
+<span>
+  \[\begin{aligned}
+	\nabla\cdot(f\dot{\bm{\eta}})
+	&amp;= (\nabla f)\cdot\dot{\bm{\eta}} &#43; f\,(\nabla\cdot\dot{\bm{\eta}})\\
+	&amp;= \left(\frac{\partial f}{\partial\bm{x}}\cdot\dot{\bm{x}} &#43; \frac{\partial f}{\partial\bm{p}}\cdot\dot{\bm{p}}\right)
+		&#43; f\left(\frac{\partial\dot{\bm{x}}}{\partial\bm{x}} &#43; \frac{\partial\dot{\bm{p}}}{\partial\bm{p}}\right)\\
+	&amp;= \left(\frac{\partial f}{\partial\bm{x}}\cdot\dot{\bm{x}} - \frac{\partial f}{\partial\bm{p}}\cdot\dot{\bm{p}}\right)
+\end{aligned}\]
+</span>
+
+となる. 最後の等号で
+
+  <a href="../analytical_mechanics/#hamiltons-equations">Hamiltonの運動方程式</a>
+\(\dot{\bm{x}} = \frac{\partial H}{\partial\bm{p}},\;\dot{\bm{p}} = -\frac{\partial H}{\partial\bm{x}}\)
+を使った.</p>
+<p>これにより,
+<span>
+  \[\begin{aligned}
+	\frac{\partial f}{\partial t} &#43; \left(\frac{\partial f}{\partial\bm{x}}\cdot\dot{\bm{x}} - \frac{\partial f}{\partial\bm{p}}\cdot\dot{\bm{p}}\right) = 0
+\end{aligned}\]
+</span>
+
+が得られる.
+これを Liouville 方程式という.</p>
+<h2 id="collision-frequency">
+  Collision Frequency
+  <a class="anchor" href="#collision-frequency">#</a>
+</h2>
+<p>粒子が速度 \(v\;[\text{m}\;\text{s}^{-1}]\) で, 個数密度 \(n\;[\text{m}^{-3}]\) の媒質を通過した際,
+単位時間あたりに媒質に粒子が衝突する割合を考える.</p>
+<p>媒質の散乱断面積を \(\sigma_s\;[\text{m}^2]\) とすれば, 距離当たりの個数密度
+<span>
+  \[	\mu=n\sigma_s \qquad [\text{m}^{-1}]\]
+</span>
+
+が得られる. これを散乱係数と呼ぶ.</p>
+<p>散乱係数 \(\mu\) へ, 時間 \(t\;[\text{s}]\) のあいだに粒子が通過する距離 \(vt\;[\text{m}]\) を掛ければ,
+媒質粒子の個数 \(\mu vt\;[-]\) が得られる.
+このとき, 単位時間当たりの衝突粒子数
+<span>
+  \[	\eta = \mu v\quad[\text{s}^{-1}]\]
+</span>
+
+を, 衝突率と呼ぶ.</p>
+<h2 id="differential-cross-section">
+  Differential Cross Section
+  <a class="anchor" href="#differential-cross-section">#</a>
+</h2>
+<p>散乱断面積が, 微小断面積 \(d\bm{\sigma}\) の集まりとして
+<span>
+  \[	\sigma_s = \int d\bm{\sigma} \qquad [\text{m}^2]\]
+</span>
+
+と書けるとする.</p>
+<p>ここで, 方向 \(\bm{\omega}'\) から断面積 \(d\bm{\sigma}\) を通過してきた粒子がほかの粒子へ衝突し,
+方向 \(\bm{\omega}\) の立体角 \(d\bm{\omega}\) へ散乱することを考える.
+このとき, 軸 \(\bm{\omega}'\) に対して \(\bm{\omega}\) のなす角を \(\theta, \phi\) と書く.
+さらに, 軸 \(\bm{\omega}'\) からの距離を, 衝突パラメータを \(b\) と書く.</p>
+<p>散乱が弾性散乱であれば,
+断面積 \(d\bm{\sigma} = bdbd\phi\) を通って
+立体角 \(d\bm{\omega} = \sin\theta d\theta d\phi\) のあいだに
+<span>
+  \[	d\bm{\sigma} = g(\bm{\omega}&#39;,\bm{\omega})d\bm{\omega} = bdbd\phi
+	\qquad [\text{m}^2]\]
+</span>
+
+<span>
+  \[	g(\bm{\omega},\bm{\omega}&#39;):=\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right| \qquad [\text{m}^2\,\text{sr}^{-1}]\]
+</span>
+
+という関係を作ることができる.
+ここで, 変数変換のヤコビアンとして導入した \(g(\bm{\omega}',\bm{\omega})\) を微分散乱断面積と呼ぶ.
+微分散乱断面積は, 衝突パラメータ \(b\) を使って
+<span>
+  \[	g(\bm{\omega}&#39;,\bm{\omega}) = \frac{b}{\sin\theta}\left|\frac{db}{d\theta}\right|\]
+</span>
+
+と求めることができる.</p>
+<h3 id="total-cross-section">
+  Total Cross Section
+  <a class="anchor" href="#total-cross-section">#</a>
+</h3>
+<p>微分散乱断面積を全方位に渡って積分すると, 散乱断面積 \(\sigma_s\)
+<span>
+  \[	\sigma_s = \int d\bm{\sigma} = \int g(\bm{\omega}&#39;,\bm{\omega}) d\bm{\omega}
+	\qquad [\text{m}^2]\]
+</span>
+
+が得られる.</p>
+<!--
+さらに, [衝突率](./statistical_mechanics/#collision-frequency) は
+個数密度 \\(f(\bm{p}_2)d\bm{p}_2\\), 相対速度 \\(|\bm{v}_1-\bm{v}_2|\\),
+散乱断面積 \\(\left|\frac{d\sigma}{d\omega}\right|d\omega\\) を使って,
+<span>
+  \[	\eta(\bm{p}_1)\]
+</span>
+
+と計算される.
+-->
+<h2 id="boltzmann-equation">
+  Boltzmann Equation
+  <a class="anchor" href="#boltzmann-equation">#</a>
+</h2>
+<p>
+  <a href="/docs/physics/statistical_mechanics/#liouvilles-equation">Liouville 方程式</a> に粒子同士の衝突を表した項
+\(\left(\frac{\partial f}{\partial t}\right)_\text{coll}\) を加えて
+<span>
+  \[	\frac{\partial f}{\partial t}
+		&#43; \frac{\partial f}{\partial\bm{x}}\cdot\dot{\bm{x}}
+		&#43; \frac{\partial f}{\partial\bm{p}}\cdot\dot{\bm{p}}
+	= \left(\frac{\partial f}{\partial t}\right)_\text{coll}\]
+</span>
+
+とした式を考える.
+衝突項は,
+衝突により \(f\) が増加する \(\left(\frac{\partial f}{\partial t}\right)_\text{gain}\) と,
+衝突により \(f\) が減少する \(\left(\frac{\partial f}{\partial t}\right)_\text{loss}\) から成るとする.
+<span>
+  \[	\left(\frac{\partial f}{\partial t}\right)_\text{coll}
+	:=	\left(\frac{\partial f}{\partial t}\right)_\text{gain}
+		&#43; \left(\frac{\partial f}{\partial t}\right)_\text{loss}\]
+</span>
+</p>
+<p>はじめに \(\left(\frac{\partial f}{\partial t}\right)_\text{loss}\) を求める.
+このとき, 粒子の集団は低密度であるとして, 2体衝突のみを考慮する.
+従って, 運動量 \(\bm{p}_1\) と \(\bm{p}_2\) の粒子が衝突し, \(\bm{p}'_1\) と \(\bm{p}'_2\) になる過程を考える.
+以降は, 分布関数の運動量の違いだけを考えるから, \(f(\bm{x},\bm{p},t)\) を \(f(\bm{p})\) と略記する.</p>
+<p>\(f(\bm{p}_1)\) が減少する割合は, これに \(f(\bm{p}_2)\) に関する
+
+  <a href="/docs/physics/statistical_mechanics/#collision-frequency">衝突率</a> \(|\bm{v}_1-\bm{v}_2|d\bm{\sigma}f(\bm{p}_2)d\bm{p}_2\) を掛けたものになる.
+\(d\bm{\sigma}\) に
+  <a href="/docs/physics/statistical_mechanics/#differential-cross-section">微分散乱断面積</a> を考慮すると,
+<span>
+  \[	\left(\frac{\partial f(\bm{p}_1)}{\partial t}\right)_\text{loss}
+	= \int|\bm{v}_1-\bm{v}_2|g(\bm{\omega},\bm{\omega}&#39;)f(\bm{p}_1)f(\bm{p}_2)d\bm{p}_2d\bm{\omega}\]
+</span>
+
+が得られる.</p>
+<p>同様にして(TBA),
+<span>
+  \[	\left(\frac{\partial f(\bm{p}_1)}{\partial t}\right)_\text{gain}
+	= \int|\bm{v}_1-\bm{v}_2|g(\bm{\omega},\bm{\omega}&#39;)f(\bm{p}&#39;_1)f(\bm{p}&#39;_2)d\bm{p}_2d\bm{\omega}\]
+</span>
+
+が得られる.</p>
+<p>以上の考察から, 粒子同士の衝突を含んだ \(f(\bm{p}_1\) の時間変化は
+<span>
+  \[	\frac{\partial f(\bm{p}_1)}{\partial t}
+		&#43; \frac{\partial f(\bm{p}_1)}{\partial\bm{x}}\cdot\dot{\bm{x}}
+		&#43; \frac{\partial f(\bm{p}_1)}{\partial\bm{p}_1}\cdot\dot{\bm{p}_1}
+	= \int |\bm{v}_1-\bm{v}_2|g(\bm{\omega},\bm{\omega}&#39;)\left[f(\bm{p}&#39;_1)f(\bm{p}&#39;_2)
+		- f(\bm{p}_1)f(\bm{p}_2)\right]d\bm{p}_2d\omega\]
+</span>
+
+という方程式で記述される.
+これを Boltzmann 方程式という.</p>
+<h2 id="boltzmann-equation-for-a-mixture">
+  Boltzmann Equation for a Mixture
+  <a class="anchor" href="#boltzmann-equation-for-a-mixture">#</a>
+</h2>
+<p>N成分から成る希薄気体を考える.
+このとき, i番目の成分の変化は
+<span>
+  \[	\frac{\partial f_i(\bm{p}_1)}{\partial t}
+		&#43; \frac{\partial f_i(\bm{p}_1)}{\partial\bm{x}}\cdot\dot{\bm{x}}
+		&#43; \frac{\partial f_i(\bm{p}_1)}{\partial\bm{p}_1}\cdot\dot{\bm{p}_1}
+	= \left(\frac{\partial f_i(\bm{p}_1)}{\partial t}\right)_\text{coll}\]
+</span>
+
+<span>
+  \[	\left(\frac{\partial f_i(\bm{p}_1)}{\partial t}\right)_\text{coll}
+	= \sum^N_{j=1}\int |\bm{v}_1-\bm{v}_2|g_{ij}(\bm{\omega},\bm{\omega}&#39;)
+		\left[f_i(\bm{p}&#39;_1)f_j(\bm{p}&#39;_2) - f_i(\bm{p}_1)f_j(\bm{p}_2)\right]d\bm{p}_2d\bm{\omega}\]
+</span>
+
+と表される.</p>
+<h2 id="linear-boltzmann-equation">
+  Linear Boltzmann Equation
+  <a class="anchor" href="#linear-boltzmann-equation">#</a>
+</h2>
+<p>2成分の
+  <a href="/docs/physics/statistical_mechanics/#boltzmann-equation">Boltzmann方程式</a>を考え, 一方の成分を A, 他方の成分を B とよぶ.
+ここで, B は平衡状態にあるとする.
+また, A同士の衝突は, AとBの衝突に比べて無視できるとして,
+微分散乱断面積は \(\sigma = \sigma_{AB}\) のみを考える.
+(e.g. Neutron transport, photon transport)</p>
+<p>このとき, Aの分布関数を \(f\), B の分布関数を \(F\) と書けば, Boltzmann 方程式は
+<span>
+  \[	\frac{\partial f}{\partial t}
+		&#43; \frac{\partial f}{\partial\bm{x}}\cdot\dot{\bm{x}}
+		&#43; \frac{\partial f}{\partial\bm{p}}\cdot\dot{\bm{p}}
+	= \left(\frac{\partial f}{\partial t}\right)_\text{coll}\]
+</span>
+
+<span>
+  \[	\left(\frac{\partial f}{\partial t}\right)_\text{coll}
+	= \int |\bm{v}_1-\bm{v}_2|g_{ij}(\bm{\omega},\bm{\omega}&#39;)
+		\left[f(\bm{p}&#39;_1)F(\bm{p}&#39;_2) - f(\bm{p}_1)F(\bm{p}_2)\right]d\bm{p}_2d\bm{\omega}\]
+</span>
+
+となる. これは Linear Boltzmann 方程式と呼ばれている[
+  <a href="../references#Cercignani1988">Cercignani, 1988</a>].</p>
+<h1 id="radiation">
+  Radiation
+  <a class="anchor" href="#radiation">#</a>
+</h1>
+<h2 id="spectral-radiance">
+  Spectral Radiance
+  <a class="anchor" href="#spectral-radiance">#</a>
+</h2>
+<p>光子の密度関数を \(f_\text{photon}(\bm{x},\bm{p},t)\) としたとき, 分光放射輝度は
+<span>
+  \[	L(\bm{x},\bm{\omega},\nu,t) := \frac{2h\nu^3}{c^2}f_\text{photon}(\bm{x},\bm{p},t)
+	\tag{1}\]
+</span>
+
+と書ける(TBA).</p>
+<!--
+## Planck's law
+<span>
+  \[	\rho(\bm{x},\bm{p},t) = \frac{1}{e^{h\nu/kT}-1}
+	\tag{2}\]
+</span>
+
+ボーズ・アインシュタイン分布関数で,
+化学ポテンシャル \\(\mu\\) が 0 の場合に対応する.
+粒子数一定の条件を課さない場合にそうなる.
+https://batapara.com/archives/bose-einstein-distribution-derive.html/
+
+
+## Wien approximation
+光子を古典的粒子とみなし, 熱平衡状態にある光子の相空間分布関数を求めると
+<span>
+  \[	\rho(\bm{x},\bm{p},t) = e^{-h\nu/kT}
+	\tag{2}\]
+</span>
+
+となる.
+これは, 光子同士の距離が十分離れているときに正しいが, その波長と同程度の距離になるにつれ破綻する.
+-->
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
