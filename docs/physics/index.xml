@@ -2,15 +2,15 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Physics on Notes</title>
-    <link>https://example.com/docs/physics/</link>
+    <link>https://k-ishiyama.github.io/docs/physics/</link>
     <description>Recent content in Physics on Notes</description>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="https://example.com/docs/physics/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://k-ishiyama.github.io/docs/physics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Analytical Mechanics</title>
-      <link>https://example.com/docs/physics/analytical_mechanics/</link>
+      <link>https://k-ishiyama.github.io/docs/physics/analytical_mechanics/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/docs/physics/analytical_mechanics/</guid>
+      <guid>https://k-ishiyama.github.io/docs/physics/analytical_mechanics/</guid>
       <description>Analytical Mechanics #  Hamilton&amp;rsquo;s Principle #  \(N\)次元ユークリッド空間を考えて, 時間を \(t\), 座標を \(\bm{q}(t)=\begin{pmatrix}q_1(t) \\ q_2(t) \\ \vdots \\ q_N(t)\end{pmatrix}\) と書く.
 そして, 時間による微分を	\(\dot{\bm{q}}:=\frac{d\bm{q}}{dt}\) と略記する.
 空間中にラグランジアン \(L(\bm{q},\dot{\bm{q}},t)\) なる量を考え, 曲線 \(\bm{q}(t)\) に沿った線積分   \[	S[\bm{q}] = \int^b_aL(\bm{q},\dot{\bm{q}},t)dt \tag{hp.1}\]  を作用と呼ぶ.
@@ -21,10 +21,10 @@ Euler-Lagrange Equation #  作用 \(S\) について, 始点 \(\bm{q}(a)\) と�
     
     <item>
       <title>Geometrical Optics</title>
-      <link>https://example.com/docs/physics/geometrical_optics/</link>
+      <link>https://k-ishiyama.github.io/docs/physics/geometrical_optics/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/docs/physics/geometrical_optics/</guid>
+      <guid>https://k-ishiyama.github.io/docs/physics/geometrical_optics/</guid>
       <description>Geometrical Optics #  Ray of Light #  細く絞った光のビームを考え, その光が通った経路を光線と呼ぶ.
 ここで考えた光線は, のちに同じ波面を共有する光子の集団として正当化する(ToDo).
 Index of Refraction #  光は, 真空中では速さ \(c\;[\text{m}/\text{s}]\) で空間を伝搬する. そして, 物質中を伝わる光の速さ \(v\;[\text{m}/\text{s}]\) は真空中よりも遅くなる. この速度の比   \[	n = \frac{c}{v}\quad\;[-]\]  を屈折率と呼ぶ.
@@ -35,10 +35,10 @@ Fermat&amp;rsquo;s Principle #  光線は屈折率の変動に応じて曲がる
     
     <item>
       <title>Particle Mechanics</title>
-      <link>https://example.com/docs/physics/particle_mechanics/</link>
+      <link>https://k-ishiyama.github.io/docs/physics/particle_mechanics/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/docs/physics/particle_mechanics/</guid>
+      <guid>https://k-ishiyama.github.io/docs/physics/particle_mechanics/</guid>
       <description>Particle Mechanics #  Position and Velocity #  時間を \(t\), 3次元ユークリッド空間上の座標を \(\bm{q}(t)=\begin{pmatrix}q_1(t) \\ q_2(t) \\ \vdots \\ q_N(t)\end{pmatrix}\) と書く.
 時間についての微分を, 関数の頭にドットをつけて \(\dot{\bm{r}}(t):=\frac{d\bm{r}(t)}{dt}\) を略記する.
 座標を時間で微分したものを速度 \(\bm{v}:=\dot{\bm{r}}\), 速度を時間で微分したものを加速度 \(\bm{a}:=\dot{\bm{v}}\) とよぶ.
@@ -50,10 +50,10 @@ Hamilton&amp;rsquo;s Principle #  ニュートンの運動方程式 (nl.1) を�
     
     <item>
       <title>Statistical Mechanics</title>
-      <link>https://example.com/docs/physics/statistical_mechanics/</link>
+      <link>https://k-ishiyama.github.io/docs/physics/statistical_mechanics/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/docs/physics/statistical_mechanics/</guid>
+      <guid>https://k-ishiyama.github.io/docs/physics/statistical_mechanics/</guid>
       <description>Statistical Mechanics #  Phase Space Distribution Function #  3次元直交座標上の粒子の座標を \(\bm{x}\;[\text{m}]\), 運動量を \(\bm{p}\;[\text{kg}\;\text{m}\;\text{s}^{-1}]\), 相空間内の点 \((\bm{x},\bm{p})\) の周りの体積素片を \(d\bm{V}:=d\bm{x}d\bm{p}\;[\text{J}^3\;\text{s}^3]\) と書く.
 相空間内の閉領域 \(V\) に \(N\)個の粒子を考え, 相空間分布関数   \[	\int_V f(\bm{x},\bm{p},t)d\bm{V} = N \qquad[\text{-}],\]  を導入する. なお, Liouville 方程式 より全粒子数は時間変化しないため, 上式の \(N\) は定数となる.
 このとき, 粒子数密度は  \[	n(\bm{x},t) = \int f(\bm{x},\bm{p},t)d\bm{p}	\qquad[\text{m}^{-3}]\]  と得られる.
@@ -63,10 +63,10 @@ Liouville&amp;rsquo;s Equation #  いま, Hamiltonの運動方程式 に従っ�
     
     <item>
       <title>References</title>
-      <link>https://example.com/docs/physics/references/</link>
+      <link>https://k-ishiyama.github.io/docs/physics/references/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/docs/physics/references/</guid>
+      <guid>https://k-ishiyama.github.io/docs/physics/references/</guid>
       <description>References #  Born, M and Wolf, E. (1999). Principles of Optics (7th Ed.). Cambridge University Press, 7th ed. #  Goldstein, H., Poole, C., and Safko, J. (2002). Classical Mechanics. Addison Wesley, 3rd ed. #  Tong, D. (2005). Lectures on Classical Dynamics. https://www.damtp.cam.ac.uk/user/tong/dynamics.html. #  山本, 義隆. (2014). 幾何光学の正準理論. 数学書房. #  </description>
     </item>
     
