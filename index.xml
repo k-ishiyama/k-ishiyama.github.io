@@ -121,7 +121,7 @@ Liouville&amp;rsquo;s Equation #  いま, Hamiltonの運動方程式 に従っ�
       
       <guid>https://k-ishiyama.github.io/posts/20201021_setting_up_this_site_with_hugo/</guid>
       <description>このウェブサイトは、 https://themes.gohugo.io/theme/hugo-book/ を元に作った。 そのときの備忘録をこの記事に残しておく。
-インストール #   https://github.com/spf13/hugo/releases から実行ファイルを取得  手元の環境は Windows 10 64bit なので、hugo_0.75.1_Windows-64bit を選択   hugo.exe を適当なディレクトリに置き、パスを通す  サイトの作成 #   サイトを作る  hugo new site [サイト名] 作成したサイトのディレクトリで git init して、そこを Git のリポジトリにする  テーマの適用 #   https://themes.gohugo.io/hugo-book/ を適用する  git submodule add https://github.com/alex-shpak/hugo-book themes/book あとは https://github.com/alex-shpak/hugo-book にある説明を見て記事を作成していく  </description>
+インストール #   https://github.com/spf13/hugo/releases から実行ファイルを取得  手元の環境は Windows 10 64bit なので、hugo_0.76.5_Windows-64bit を選択   hugo.exe を適当なディレクトリに置き、パスを通す  サイトの作成 #   サイトを作る hugo new site [サイト名]  作成したサイトのディレクトリで git init して、そこを Git のリポジトリにする  テーマの適用 #   https://themes.gohugo.io/hugo-book/ を適用する git submodule add https://github.com/alex-shpak/hugo-book themes/book  https://github.com/alex-shpak/hugo-book にある説明を見て記事を作成  サイトのプレビューと生成 #   プレビュー hugo server  public ディレクトリにサイトを生成 hugo   生成されたサイトを GitHub Pages として公開 #   GitHub Pages用のリポジトリを作成  GitHub へアクセスし、[ユーザー名].</description>
     </item>
     
   </channel>
