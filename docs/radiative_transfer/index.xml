@@ -36,7 +36,7 @@ Rendering Equation #  物体の表面として, 衝突率が 100% の媒質を�
       <guid>https://k-ishiyama.github.io/docs/radiative_transfer/microfacet_model/</guid>
       <description>Microfacet Model #   Rendering 方程式 では, 物体表面上の光反射は   \[	L(\bm{x},\bm{\omega}_o,\nu) = \int_{H^&amp;#43;}f(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]  と表された.
 いま, 粗い面による光反射を表現するために, 表面が微細な凸凹の集まりによってできていると仮定する. そして, 微細な凸凹の情報は, 法線分布関数やマスキング関数といった, 統計的な量に格納されているとする. このようにして粗い面をモデル化したものを, Microfacet モデルと呼ぶ. 以後, 微細な凸凹のひとつひとつを Microsurface、その集まりによってできた面を Macrosurface と呼んで区別する [ Pharr et al., 2018].
-なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く. これは後に, 法線分布関数 を Microsurface の幾何形状から求めることを可能にする狙いがある.
+なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く.
 Half Vector #  入射光の方向を \(\bm{\omega}_i\), 反射光の方向を \(\bm{\omega}_o\) とし, 次の量  \[	\bm{\omega}_h := \frac{\bm{\omega}_i &amp;#43; \bm{\omega}_o}{|\bm{\omega}_i &amp;#43; \bm{\omega}_o|}\]  をハーフベクトルと呼ぶ.</description>
     </item>
     
@@ -46,7 +46,7 @@ Half Vector #  入射光の方向を \(\bm{\omega}_i\), 反射光の方向を \(
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://k-ishiyama.github.io/docs/radiative_transfer/references/</guid>
-      <description>References #  Chandrasekhar, S. (1960). Radiative transfer. Dover Publications Inc. #  Cook, R. L. and Torrance, K. E. (1982). A reﬂectance model for computer graphics. ACM Trans. Graph., 1(1):7–24. #  Kajiya, J. T. (1986). The rendering equation. SIGGRAPH Comput. Graph., 20(4):143–150. #  Cercignani, C. (1988). The Boltzmann Equation and Its Applications. Springer-Verlaq. #  Arvo, J. (1993). Transfer equations in global illumination. Global Illumination, SIGGRAPH’93 Course Notes.</description>
+      <description>References #  Chandrasekhar, S. (1960). Radiative transfer. Dover Publications Inc. #  Nicodemus, F. E. (1965). Directional reﬂectance and emissivity of an opaque surface. Appl. Opt., 4(7):767–775. #  Cook, R. L. and Torrance, K. E. (1982). A reﬂectance model for computer graphics. ACM Trans. Graph., 1(1):7–24. #  Kajiya, J. T. (1986). The rendering equation. SIGGRAPH Comput. Graph., 20(4):143–150. #  Cercignani, C. (1988). The Boltzmann Equation and Its Applications.</description>
     </item>
     
   </channel>

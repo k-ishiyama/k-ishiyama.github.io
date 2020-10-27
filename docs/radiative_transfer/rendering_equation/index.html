@@ -13,12 +13,12 @@ Rendering Equation #  物体の表面として, 衝突率が 100% の媒質を�
 Rendering Equation #  物体の表面として, 衝突率が 100% の媒質を考える. この場合, 光が媒質を通り抜けることはないから, \(\bm{\omega}_o\cdot\nabla L(\bm{x},\bm{\omega}_o,\nu) = 0\) となる. 従って Volume Rendering 方程式 は,  \[	\mu_tL(\bm{x},\bm{\omega}_o,\nu) = \mu_t L_\epsilon(\bm{x}) &#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o) &#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  となる." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://k-ishiyama.github.io/docs/radiative_transfer/rendering_equation/" />
-<meta property="article:modified_time" content="2020-10-25T08:39:32+09:00" />
+<meta property="article:modified_time" content="2020-10-27T14:07:35+09:00" />
 <title>Rendering Equation | Notes</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.2ea6f394406194eea467cdcb1efc5a409382e0efb805a2cb071bfda545f5cb0d.js" integrity="sha256-LqbzlEBhlO6kZ83LHvxaQJOC4O&#43;4BaLLBxv9pUX1yw0="></script>
+<script defer src="/en.search.min.1bc8eb34f23ce89fe74571883ce5b80748326347fcd9ef32e586a08a60a10d9f.js" integrity="sha256-G8jrNPI86J/nRXGIPOW4B0gyY0f82e8y5YagimChDZ8="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -326,12 +326,12 @@ https://github.com/alex-shpak/hugo-book
 となる.
 ここで反射率 \(k_s:=\frac{\mu_s}{\mu_t}\), 吸収率 \(k_a:=\frac{\mu_s}{\mu_t}\) という量を定義し,
 表面の法線を \(\bm{\omega}_n\) として
-\(p(\bm{\omega}_i,\bm{\omega}_o) \rightarrow f_r(\bm{\omega}_i,\bm{\omega}_o)(\bm{\omega}_n\cdot\bm{\omega}_i)\)
+\(p(\bm{\omega}_i,\bm{\omega}_o) \rightarrow f_r(\bm{\omega}_i,\bm{\omega}_o)(\bm{\omega}_i\cdot\bm{\omega}_n)\)
 と書き換えれば,
 <span>
   \[	L(\bm{x},\bm{\omega}_o,\nu)
 	= L_\epsilon(\bm{x}) &#43; k_a L_\text{re}(\bm{x},\bm{\omega}_o)
- 	&#43; k_s\int_{H^&#43;}f(\bm{\omega}_i, \bm{\omega}_o)(\bm{\omega}_n\cdot\bm{\omega}_i)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]
+ 	&#43; k_s\int_{H^&#43;}f(\bm{\omega}_i, \bm{\omega}_o)(\bm{\omega}_i\cdot\bm{\omega}_n)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]
 </span>
 
 が得られる. この文書では, これを Rendering 方程式とよぶ.
@@ -345,32 +345,43 @@ https://github.com/alex-shpak/hugo-book
   <a href="/docs/radiative_transfer/rendering_equation/#rendering-equation">Rendering 方程式</a> では,
 
   <a href="../radiative_transfer_equation/#phase-function">散乱の位相関数</a> \(p(\bm{\omega}_i,\bm{\omega}_o)\) を
-\(f_r(\bm{\omega}_i,\bm{\omega}_o)(\bm{\omega}_n\cdot\bm{\omega}_i)\) と置き換えた.
+\(f_r(\bm{\omega}_i,\bm{\omega}_o)(\bm{\omega}_i\cdot\bm{\omega}_n)\) と置き換えた.
 この \(f_r(\bm{\omega}_i,\bm{\omega}_o)\) を Bidirectional Reflectance Distribution Function (BRDF) と呼ぶ.</p>
-<p>法線 \(\bm{\omega}_n\) を持つ表面の散乱断面積から, BRDF の定義を与えることを考える.
-法線 \(\bm{\omega}_n\) を持つ微小面を \(d\sigma_n\), その面を \(\bm{\omega}_i\) 方向へ射影した面を
-\(d\sigma=\cos\theta_nd\sigma_n\) と書く.
-このとき, 散乱断面積は
+<p>BRDF はもともと, 光の入射照度と反射輝度の比として定義されている[
+  <a href="../references/#Nicodemus1965">Nicodemus, 1965</a>].
+しかし, この文書では, 法線 \(\bm{\omega}_n\) を持つ表面の散乱断面積から, BRDF の定義を与えることを考える.</p>
+<p>法線 \(\bm{\omega}_n\) を持つ微小面を \(d\sigma_n\), その面を \(\bm{\omega}_i\) 方向へ射影した面を
+\(d\sigma=(\bm{\omega}_i\cdot\bm{\omega}_n)d\sigma_n\) と書く.</p>
+<div align="center">
+	<figure>
+    <img src="cos_d_sigma_n.svg"
+         alt="Fig. \(d\sigma=(\bm{\omega}_i\cdot\bm{\omega}_n)d\sigma_n\)" width="200"/> <figcaption>
+            <p>Fig. \(d\sigma=(\bm{\omega}_i\cdot\bm{\omega}_n)d\sigma_n\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>このとき, 散乱断面積は
 <span>
   \[	\sigma_s
 	= \int_{H^&#43;}\left|\frac{d\bm{\sigma}}{d\bm{\omega}_i}\right|d\bm{\omega}_i
-	= \int_{H^&#43;}\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]
+	= \int_{H^&#43;}\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|(\bm{\omega}_i\cdot\bm{\omega}_n)d\bm{\omega}_i\]
 </span>
 
 となる.
 この 
   <a href="../../physics/statistical_mechanics/#differential-cross-section">微分散乱断面積</a>
 \(\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|\)
-を散乱断面積 \(\sigma_s\) で規格化した量を, BRDFとして定義する
+を散乱断面積 \(\sigma_s\) で規格化した量を, BRDFと呼ぶ
 <span>
   \[	f(\bm{\omega}_i,\bm{\omega}_o)
 	= \frac{1}{\sigma_s} \left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|
 	\qquad[\text{sr}^{-1}]\]
 </span>
 </p>
-<p>定義より, BRDF は次の規格化条件を満たす.
+<p>BRDF は次の規格化条件を満たす.
 <span>
-  \[	\int_{H^&#43;}f(\bm{\omega}_i,\bm{\omega}_o)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i = 1\]
+  \[	\int_{H^&#43;}f(\bm{\omega}_i,\bm{\omega}_o)(\bm{\omega}_i\cdot\bm{\omega}_n)d\bm{\omega}_i = 1\]
 </span>
 </p>
 <!--

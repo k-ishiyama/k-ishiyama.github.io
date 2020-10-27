@@ -6,21 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Microfacet Model #   Rendering 方程式 では, 物体表面上の光反射は   \[	L(\bm{x},\bm{\omega}_o,\nu) = \int_{H^&#43;}f(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]  と表された.
 いま, 粗い面による光反射を表現するために, 表面が微細な凸凹の集まりによってできていると仮定する. そして, 微細な凸凹の情報は, 法線分布関数やマスキング関数といった, 統計的な量に格納されているとする. このようにして粗い面をモデル化したものを, Microfacet モデルと呼ぶ. 以後, 微細な凸凹のひとつひとつを Microsurface、その集まりによってできた面を Macrosurface と呼んで区別する [ Pharr et al., 2018].
-なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く. これは後に, 法線分布関数 を Microsurface の幾何形状から求めることを可能にする狙いがある.
+なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く.
 Half Vector #  入射光の方向を \(\bm{\omega}_i\), 反射光の方向を \(\bm{\omega}_o\) とし, 次の量  \[	\bm{\omega}_h := \frac{\bm{\omega}_i &#43; \bm{\omega}_o}{|\bm{\omega}_i &#43; \bm{\omega}_o|}\]  をハーフベクトルと呼ぶ.">
 <meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Microfacet Model" />
 <meta property="og:description" content="Microfacet Model #   Rendering 方程式 では, 物体表面上の光反射は   \[	L(\bm{x},\bm{\omega}_o,\nu) = \int_{H^&#43;}f(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]  と表された.
 いま, 粗い面による光反射を表現するために, 表面が微細な凸凹の集まりによってできていると仮定する. そして, 微細な凸凹の情報は, 法線分布関数やマスキング関数といった, 統計的な量に格納されているとする. このようにして粗い面をモデル化したものを, Microfacet モデルと呼ぶ. 以後, 微細な凸凹のひとつひとつを Microsurface、その集まりによってできた面を Macrosurface と呼んで区別する [ Pharr et al., 2018].
-なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く. これは後に, 法線分布関数 を Microsurface の幾何形状から求めることを可能にする狙いがある.
+なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く.
 Half Vector #  入射光の方向を \(\bm{\omega}_i\), 反射光の方向を \(\bm{\omega}_o\) とし, 次の量  \[	\bm{\omega}_h := \frac{\bm{\omega}_i &#43; \bm{\omega}_o}{|\bm{\omega}_i &#43; \bm{\omega}_o|}\]  をハーフベクトルと呼ぶ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://k-ishiyama.github.io/docs/radiative_transfer/microfacet_model/" />
-<meta property="article:modified_time" content="2020-10-25T08:39:32+09:00" />
+<meta property="article:modified_time" content="2020-10-27T14:07:35+09:00" />
 <title>Microfacet Model | Notes</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.2ea6f394406194eea467cdcb1efc5a409382e0efb805a2cb071bfda545f5cb0d.js" integrity="sha256-LqbzlEBhlO6kZ83LHvxaQJOC4O&#43;4BaLLBxv9pUX1yw0="></script>
+<script defer src="/en.search.min.1bc8eb34f23ce89fe74571883ce5b80748326347fcd9ef32e586a08a60a10d9f.js" integrity="sha256-G8jrNPI86J/nRXGIPOW4B0gyY0f82e8y5YagimChDZ8="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -315,11 +315,7 @@ https://github.com/alex-shpak/hugo-book
 と異なり,
 
   <a href="../../physics/statistical_mechanics/#differential-cross-section">微分散乱断面積</a>
-から Macrosurface の BRDF を導く.
-これは後に,
-
-  <a href="/docs/radiative_transfer/microfacet_model/#normal-distribution-function">法線分布関数</a>
-を Microsurface の幾何形状から求めることを可能にする狙いがある.</p>
+から Macrosurface の BRDF を導く.</p>
 <h2 id="half-vector">
   Half Vector
   <a class="anchor" href="#half-vector">#</a>
@@ -350,14 +346,23 @@ https://github.com/alex-shpak/hugo-book
 また, Microsurface は完全鏡面であると仮定する.</p>
 <p>\(\bm{\omega}_i\) と \(\bm{\omega}_m\) のなす角を \(\theta_m,\phi_m\),
 微小立体角を \(d\bm{\omega}_m=\sin\theta_m d\theta_m d\phi_m\) と書く.
-このとき, 微小散乱断面積 \(d\sigma\) と Microsurface 上の微小面積 \(d\sigma_m\) には,
-\(d\sigma = \cos\theta_m d\sigma_m\) という関係がある.</p>
+また, 微小散乱断面積 \(d\sigma\) と Microsurface 上の微小面積 \(d\sigma_m\) には,
+\(d\sigma = (\bm{\omega}_i\cdot\bm{\omega}_m)d\sigma_m\) という関係がある.</p>
+<div align="center">
+	<figure>
+    <img src="cos_d_sigma_m.svg"
+         alt="Fig. \(d\sigma=(\bm{\omega}_i\cdot\bm{\omega}_m)d\sigma_m\)" width="200"/> <figcaption>
+            <p>Fig. \(d\sigma=(\bm{\omega}_i\cdot\bm{\omega}_m)d\sigma_m\)</p>
+        </figcaption>
+</figure>
+
+</div>
 <p>Microsurface 上の半球面 \(H^+\) を考えて, 散乱断面積 \(\sigma_s\) を
 <span>
   \[	\sigma_s
 	= \int_{H^&#43;}d\bm{\sigma}
 	= \int_{H^&#43;}\left|\frac{d\bm{\sigma}}{d\bm{\omega}_m}\right|d\bm{\omega}_m
-	= \int_{H^&#43;}\left|\frac{d\bm{\sigma}_m}{d\bm{\omega}_m}\right|\cos\theta_md\bm{\omega}_m\]
+	= \int_{H^&#43;}\left|\frac{d\bm{\sigma}_m}{d\bm{\omega}_m}\right|(\bm{\omega}_i\cdot\bm{\omega}_m)d\bm{\omega}_m\]
 </span>
 
 と表す.</p>
@@ -369,7 +374,7 @@ https://github.com/alex-shpak/hugo-book
 を法線分布関数と呼ぶ.</p>
 <p>この定義から, 法線分布関数は
 <span>
-  \[	\int_{H^&#43;}D(\bm{\omega}_m)\cos\theta_m d\bm{\omega}_m = 1\]
+  \[	\int_{H^&#43;}D(\bm{\omega}_m)(\bm{\omega}_i\cdot\bm{\omega}_m)d\bm{\omega}_m = 1\]
 </span>
 
 と規格化されている.</p>
@@ -392,7 +397,7 @@ https://github.com/alex-shpak/hugo-book
 <p>法線分布関数に対しては
 <span>
   \[	|\bm{\omega}_o\cdot\bm{\omega}_n|
-	= \int_{H^&#43;}G_1(\bm{\omega}_o,\bm{\omega}_m)D(\bm{\omega}_m)\cos\theta_m d\bm{\omega}_m\]
+	= \int_{H^&#43;}G_1(\bm{\omega}_o,\bm{\omega}_m)D(\bm{\omega}_m)(\bm{\omega}_i\cdot\bm{\omega}_m)d\bm{\omega}_m\]
 </span>
 
 となる.</p>
@@ -403,7 +408,7 @@ https://github.com/alex-shpak/hugo-book
 <p>光の入射方向と反射方向の, 両者の Microsurface同士の遮蔽を考慮した量を Shadowing-Masking 関数
 \(G_2(\bm{\omega}_i,\bm{\omega}_o,\bm{\omega}_m)\) として導入する.
 <span>
-  \[	\int_{H^&#43;}G_2(\bm{\omega}_i,\bm{\omega}_o,\bm{\omega}_m)D(\bm{\omega}_m)\cos\theta_m d\bm{\omega}_m\]
+  \[	\int_{H^&#43;}G_2(\bm{\omega}_i,\bm{\omega}_o,\bm{\omega}_m)D(\bm{\omega}_m)(\bm{\omega}_i\cdot\bm{\omega}_m)d\bm{\omega}_m\]
 </span>
 </p>
 <!--
