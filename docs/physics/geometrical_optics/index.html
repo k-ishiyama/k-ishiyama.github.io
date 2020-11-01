@@ -9,14 +9,16 @@
 Index of Refraction #  光は, 真空中では速さ \(c\;[\text{m}/\text{s}]\) で空間を伝搬する. そして, 物質中を伝わる光の速さ \(v\;[\text{m}/\text{s}]\) は真空中よりも遅くなる. この速度の比   \[	n = \frac{c}{v}\quad\;[-]\]  を屈折率と呼ぶ.
 物質中で光が遅くなる理由は, のちに誘電体の分極から説明する( Born and Wolf, 1999, Sec. 2.2)(ToDo).
 Optical Path Length #  時間 \(t\;[\text{s}]\) のあいだに光が真空中を進む距離は \(ct\;[\text{m}]\), 屈折率 \(n\) の媒質中を進む距離は \(vt\;[\text{m}]\) となる. このとき, 媒質中を進む距離に屈折率を掛け, 真空中を進む距離に換算した量 \(nvt\;[\text{m}]\) を光路長と呼ぶ.
-Fermat&rsquo;s Principle #  光線は屈折率の変動に応じて曲がる. その経路は, フェルマーの原理「光線は光路長が停留値となる経路をとる」によって決まる ( Born and Wolf, 1999, 山本, 2014).">
+光が進む媒質が不均質で, 場所によって屈折率 \(n(\bm{r})\)が異なるときは, 光路長は次のように書ける.
+光線の経路を3次元空間中の曲線として \(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\) とし, その位置の屈折率を \(n(\bm{r})\) と書く.">
 <meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Geometrical Optics" />
 <meta property="og:description" content="Geometrical Optics #  Ray of Light #  細く絞った光のビームを考え, その光が通った経路を光線と呼ぶ.
 ここで考えた光線は, のちに同じ波面を共有する光子の集団として正当化する(ToDo).
 Index of Refraction #  光は, 真空中では速さ \(c\;[\text{m}/\text{s}]\) で空間を伝搬する. そして, 物質中を伝わる光の速さ \(v\;[\text{m}/\text{s}]\) は真空中よりも遅くなる. この速度の比   \[	n = \frac{c}{v}\quad\;[-]\]  を屈折率と呼ぶ.
 物質中で光が遅くなる理由は, のちに誘電体の分極から説明する( Born and Wolf, 1999, Sec. 2.2)(ToDo).
 Optical Path Length #  時間 \(t\;[\text{s}]\) のあいだに光が真空中を進む距離は \(ct\;[\text{m}]\), 屈折率 \(n\) の媒質中を進む距離は \(vt\;[\text{m}]\) となる. このとき, 媒質中を進む距離に屈折率を掛け, 真空中を進む距離に換算した量 \(nvt\;[\text{m}]\) を光路長と呼ぶ.
-Fermat&rsquo;s Principle #  光線は屈折率の変動に応じて曲がる. その経路は, フェルマーの原理「光線は光路長が停留値となる経路をとる」によって決まる ( Born and Wolf, 1999, 山本, 2014)." />
+光が進む媒質が不均質で, 場所によって屈折率 \(n(\bm{r})\)が異なるときは, 光路長は次のように書ける.
+光線の経路を3次元空間中の曲線として \(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\) とし, その位置の屈折率を \(n(\bm{r})\) と書く." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://k-ishiyama.github.io/docs/physics/geometrical_optics/" />
 <meta property="article:modified_time" content="2020-10-25T08:39:32+09:00" />
@@ -24,7 +26,7 @@ Fermat&rsquo;s Principle #  光線は屈折率の変動に応じて曲がる. �
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.1bc8eb34f23ce89fe74571883ce5b80748326347fcd9ef32e586a08a60a10d9f.js" integrity="sha256-G8jrNPI86J/nRXGIPOW4B0gyY0f82e8y5YagimChDZ8="></script>
+<script defer src="/en.search.min.13eaebd576b37740e483a193aaf2d51b215afb0fc49c9f3242fd9e6cbe316e55.js" integrity="sha256-E&#43;rr1Xazd0Dkg6GTqvLVGyFa&#43;w/EnJ8yQv2ebL4xblU="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -325,41 +327,54 @@ https://github.com/alex-shpak/hugo-book
 <p>時間 \(t\;[\text{s}]\) のあいだに光が真空中を進む距離は \(ct\;[\text{m}]\),
 屈折率 \(n\) の媒質中を進む距離は \(vt\;[\text{m}]\) となる.
 このとき, 媒質中を進む距離に屈折率を掛け, 真空中を進む距離に換算した量 \(nvt\;[\text{m}]\) を光路長と呼ぶ.</p>
+<p>光が進む媒質が不均質で, 場所によって屈折率 \(n(\bm{r})\)が異なるときは, 光路長は次のように書ける.<br>
+光線の経路を3次元空間中の曲線として
+\(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\)
+とし, その位置の屈折率を \(n(\bm{r})\) と書く.
+このとき, 光路長 \(S\) は
+<span>
+  \[	S = \int^b_a n(\bm{r})\left|\frac{d\bm{r}}{dt}\right|dt\]
+</span>
+
+と計算できる.</p>
 <h2 id="fermats-principle">
   Fermat&rsquo;s Principle
   <a class="anchor" href="#fermats-principle">#</a>
 </h2>
-<p>光線は屈折率の変動に応じて曲がる.
-その経路は, フェルマーの原理「光線は光路長が停留値となる経路をとる」によって決まる
+<p>光線は, 
+  <a href="/docs/physics/geometrical_optics/#optical-path-length">光路長</a>
+\(S\) が停留値
+<span>
+  \[	\delta S[\bm{r}(t)] = 0\]
+</span>
+
+となる経路 \(\bm{r}(t)\)を進行する.
+これは, フェルマーの原理と呼ばれている
 (
   <a href="../references/#BW1999">Born and Wolf, 1999</a>, 
   <a href="../references/#Yamamoto2014">山本, 2014</a>).</p>
-<p>光線の経路を3次元空間中の空間曲線として \(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\),
-その位置に応じて変わる屈折率を \(n(\bm{r})\) と書く.
-このとき, 光路長 \(S\) は曲線 \(\bm{r}\) を引数とする汎関数として
-<span>
-  \[	S(\bm{r}) = \int^b_a n(\bm{r})\left|\frac{d\bm{r}}{dt}\right|dt\]
-</span>
-
-となる.
-従ってフェルマーの原理は, 汎関数 \(S\) の変分 \(\delta S\) を 0 にする経路 \(\bm{r}\) を求める問題として,
-<span>
-  \[	\delta S(\bm{r}) = 0\]
-</span>
-
-と表される.</p>
-<p>ここで, パラメータ \(t\) を \(z\)軸にとり, 光線の経路 \(\bm{r}\) を
+<h2 id="hamiltons-principle">
+  Hamilton&rsquo;s Principle
+  <a class="anchor" href="#hamiltons-principle">#</a>
+</h2>
+<p>パラメータ \(t\) を \(z\)軸にとり, 光線の経路 \(\bm{r}\) を
 <span>
   \[	\bm{r}(t)=\begin{pmatrix}\bm{q}(t) \\ t\end{pmatrix},\quad
 	\bm{q}(t)=\begin{pmatrix}x(t) \\ y(t)\end{pmatrix}\]
 </span>
 
 と表す.
-また, \(t\) による微分を \(\dot{\bm{q}} = \frac{d\bm{q}}{dt}\) と略記する.
-するとフェルマーの原理は,
+ここで, \(t\) による微分を \(\dot{\bm{q}} = \frac{d\bm{q}}{dt}\) と略記した.</p>
+<p>このとき, 光路長は
 <span>
   \[	S[\bm{q},t] = \int^b_aL(\bm{q},\dot{\bm{q}},t)dt,\quad
 	L(\bm{q},\dot{\bm{q}},t) = n(\bm{q},t)|\dot{\bm{r}}|\]
+</span>
+
+となり, 
+  <a href="/docs/physics/geometrical_optics/#fermats-principle">フェルマーの原理</a> は
+<span>
+  \[	\delta S[\bm{q},t] = 0\]
 </span>
 
 と表せる.
