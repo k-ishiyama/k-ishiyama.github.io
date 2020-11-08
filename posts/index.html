@@ -14,7 +14,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.13eaebd576b37740e483a193aaf2d51b215afb0fc49c9f3242fd9e6cbe316e55.js" integrity="sha256-E&#43;rr1Xazd0Dkg6GTqvLVGyFa&#43;w/EnJ8yQv2ebL4xblU="></script>
+<script defer src="/en.search.min.0bb47d766e8196e91b4646aae5f50750ad653012f6cb40db8435650f6eb74fd3.js" integrity="sha256-C7R9dm6BlukbRkaq5fUHUK1lMBL2y0DbhDVlD263T9M="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <link rel="alternate" type="application/rss+xml" href="https://k-ishiyama.github.io/posts/index.xml" title="Notes" />
@@ -282,6 +282,27 @@ https://github.com/alex-shpak/hugo-book
 
       
       
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/20201107_analytic_solution_of_the_volume_rendering_equation/">An analytic solution of the volume rendering equation</a>
+    </h2>
+    
+  <h5>November 7, 2020</h5>
+
+
+
+  
+
+  
+
+
+    <p>Solution of the Volume Rendering Equation #  散乱媒質に対して, 輝度 \(L(\bm{x},\bm{\omega}_o,\nu)\) の光が方向 \(\bm{\omega}_i\) から入射し, 方向 \(\bm{\omega}_o\) へ散乱することを考える. この媒質の散乱係数を \(\mu_s\), 吸収係数を \(\mu_a\), 消散係数を \(\mu_t = \mu_a + \mu_s\) と書く. また散乱の位相関数を \(p(\bm{\omega}_i, \bm{\omega}_o)\), 自己発光を \(S(\bm{x},\bm{\omega}_o)\) とかく. このとき, Volume Rendering 方程式 は   \[	\left(\bm{\omega}_o\cdot\nabla &#43; \mu_t(\bm{x})\right)L(\bm{x},\bm{\omega}_o,\nu) = S(\bm{x},\bm{\omega}_o) &#43; \mu_s(\bm{x})\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  と与えられる.
+いま, パラメータ \(s\) を使って \(\bm{x}(s)=s\bm{\omega}\) と書けば, 右辺第1項は  \[	\left(\bm{\omega}\cdot\nabla\right)L(\bm{x},\bm{\omega},\nu) = \left(\frac{d\bm{x}(s)}{ds}\cdot\nabla\right)L(\bm{x}(s),\bm{\omega},\nu) = \frac{dL(\bm{x}(s),\bm{\omega},\nu)}{ds}\]  となる. これを Volume Rendering 方程式に適用すれば  \[	\left(\frac{d}{ds} &#43; \mu_t(s)\right)L(s,\bm{\omega}_o,\nu) = S(s,\bm{\omega}_o) &#43; \mu_s(s)\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(s,\bm{\omega}_i,\nu)d\bm{\omega}_i\]  が得られる.
+        <a href="/posts/20201107_analytic_solution_of_the_volume_rendering_equation/">...</a>
+      
+    </p>
+  </article>
   
   <article class="markdown book-post">
     <h2>

@@ -116,6 +116,16 @@ Liouville&amp;rsquo;s Equation #  いま, Hamiltonの運動方程式 に従っ�
     </item>
     
     <item>
+      <title>An analytic solution of the volume rendering equation</title>
+      <link>https://k-ishiyama.github.io/posts/20201107_analytic_solution_of_the_volume_rendering_equation/</link>
+      <pubDate>Sat, 07 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://k-ishiyama.github.io/posts/20201107_analytic_solution_of_the_volume_rendering_equation/</guid>
+      <description>Solution of the Volume Rendering Equation #  散乱媒質に対して, 輝度 \(L(\bm{x},\bm{\omega}_o,\nu)\) の光が方向 \(\bm{\omega}_i\) から入射し, 方向 \(\bm{\omega}_o\) へ散乱することを考える. この媒質の散乱係数を \(\mu_s\), 吸収係数を \(\mu_a\), 消散係数を \(\mu_t = \mu_a + \mu_s\) と書く. また散乱の位相関数を \(p(\bm{\omega}_i, \bm{\omega}_o)\), 自己発光を \(S(\bm{x},\bm{\omega}_o)\) とかく. このとき, Volume Rendering 方程式 は   \[	\left(\bm{\omega}_o\cdot\nabla &amp;#43; \mu_t(\bm{x})\right)L(\bm{x},\bm{\omega}_o,\nu) = S(\bm{x},\bm{\omega}_o) &amp;#43; \mu_s(\bm{x})\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  と与えられる.
+いま, パラメータ \(s\) を使って \(\bm{x}(s)=s\bm{\omega}\) と書けば, 右辺第1項は  \[	\left(\bm{\omega}\cdot\nabla\right)L(\bm{x},\bm{\omega},\nu) = \left(\frac{d\bm{x}(s)}{ds}\cdot\nabla\right)L(\bm{x}(s),\bm{\omega},\nu) = \frac{dL(\bm{x}(s),\bm{\omega},\nu)}{ds}\]  となる. これを Volume Rendering 方程式に適用すれば  \[	\left(\frac{d}{ds} &amp;#43; \mu_t(s)\right)L(s,\bm{\omega}_o,\nu) = S(s,\bm{\omega}_o) &amp;#43; \mu_s(s)\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(s,\bm{\omega}_i,\nu)d\bm{\omega}_i\]  が得られる.</description>
+    </item>
+    
+    <item>
       <title>Setting up this site with hugo</title>
       <link>https://k-ishiyama.github.io/posts/20201021_setting_up_this_site_with_hugo/</link>
       <pubDate>Wed, 21 Oct 2020 00:00:00 +0000</pubDate>
