@@ -50,25 +50,12 @@ Hamilton&amp;rsquo;s Principle #  ニュートンの運動方程式 (nl.1) を�
     </item>
     
     <item>
-      <title>Statistical Mechanics</title>
-      <link>https://k-ishiyama.github.io/docs/physics/statistical_mechanics/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://k-ishiyama.github.io/docs/physics/statistical_mechanics/</guid>
-      <description>Statistical Mechanics #  Phase Space Distribution Function #  3次元直交座標上の粒子の座標を \(\bm{x}\;[\text{m}]\), 運動量を \(\bm{p}\;[\text{kg}\;\text{m}\;\text{s}^{-1}]\), 相空間内の点 \((\bm{x},\bm{p})\) の周りの体積素片を \(d\bm{V}:=d\bm{x}d\bm{p}\;[\text{J}^3\;\text{s}^3]\) と書く.
-相空間内の閉領域 \(V\) に \(N\)個の粒子を考え, 相空間分布関数   \[	\int_V f(\bm{x},\bm{p},t)d\bm{V} = N \qquad[\text{-}],\]  を導入する. なお, Liouville 方程式 より全粒子数は時間変化しないため, 上式の \(N\) は定数となる.
-このとき, 粒子数密度は  \[	n(\bm{x},t) = \int f(\bm{x},\bm{p},t)d\bm{p}	\qquad[\text{m}^{-3}]\]  と得られる.
-Liouville&amp;rsquo;s Equation #  いま, Hamiltonの運動方程式 に従って運動している \(N\) 個の粒子が, 相空間分布関数 \(f(\bm{x},\bm{p},t)\) で表されるとする. このとき, 分布関数に対する運動方程式を求めたい.
-いま, 単位時間当たりに\(V\) 内に粒子が増加する量 \(\int_V\frac{\partial f}{\partial t}d\bm{V}\) と, 単位時間あたりに \(V\) の境界 \(S\) を通って粒子が流出する量 \(\int_S(f\bm{v})\cdot\bm{n}dS\) が等しいとして  \[	\int_V\frac{\partial f}{\partial t}d\bm{V} &amp;#43; \int_S(f\bm{v})\cdot\bm{n}dS = 0\]  とする.</description>
-    </item>
-    
-    <item>
       <title>References</title>
       <link>https://k-ishiyama.github.io/docs/physics/references/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://k-ishiyama.github.io/docs/physics/references/</guid>
-      <description>References #  Born, M and Wolf, E. (1999). Principles of Optics (7th Ed.). Cambridge University Press, 7th ed. #  Goldstein, H., Poole, C., and Safko, J. (2002). Classical Mechanics. Addison Wesley, 3rd ed. #  Tong, D. (2005). Lectures on Classical Dynamics. https://www.damtp.cam.ac.uk/user/tong/dynamics.html. #  山本, 義隆. (2014). 幾何光学の正準理論. 数学書房. #  </description>
+      <description>References #  砂川, 重信. (1977). 散乱の量子論. 岩波書店. #  Born, M and Wolf, E. (1999). Principles of Optics (7th Ed.). Cambridge University Press, 7th ed. #  Goldstein, H., Poole, C., and Safko, J. (2002). Classical Mechanics. Addison Wesley, 3rd ed. #  Tong, D. (2005). Lectures on Classical Dynamics. https://www.damtp.cam.ac.uk/user/tong/dynamics.html. #  山本, 義隆. (2014). 幾何光学の正準理論. 数学書房. #  </description>
     </item>
     
   </channel>

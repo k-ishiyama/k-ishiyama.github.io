@@ -20,18 +20,6 @@ Euler-Lagrange Equation #  作用 \(S\) について, 始点 \(\bm{q}(a)\) と�
     </item>
     
     <item>
-      <title>Radiative Transfer Equation</title>
-      <link>https://k-ishiyama.github.io/docs/radiative_transfer/radiative_transfer_equation/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://k-ishiyama.github.io/docs/radiative_transfer/radiative_transfer_equation/</guid>
-      <description>Linear Boltzmann Equation for Photons #  平衡状態にある散乱媒質と, 光子に関する Linear Boltzmann 方程式 を考える. 全ての光子は速度 \(c\) で運動するとし, 散乱媒質はその速度に比べて十分遅いとする. また, 光子の密度関数を 分光放射輝度 として \(L(\bm{\omega})=L(\bm{x},\bm{\omega},\nu,t)\) と書き, 散乱媒質に対する光の入射方向を \(\bm{\omega}_i\), 出射方向を \(\bm{\omega}_o\) と書く.
-このとき, Linear Boltzmann 方程式は   \[	\frac{1}{c}\frac{\partial L(\bm{\omega}_o)}{\partial t} &amp;#43; \bm{\omega}_o\cdot\frac{\partial L(\bm{\omega}_o)}{\partial\bm{x}} = \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{\omega}_i)d\bm{\omega}_i - \mu_s L(\bm{\omega}_o)\]  となる [ Cercignani, 1988].
-Scattering Coefficient #  \(\mu_s\)は散乱係数と呼ばれる量で, 単位長さあたりに存在する媒質粒子数を表す.
-散乱媒質の 密度関数 を \(F(\bm{x},\bm{p},t)\) とかけば, その個数密度は \(n(\bm{x},t)=\int F(\bm{x},\bm{p},t)d\bm{p}\) と得られる. これと 散乱断面積 \(\sigma_s\) から, 散乱係数は  \[	\mu_s(\bm{x},t) := n(\bm{x},t)\,\sigma_s\qquad[\text{m}^{-1}]\]  と与えられる.</description>
-    </item>
-    
-    <item>
       <title>Geometrical Optics</title>
       <link>https://k-ishiyama.github.io/docs/physics/geometrical_optics/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -44,29 +32,6 @@ Index of Refraction #  光は, 真空中では速さ \(c\;[\text{m}/\text{s}]\) 
 Optical Path Length #  時間 \(t\;[\text{s}]\) のあいだに光が真空中を進む距離は \(ct\;[\text{m}]\), 屈折率 \(n\) の媒質中を進む距離は \(vt\;[\text{m}]\) となる. このとき, 媒質中を進む距離に屈折率を掛け, 真空中を進む距離に換算した量 \(nvt\;[\text{m}]\) を光路長と呼ぶ.
 光が進む媒質が不均質で, 場所によって屈折率 \(n(\bm{r})\)が異なるときは, 光路長は次のように書ける.
 光線の経路を3次元空間中の曲線として \(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\) とし, その位置の屈折率を \(n(\bm{r})\) と書く.</description>
-    </item>
-    
-    <item>
-      <title>Rendering Equation</title>
-      <link>https://k-ishiyama.github.io/docs/radiative_transfer/rendering_equation/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://k-ishiyama.github.io/docs/radiative_transfer/rendering_equation/</guid>
-      <description>Volume Rendering Equation #  時間に依存しない Radiative Transfer 方程式 を考える.   \[	\left(\bm{\omega}_o\cdot\nabla &amp;#43; \mu_t\right)L(\bm{x},\bm{\omega}_o,\nu) = s(\bm{x},\bm{\omega}_o) &amp;#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  これを, Volume Rendering 方程式 [ Jensen et al., 2001] と呼ぶことにする.
-ただし, 光の放出は熱放射に限らないとして, 黒体輻射の輝度 \(B\) を source 項  \[	s(\bm{x},\bm{\omega}_o) = \mu_t L_\epsilon(\bm{x}) &amp;#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o)\]  で置き換えた. \(L_\epsilon\) は媒質の自己放射で, \(L_\text{re}\) は媒質が吸収した光の再放出とする.
-Rendering Equation #  物体の表面として, 衝突率が 100% の媒質を考える. この場合, 光が媒質を通り抜けることはないから, \(\bm{\omega}_o\cdot\nabla L(\bm{x},\bm{\omega}_o,\nu) = 0\) となる. 従って Volume Rendering 方程式 は,  \[	\mu_tL(\bm{x},\bm{\omega}_o,\nu) = \mu_t L_\epsilon(\bm{x}) &amp;#43; \mu_a L_\text{re}(\bm{x},\bm{\omega}_o) &amp;#43; \mu_s\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  となる.</description>
-    </item>
-    
-    <item>
-      <title>Microfacet Model</title>
-      <link>https://k-ishiyama.github.io/docs/radiative_transfer/microfacet_model/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://k-ishiyama.github.io/docs/radiative_transfer/microfacet_model/</guid>
-      <description>Microfacet Model #   Rendering 方程式 では, 物体表面上の光反射は   \[	L(\bm{x},\bm{\omega}_o,\nu) = \int_{H^&amp;#43;}f(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)(\bm{\omega}_n\cdot\bm{\omega}_i)d\bm{\omega}_i\]  と表された.
-いま, 粗い面による光反射を表現するために, 表面が微細な凸凹の集まりによってできていると仮定する. そして, 微細な凸凹の情報は, 法線分布関数やマスキング関数といった, 統計的な量に格納されているとする. このようにして粗い面をモデル化したものを, Microfacet モデルと呼ぶ. 以後, 微細な凸凹のひとつひとつを Microsurface、その集まりによってできた面を Macrosurface と呼んで区別する [ Pharr et al., 2018].
-なお, この文書では Microsurface の BRDF を用いて Macrosurface の BRDF を導く流れ [ Walter et al., 2007, Heitz, 2014] と異なり, 微分散乱断面積 から Macrosurface の BRDF を導く.
-Half Vector #  入射光の方向を \(\bm{\omega}_i\), 反射光の方向を \(\bm{\omega}_o\) とし, 次の量  \[	\bm{\omega}_h := \frac{\bm{\omega}_i &amp;#43; \bm{\omega}_o}{|\bm{\omega}_i &amp;#43; \bm{\omega}_o|}\]  をハーフベクトルと呼ぶ.</description>
     </item>
     
     <item>
@@ -85,25 +50,12 @@ Hamilton&amp;rsquo;s Principle #  ニュートンの運動方程式 (nl.1) を�
     </item>
     
     <item>
-      <title>Statistical Mechanics</title>
-      <link>https://k-ishiyama.github.io/docs/physics/statistical_mechanics/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://k-ishiyama.github.io/docs/physics/statistical_mechanics/</guid>
-      <description>Statistical Mechanics #  Phase Space Distribution Function #  3次元直交座標上の粒子の座標を \(\bm{x}\;[\text{m}]\), 運動量を \(\bm{p}\;[\text{kg}\;\text{m}\;\text{s}^{-1}]\), 相空間内の点 \((\bm{x},\bm{p})\) の周りの体積素片を \(d\bm{V}:=d\bm{x}d\bm{p}\;[\text{J}^3\;\text{s}^3]\) と書く.
-相空間内の閉領域 \(V\) に \(N\)個の粒子を考え, 相空間分布関数   \[	\int_V f(\bm{x},\bm{p},t)d\bm{V} = N \qquad[\text{-}],\]  を導入する. なお, Liouville 方程式 より全粒子数は時間変化しないため, 上式の \(N\) は定数となる.
-このとき, 粒子数密度は  \[	n(\bm{x},t) = \int f(\bm{x},\bm{p},t)d\bm{p}	\qquad[\text{m}^{-3}]\]  と得られる.
-Liouville&amp;rsquo;s Equation #  いま, Hamiltonの運動方程式 に従って運動している \(N\) 個の粒子が, 相空間分布関数 \(f(\bm{x},\bm{p},t)\) で表されるとする. このとき, 分布関数に対する運動方程式を求めたい.
-いま, 単位時間当たりに\(V\) 内に粒子が増加する量 \(\int_V\frac{\partial f}{\partial t}d\bm{V}\) と, 単位時間あたりに \(V\) の境界 \(S\) を通って粒子が流出する量 \(\int_S(f\bm{v})\cdot\bm{n}dS\) が等しいとして  \[	\int_V\frac{\partial f}{\partial t}d\bm{V} &amp;#43; \int_S(f\bm{v})\cdot\bm{n}dS = 0\]  とする.</description>
-    </item>
-    
-    <item>
       <title>References</title>
       <link>https://k-ishiyama.github.io/docs/physics/references/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://k-ishiyama.github.io/docs/physics/references/</guid>
-      <description>References #  Born, M and Wolf, E. (1999). Principles of Optics (7th Ed.). Cambridge University Press, 7th ed. #  Goldstein, H., Poole, C., and Safko, J. (2002). Classical Mechanics. Addison Wesley, 3rd ed. #  Tong, D. (2005). Lectures on Classical Dynamics. https://www.damtp.cam.ac.uk/user/tong/dynamics.html. #  山本, 義隆. (2014). 幾何光学の正準理論. 数学書房. #  </description>
+      <description>References #  砂川, 重信. (1977). 散乱の量子論. 岩波書店. #  Born, M and Wolf, E. (1999). Principles of Optics (7th Ed.). Cambridge University Press, 7th ed. #  Goldstein, H., Poole, C., and Safko, J. (2002). Classical Mechanics. Addison Wesley, 3rd ed. #  Tong, D. (2005). Lectures on Classical Dynamics. https://www.damtp.cam.ac.uk/user/tong/dynamics.html. #  山本, 義隆. (2014). 幾何光学の正準理論. 数学書房. #  </description>
     </item>
     
     <item>
@@ -116,13 +68,19 @@ Liouville&amp;rsquo;s Equation #  いま, Hamiltonの運動方程式 に従っ�
     </item>
     
     <item>
-      <title>An analytic solution of the volume rendering equation</title>
-      <link>https://k-ishiyama.github.io/posts/20201107_analytic_solution_of_the_volume_rendering_equation/</link>
-      <pubDate>Sat, 07 Nov 2020 00:00:00 +0000</pubDate>
+      <title>散乱理論とレンダリング方程式</title>
+      <link>https://k-ishiyama.github.io/posts/202012_advent_calendar/</link>
+      <pubDate>Sun, 20 Dec 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://k-ishiyama.github.io/posts/20201107_analytic_solution_of_the_volume_rendering_equation/</guid>
-      <description>Solution of the Volume Rendering Equation #  散乱媒質に対して, 輝度 \(L(\bm{x},\bm{\omega}_o,\nu)\) の光が方向 \(\bm{\omega}_i\) から入射し, 方向 \(\bm{\omega}_o\) へ散乱することを考える. この媒質の散乱係数を \(\mu_s\), 吸収係数を \(\mu_a\), 消散係数を \(\mu_t = \mu_a + \mu_s\) と書く. また散乱の位相関数を \(p(\bm{\omega}_i, \bm{\omega}_o)\), 自己発光を \(S(\bm{x},\bm{\omega}_o)\) とかく. このとき, Volume Rendering 方程式 は   \[	\left(\bm{\omega}_o\cdot\nabla &amp;#43; \mu_t(\bm{x})\right)L(\bm{x},\bm{\omega}_o,\nu) = S(\bm{x},\bm{\omega}_o) &amp;#43; \mu_s(\bm{x})\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(\bm{x},\bm{\omega}_i,\nu)d\bm{\omega}_i\]  と与えられる.
-いま, パラメータ \(s\) を使って \(\bm{x}(s)=s\bm{\omega}\) と書けば, 右辺第1項は  \[	\left(\bm{\omega}\cdot\nabla\right)L(\bm{x},\bm{\omega},\nu) = \left(\frac{d\bm{x}(s)}{ds}\cdot\nabla\right)L(\bm{x}(s),\bm{\omega},\nu) = \frac{dL(\bm{x}(s),\bm{\omega},\nu)}{ds}\]  となる. これを Volume Rendering 方程式に適用すれば  \[	\left(\frac{d}{ds} &amp;#43; \mu_t(s)\right)L(s,\bm{\omega}_o,\nu) = S(s,\bm{\omega}_o) &amp;#43; \mu_s(s)\int_{S^2}p(\bm{\omega}_i, \bm{\omega}_o)L(s,\bm{\omega}_i,\nu)d\bm{\omega}_i\]  が得られる.</description>
+      <guid>https://k-ishiyama.github.io/posts/202012_advent_calendar/</guid>
+      <description>これは レイトレ Advent Calendar 2020 の記事です。
+はじめに #  散乱理論 [ 砂川 1977] では, 散乱現象を微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2/\text{sr}]\)
+  Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2/\text{sr}]\)
+   で表現します. この概念は, Rendering 方程式にある BRDF \(f(\bm{i},\bm{o})\;[1/\text{sr}]\) とよく似ています.
+微分散乱断面積は, レイリー散乱や, 剛体球に弾かれる粒子の散乱など, 様々な散乱現象を求めるのに使われます. これと BRDF との対応関係がわかれば, 散乱理論で培われた知見を, さまざまな BRDF の考察に応用することができるかもしれません.
+この対応関係は, [ Arvo1993] で示唆されているように, 既知であることが伺えます. しかし, このことを詳しく解説した文献を見つけることができなかったため, 自分なりの導出を行いました.
+お詫び #  この記事は現時点で未完成です. 年末年始に書き終えようと思いますので, 少々お待ちください&amp;hellip;
+参考文献 #  砂川, 重信. (1977). 散乱の量子論. 岩波書店. #  Arvo, J. (1993). Transfer equations in global illumination.</description>
     </item>
     
     <item>
