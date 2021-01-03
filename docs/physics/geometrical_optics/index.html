@@ -5,28 +5,24 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Geometrical Optics #  Ray of Light #  細く絞った光のビームを考え, その光が通った経路を光線と呼ぶ.
-ここで考えた光線は, のちに同じ波面を共有する光子の集団として正当化する(ToDo).
 Index of Refraction #  光は, 真空中では速さ \(c\;[\text{m}/\text{s}]\) で空間を伝搬する. そして, 物質中を伝わる光の速さ \(v\;[\text{m}/\text{s}]\) は真空中よりも遅くなる. この速度の比   \[	n = \frac{c}{v}\quad\;[-]\]  を屈折率と呼ぶ.
-物質中で光が遅くなる理由は, のちに誘電体の分極から説明する( Born and Wolf, 1999, Sec. 2.2)(ToDo).
 Optical Path Length #  時間 \(t\;[\text{s}]\) のあいだに光が真空中を進む距離は \(ct\;[\text{m}]\), 屈折率 \(n\) の媒質中を進む距離は \(vt\;[\text{m}]\) となる. このとき, 媒質中を進む距離に屈折率を掛け, 真空中を進む距離に換算した量 \(nvt\;[\text{m}]\) を光路長と呼ぶ.
 光が進む媒質が不均質で, 場所によって屈折率 \(n(\bm{r})\)が異なるときは, 光路長は次のように書ける.
-光線の経路を3次元空間中の曲線として \(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\) とし, その位置の屈折率を \(n(\bm{r})\) と書く.">
+光線の経路を3次元空間中の曲線として \(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\) とし, その位置の屈折率を \(n(\bm{r})\) と書く. このとき, 光路長 \(S\) は  \[	S = \int^b_a n(\bm{r})\left|\frac{d\bm{r}}{dt}\right|dt\]  と計算できる.">
 <meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Geometrical Optics" />
 <meta property="og:description" content="Geometrical Optics #  Ray of Light #  細く絞った光のビームを考え, その光が通った経路を光線と呼ぶ.
-ここで考えた光線は, のちに同じ波面を共有する光子の集団として正当化する(ToDo).
 Index of Refraction #  光は, 真空中では速さ \(c\;[\text{m}/\text{s}]\) で空間を伝搬する. そして, 物質中を伝わる光の速さ \(v\;[\text{m}/\text{s}]\) は真空中よりも遅くなる. この速度の比   \[	n = \frac{c}{v}\quad\;[-]\]  を屈折率と呼ぶ.
-物質中で光が遅くなる理由は, のちに誘電体の分極から説明する( Born and Wolf, 1999, Sec. 2.2)(ToDo).
 Optical Path Length #  時間 \(t\;[\text{s}]\) のあいだに光が真空中を進む距離は \(ct\;[\text{m}]\), 屈折率 \(n\) の媒質中を進む距離は \(vt\;[\text{m}]\) となる. このとき, 媒質中を進む距離に屈折率を掛け, 真空中を進む距離に換算した量 \(nvt\;[\text{m}]\) を光路長と呼ぶ.
 光が進む媒質が不均質で, 場所によって屈折率 \(n(\bm{r})\)が異なるときは, 光路長は次のように書ける.
-光線の経路を3次元空間中の曲線として \(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\) とし, その位置の屈折率を \(n(\bm{r})\) と書く." />
+光線の経路を3次元空間中の曲線として \(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\) とし, その位置の屈折率を \(n(\bm{r})\) と書く. このとき, 光路長 \(S\) は  \[	S = \int^b_a n(\bm{r})\left|\frac{d\bm{r}}{dt}\right|dt\]  と計算できる." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://k-ishiyama.github.io/docs/physics/geometrical_optics/" />
-<meta property="article:modified_time" content="2020-11-01T23:45:38+09:00" />
+<meta property="article:modified_time" content="2021-01-03T16:15:24+09:00" />
 <title>Geometrical Optics | Notes</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.e13da93f3a9e8c7ad9a96023e8c8b1d1d5cf278c5855268b931b4477c5079c53.js" integrity="sha256-4T2pPzqejHrZqWAj6Mix0dXPJ4xYVSaLkxtEd8UHnFM="></script>
+<script defer src="/en.search.min.ca4396b6187c3d0871c279ba0b5cea6768b390f649f64a9a4538662d8cdf0179.js" integrity="sha256-ykOWthh8PQhxwnm6C1zqZ2izkPZJ9kqaRThmLYzfAXk="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -143,37 +139,6 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
-      
-        <li class="book-section-flat" >
-          
-  
-  
-
-  
-    <a href="https://k-ishiyama.github.io/docs/radiative_transfer/" class="">Radiative Transfer</a>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://k-ishiyama.github.io/docs/radiative_transfer/references/" class="">References</a>
-  
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
   </ul>
 
 
@@ -250,7 +215,6 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#ray-of-light">#</a>
 </h2>
 <p>細く絞った光のビームを考え, その光が通った経路を光線と呼ぶ.</p>
-<p>ここで考えた光線は, のちに同じ波面を共有する光子の集団として正当化する(ToDo).</p>
 <h2 id="index-of-refraction">
   Index of Refraction
   <a class="anchor" href="#index-of-refraction">#</a>
@@ -266,8 +230,6 @@ https://github.com/alex-shpak/hugo-book
 </span>
 
 を屈折率と呼ぶ.</p>
-<p>物質中で光が遅くなる理由は, のちに誘電体の分極から説明する(
-  <a href="../references/#BW1999">Born and Wolf, 1999, Sec. 2.2</a>)(ToDo).</p>
 <h2 id="optical-path-length">
   Optical Path Length
   <a class="anchor" href="#optical-path-length">#</a>

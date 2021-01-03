@@ -5,31 +5,31 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="これは レイトレ Advent Calendar 2020 の記事です。
-はじめに #  散乱理論 [ 砂川 1977] では, 散乱現象を微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2/\text{sr}]\)
-  Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2/\text{sr}]\)
-   で表現します. この概念は, Rendering 方程式にある BRDF \(f(\bm{i},\bm{o})\;[1/\text{sr}]\) とよく似ています.
+はじめに #  散乱理論 [ 砂川 1977] では, 散乱現象を微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)
+  Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)
+   で表現します. この概念は, Rendering 方程式にある BRDF \(f(\bm{i},\bm{o})\;[\text{sr}^{-1}]\) とよく似ています.
 微分散乱断面積は, レイリー散乱や, 剛体球に弾かれる粒子の散乱など, 様々な散乱現象を求めるのに使われます. これと BRDF との対応関係がわかれば, 散乱理論で培われた知見を, さまざまな BRDF の考察に応用することができるかもしれません.
-この対応関係は, [ Arvo1993] で示唆されているように, 既知であることが伺えます. しかし, このことを詳しく解説した文献を見つけることができなかったため, 自分なりの導出を行いました.
-お詫び #  この記事は現時点で未完成です. 年末年始に書き終えようと思いますので, 少々お待ちください&hellip;
-参考文献 #  砂川, 重信. (1977). 散乱の量子論. 岩波書店. #  Arvo, J. (1993). Transfer equations in global illumination.">
+この対応関係は, [ Arvo 1993] で示唆されているように, 既知であることが伺えます. しかし, このことを一貫して解説した文献を見つけることができなかったため, 自分なりにノートをまとめました.
+それでは, 空間に漂うホコリに光が当たって散乱する現象を考えることから始めていきます。
+散乱媒質と光 #  いま, 空間を漂うホコリや, それに当たって散乱する光は, 位置 \(\bm{x}\) で 運動量 \(\bm{p}\) で運動する粒子と考えます. 光が当たる対象の物質はホコリに限らず, 酸素など大気を構成する分子や, 水滴などのエアロゾルも考えます. 以降, これらの物質をまとめて散乱媒質, その粒子を散乱体と呼ぶことにします.">
 <meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="散乱理論とレンダリング方程式" />
 <meta property="og:description" content="これは レイトレ Advent Calendar 2020 の記事です。
-はじめに #  散乱理論 [ 砂川 1977] では, 散乱現象を微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2/\text{sr}]\)
-  Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2/\text{sr}]\)
-   で表現します. この概念は, Rendering 方程式にある BRDF \(f(\bm{i},\bm{o})\;[1/\text{sr}]\) とよく似ています.
+はじめに #  散乱理論 [ 砂川 1977] では, 散乱現象を微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)
+  Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)
+   で表現します. この概念は, Rendering 方程式にある BRDF \(f(\bm{i},\bm{o})\;[\text{sr}^{-1}]\) とよく似ています.
 微分散乱断面積は, レイリー散乱や, 剛体球に弾かれる粒子の散乱など, 様々な散乱現象を求めるのに使われます. これと BRDF との対応関係がわかれば, 散乱理論で培われた知見を, さまざまな BRDF の考察に応用することができるかもしれません.
-この対応関係は, [ Arvo1993] で示唆されているように, 既知であることが伺えます. しかし, このことを詳しく解説した文献を見つけることができなかったため, 自分なりの導出を行いました.
-お詫び #  この記事は現時点で未完成です. 年末年始に書き終えようと思いますので, 少々お待ちください&hellip;
-参考文献 #  砂川, 重信. (1977). 散乱の量子論. 岩波書店. #  Arvo, J. (1993). Transfer equations in global illumination." />
+この対応関係は, [ Arvo 1993] で示唆されているように, 既知であることが伺えます. しかし, このことを一貫して解説した文献を見つけることができなかったため, 自分なりにノートをまとめました.
+それでは, 空間に漂うホコリに光が当たって散乱する現象を考えることから始めていきます。
+散乱媒質と光 #  いま, 空間を漂うホコリや, それに当たって散乱する光は, 位置 \(\bm{x}\) で 運動量 \(\bm{p}\) で運動する粒子と考えます. 光が当たる対象の物質はホコリに限らず, 酸素など大気を構成する分子や, 水滴などのエアロゾルも考えます. 以降, これらの物質をまとめて散乱媒質, その粒子を散乱体と呼ぶことにします." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://k-ishiyama.github.io/posts/202012_advent_calendar/" />
-<meta property="article:published_time" content="2020-12-20T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-12-22T23:24:30+09:00" />
+<meta property="article:published_time" content="2020-12-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-03T16:15:24+09:00" />
 <title>散乱理論とレンダリング方程式 | Notes</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.e13da93f3a9e8c7ad9a96023e8c8b1d1d5cf278c5855268b931b4477c5079c53.js" integrity="sha256-4T2pPzqejHrZqWAj6Mix0dXPJ4xYVSaLkxtEd8UHnFM="></script>
+<script defer src="/en.search.min.ca4396b6187c3d0871c279ba0b5cea6768b390f649f64a9a4538662d8cdf0179.js" integrity="sha256-ykOWthh8PQhxwnm6C1zqZ2izkPZJ9kqaRThmLYzfAXk="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -146,37 +146,6 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
-      
-        <li class="book-section-flat" >
-          
-  
-  
-
-  
-    <a href="https://k-ishiyama.github.io/docs/radiative_transfer/" class="">Radiative Transfer</a>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://k-ishiyama.github.io/docs/radiative_transfer/references/" class="">References</a>
-  
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
   </ul>
 
 
@@ -249,7 +218,7 @@ https://github.com/alex-shpak/hugo-book
     <a href="/posts/202012_advent_calendar/">散乱理論とレンダリング方程式</a>
   </h1>
   
-  <h5>December 20, 2020</h5>
+  <h5>December 22, 2020</h5>
 
 
 
@@ -260,57 +229,1291 @@ https://github.com/alex-shpak/hugo-book
 
   <p><p>これは 
   <a href="https://qiita.com/advent-calendar/2020/raytracing">レイトレ Advent Calendar 2020</a> の記事です。</p>
-<h2 id="はじめに">
+<h1 id="はじめに">
   はじめに
   <a class="anchor" href="#%e3%81%af%e3%81%98%e3%82%81%e3%81%ab">#</a>
-</h2>
+</h1>
 <p>散乱理論 [
   <a href="/posts/202012_advent_calendar/#Sunakawa1977">砂川 1977</a>] では, 散乱現象を微分散乱断面積
-\(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2/\text{sr}]\)</p>
+\(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)</p>
 <div align="center">
 <figure>
     <img src="differential_cross_section_simple.svg"
-         alt="Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2/\text{sr}]\)" width="400"/> <figcaption>
-            <p>Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2/\text{sr}]\)</p>
+         alt="Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)" width="400"/> <figcaption>
+            <p>Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)</p>
         </figcaption>
 </figure>
 
 </div>
 <p>で表現します.
 この概念は, Rendering 方程式にある BRDF
-\(f(\bm{i},\bm{o})\;[1/\text{sr}]\)
+\(f(\bm{i},\bm{o})\;[\text{sr}^{-1}]\)
 とよく似ています.</p>
 <p>微分散乱断面積は, レイリー散乱や, 剛体球に弾かれる粒子の散乱など, 様々な散乱現象を求めるのに使われます.
 これと BRDF との対応関係がわかれば, 散乱理論で培われた知見を, さまざまな BRDF の考察に応用することができるかもしれません.</p>
 <p>この対応関係は, [
-  <a href="/posts/202012_advent_calendar/#Arvo1993">Arvo1993</a>] で示唆されているように, 既知であることが伺えます.
-しかし, このことを詳しく解説した文献を見つけることができなかったため, 自分なりの導出を行いました.</p>
-<h2 id="お詫び">
-  お詫び
-  <a class="anchor" href="#%e3%81%8a%e8%a9%ab%e3%81%b3">#</a>
+  <a href="/posts/202012_advent_calendar/#Arvo1993">Arvo 1993</a>] で示唆されているように, 既知であることが伺えます.
+しかし, このことを一貫して解説した文献を見つけることができなかったため, 自分なりにノートをまとめました.</p>
+<p>それでは, 空間に漂うホコリに光が当たって散乱する現象を考えることから始めていきます。</p>
+<h2 id="散乱媒質と光">
+  散乱媒質と光
+  <a class="anchor" href="#%e6%95%a3%e4%b9%b1%e5%aa%92%e8%b3%aa%e3%81%a8%e5%85%89">#</a>
 </h2>
-<p>この記事は現時点で未完成です. 年末年始に書き終えようと思いますので, 少々お待ちください&hellip;</p>
-<h2 id="参考文献">
-  参考文献
-  <a class="anchor" href="#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae">#</a>
+<p>いま, 空間を漂うホコリや, それに当たって散乱する光は, 位置 \(\bm{x}\) で 運動量 \(\bm{p}\) で運動する粒子と考えます.
+光が当たる対象の物質はホコリに限らず, 酸素など大気を構成する分子や, 水滴などのエアロゾルも考えます.
+以降, これらの物質をまとめて散乱媒質, その粒子を散乱体と呼ぶことにします.</p>
+<p>あとは, 媒質へ入射した光の粒子が移動する場所がわかれば, それを全て計算することで,
+現実と同じ見た目を再現することが期待できます.
+しかし, 空間に漂う全ての粒子の運動を計算するのは大変です.</p>
+<p>そこで, それぞれの粒子の運動を考える代わりに, 粒子の集団の運動を考えます.</p>
+<h1 id="気体分子運動論">
+  気体分子運動論
+  <a class="anchor" href="#%e6%b0%97%e4%bd%93%e5%88%86%e5%ad%90%e9%81%8b%e5%8b%95%e8%ab%96">#</a>
+</h1>
+<p>それぞれが力学に基づいて運動する粒子の集団があったとき, その集団の性質を考える体系は
+
+  <a href="https://en.wikipedia.org/wiki/Kinetic_theory_of_gases">気体分子運動論</a> として知られています.
+のちに, 媒質による光の散乱をこの体系に基づいて議論するため, ここで必要な知識をおさらいしておきます.</p>
+<h2 id="密度関数">
+  密度関数
+  <a class="anchor" href="#%e5%af%86%e5%ba%a6%e9%96%a2%e6%95%b0">#</a>
 </h2>
-<h5 id="Sunakawa1977">
-  
-  <a href="https://www.iwanami.co.jp/book/b266863.html">砂川, 重信. (1977). 散乱の量子論. 岩波書店.</a>
-  <a class="anchor" href="#Sunakawa1977">#</a>
-</h5>
-<h5 id="Arvo1993">
-  
-  <a href="https://scholar.google.com/scholar?cluster=3697174898879580884">Arvo, J. (1993). Transfer equations in global illumination. Global Illumination, SIGGRAPH’93 Course Notes.</a>
-  <a class="anchor" href="#Arvo1993">#</a>
-</h5>
+<p>時間 \(t\), 位置 \(\bm{x}(t)\), 運動量 \(\bm{p}(t)\) にある粒子の集団を,
+密度関数 \(f(\bm{x},\bm{p},t)\) で表します.</p>
+<p>そして, 密度関数を運動量体積要素 \(d\bm{p}=dp_xdp_ydp_z\) で積分すれば, 位置 \(\bm{x}\) の粒子数密度
 
 <link rel="stylesheet" href="/katex/katex.min.css" />
 <script defer src="/katex/katex.min.js"></script>
 <script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
-  \[\]
+  \[	\frac{1}{h^3}\int f(\bm{x},\bm{p},t)d\bm{p} = n(\bm{x},t) \qquad[\text{m}^{-3}]\]
 </span>
 
+が, 粒子数密度 \(n(\bm{x},t)\) を体積要素 \(d\bm{x}=dxdydz\) で積分すれば, 全粒子数
+<span>
+  \[	\int n(\bm{x},t)d\bm{x} = N \qquad[\text{-}],\]
+</span>
+
+と得られるとします.
+ここで, 全粒子数 \(N\) は粒子の運動に伴って変化しないとしました<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.
+また, \(d\bm{x}d\bm{p}\) の単位 \([\text{J}^3\,\text{s}^3]\) をキャンセルするため,
+プランク定数 \(h\,[\text{J}\,\text{s}]\) を使った係数 \(\frac{1}{h^3}\) を掛けました.</p>
+<p>この密度関数を使い, 媒質の中を光がどう広がっていくかを考えます.
+光が媒質の中を進むに従って衝突を繰り返し, その密度分布を変えていくことを表現するために,
+密度関数の時間変化を
+<span>
+  \[	\frac{df}{dt} = \left(\frac{\partial f}{\partial t}\right)_\text{coll}\]
+</span>
+
+と表します.
+左辺は \(f(\bm{x}(t),\bm{p}(t),t)\) を \(t\) で全微分することで
+<span>
+  \[	\frac{df}{dt}
+	= \frac{\partial f}{\partial t}
+		&#43; \frac{\partial f}{\partial\bm{x}}\cdot\dot{\bm{x}}
+		&#43; \frac{\partial f}{\partial\bm{p}}\cdot\dot{\bm{p}}\]
+</span>
+
+<span>
+  \[	\dot{\bm{x}}:=\frac{d\bm{x}}{dt},\; \dot{\bm{p}}:=\frac{d\bm{p}}{dt}\]
+</span>
+
+と与えられます.</p>
+<p>右辺は \(\left(\frac{\partial f}{\partial t}\right)_\text{coll}\) はこれから考えます.
+以降, この項を衝突項と呼びます,</p>
+<h2 id="衝突率">
+  衝突率
+  <a class="anchor" href="#%e8%a1%9d%e7%aa%81%e7%8e%87">#</a>
+</h2>
+<p>まず, 粒子同士の衝突を考えるには, 粒子同士の衝突を考える必要があります.
+そこで, 単位時間当たりの衝突率 \(\eta\,[\text{s}^{-1}]\) を導入して, 粒子の衝突による密度関数の変化を
+<span>
+  \[	\left(\frac{\partial f}{\partial t}\right)_\text{coll}
+	\sim f\,\eta\]
+</span>
+
+と見積もることにします.</p>
+<p>そして, 粒子へ空間的な広がりを持たせるために, 散乱断面積 \(\sigma\,[\text{m}^2]\) という概念を導入します.</p>
+<div align="center">
+<figure>
+    <img src="total_cross_section.svg"
+         alt="Fig. 散乱断面積 \(\sigma\,[\text{m}^2]\)" width="180"/> <figcaption>
+            <p>Fig. 散乱断面積 \(\sigma\,[\text{m}^2]\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<!--
+これにより, 距離 \\(d\\,[\text{m}]\\) と空間中の粒子密度 \\(n\\,[\text{m}^{-3}]\\) を与えれば,
+その中の粒子数を
+-->
+<p>これに空間中の粒子密度 \(n\,[\text{m}^{-3}]\) と,
+粒子の相対速度 \(v\,[\text{m}\,\text{s}^{-1}]\) を掛ければ, 粒子同士の衝突率は
+<span>
+  \[	\eta = n \sigma v \qquad [\text{s}^{-1}]\]
+</span>
+
+と求まります.</p>
+<!--
+<div align="center">
+<figure>
+    <img src="collision_frequency.svg"
+         alt="Fig. 衝突率 \(\eta\)" width="200"/> <figcaption>
+            <p>Fig. 衝突率 \(\eta\)</p>
+        </figcaption>
+</figure>
+
+</div>
+-->
+<h2 id="微分散乱断面積">
+  微分散乱断面積
+  <a class="anchor" href="#%e5%be%ae%e5%88%86%e6%95%a3%e4%b9%b1%e6%96%ad%e9%9d%a2%e7%a9%8d">#</a>
+</h2>
+<p>次に, 位置 \(\bm{x}\) で \(\bm{p}\) と \(\bm{p}_*\) の粒子が衝突して,
+\(\bm{p}'\) と \(\bm{p}'_*\) になることを考えます.</p>
+<div align="center">
+<figure>
+    <img src="particle_particle_collision.svg"
+         alt="Fig. \(\bm{p},\,\bm{p}_* \rightarrow \bm{p}&#39;,\,\bm{p}&#39;_*\)" width="180"/> <figcaption>
+            <p>Fig. \(\bm{p},\,\bm{p}_* \rightarrow \bm{p}',\,\bm{p}'_*\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>このとき, 前節で導入した衝突率は方向依存性がないため, 球の形をした粒子同士の衝突しか表現することができません.
+そこで, 次のように微分散乱断面積 \(\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|\) を導入します.</p>
+<div align="center">
+<figure>
+    <img src="differential_cross_section.svg"
+         alt="Fig. 微分散乱断面積 \(\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|\;[\text{m}^2/\text{sr}]\)" width="450"/> <figcaption>
+            <p>Fig. 微分散乱断面積 \(\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|\;[\text{m}^2/\text{sr}]\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>まず, 方向 \(\bm{i}\) と \(\bm{o}\) を
+<span>
+  \[	\bm{o}=\frac{\bm{p}}{|\bm{p}|},\quad
+	\bm{i}=\frac{\bm{p}&#39;}{|\bm{p}&#39;|}\]
+</span>
+
+とし, それらのなす角を \(\theta,\,\varphi\).
+立体角を \(\bm{\omega}=\sin\theta d\theta d\varphi\) と書きます.</p>
+<p>そして, 方向 \(\bm{\omega}\) に垂直な微小断面積 \(d\bm{\omega}\) を,
+微小立体角の関数であることを仮定して,
+<span>
+  \[	\sigma
+	= \int d\bm{\sigma}
+	= \int_{S^2}\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|d\bm{\omega}
+	\qquad[\text{m}^2\,\text{sr}^{-1}]\]
+</span>
+
+と, 微分散乱断面積
+\(\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|\)
+を導入します.</p>
+<h2 id="衝突項">
+  衝突項
+  <a class="anchor" href="#%e8%a1%9d%e7%aa%81%e9%a0%85">#</a>
+</h2>
+<p>それでは, 衝突項の具体的な表現を与えます.</p>
+<p>まず, 密度関数 \(f(\bm{x},\bm{p},t)\) が増えるときと減るときに分けて考え,
+衝突項を獲得項と損失項の二つで表します.
+<span>
+  \[	\left(\frac{\partial f}{\partial t}\right)_\text{coll}
+	= \left(\frac{\partial f}{\partial t}\right)_\text{gain}
+		- \left(\frac{\partial f}{\partial t}\right)_\text{loss}\]
+</span>
+</p>
+<p>密度関数が減るときは,
+位置 \(\bm{x}\) で \(\bm{p}\) と \(\bm{p}_*\) の粒子が衝突して,
+\(\bm{p}'\) と \(\bm{p}'_*\) になる場合です.</p>
+<div align="center">
+<figure>
+    <img src="particle_particle_collision.svg"
+         alt="Fig. \(\bm{p},\,\bm{p}_* \rightarrow \bm{p}&#39;,\,\bm{p}&#39;_*\)" width="180"/> <figcaption>
+            <p>Fig. \(\bm{p},\,\bm{p}_* \rightarrow \bm{p}',\,\bm{p}'_*\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>\(f(\bm{p})\) は, 運動量 \(\bm{p}_*\) を持つ粒子に衝突したぶんだけ減少します.
+その粒子数は \(f(\bm{p}_*)d\bm{p}_*\), 相対速度は \(|\bm{v}-\bm{v}_*|\),
+散乱断面積は \(\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|d\bm{\omega}\) となることから,
+衝突率は
+<span>
+  \[	|\bm{v}-\bm{v}_*|\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|f(\bm{p}_*)d\bm{p}_*d\bm{\omega}
+	\qquad[\text{s}^{-1}]\]
+</span>
+
+となります.
+従って, 損失項は
+<span>
+  \[	\left(\frac{\partial f}{\partial t}\right)_\text{loss}
+	= \iint|\bm{v}-\bm{v}_*|\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|f(\bm{p})f(\bm{p}_*)d\bm{p}_*d\bm{\omega}\]
+</span>
+
+と得られます.</p>
+<p>密度関数が増えるときは, 減るときと逆に,
+\(\bm{p}'\) と \(\bm{p}'_*\) の粒子が衝突して
+\(\bm{p}\) と \(\bm{p}_*\) になる場合を考えます.</p>
+<div align="center">
+<figure>
+    <img src="particle_particle_collision_inv.svg"
+         alt="Fig. \(\bm{p}&#39;,\,\bm{p}&#39;_* \rightarrow \bm{p},\,\bm{p}_*\)" width="180"/> <figcaption>
+            <p>Fig. \(\bm{p}',\,\bm{p}'_* \rightarrow \bm{p},\,\bm{p}_*\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>詳細は参考文献
+[
+  <a href="/posts/202012_advent_calendar/#Cercignani1988">Cercignani 1988</a>; 
+  <a href="/posts/202012_advent_calendar/#Fujita1989">藤田 1989</a>; 
+  <a href="/posts/202012_advent_calendar/#Kardar2007">Kardar 2007</a>]
+に譲って省略しますが,
+衝突時のエネルギー保存と運動量保存を考慮することで, 損失項は
+<span>
+  \[	\left(\frac{\partial f}{\partial t}\right)_\text{gain}
+	= \iint|\bm{v}-\bm{v}_*|\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|f(\bm{p}&#39;)f(\bm{p}&#39;_*)d\bm{p}_*d\bm{\omega}\]
+</span>
+
+と得られます.</p>
+<p>上記の損失項と獲得項を使い, 衝突項は
+<span>
+  \[	\left(\frac{\partial f}{\partial t}\right)_\text{loss}
+	= \iint|\bm{v}-\bm{v}_*|\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|
+		\left[f(\bm{p}&#39;)f(\bm{p}&#39;_*) - f(\bm{p})f(\bm{p}_*)\right]d\bm{p}_*d\bm{\omega}\]
+</span>
+
+となります.</p>
+<h2 id="boltzmann-方程式">
+  Boltzmann 方程式
+  <a class="anchor" href="#boltzmann-%e6%96%b9%e7%a8%8b%e5%bc%8f">#</a>
+</h2>
+<p>以上の結果をまとめると
+<span>
+  \[\begin{aligned}
+	&amp;\left(\frac{\partial}{\partial t}
+		&#43; \dot{\bm{x}}\cdot\frac{\partial}{\partial\bm{x}}
+		&#43; \dot{\bm{p}}\cdot\frac{\partial}{\partial\bm{p}}\right)f(\bm{p})\\
+	&amp;\qquad = \iint|\bm{v}-\bm{v}_*|
+		\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|\left[f(\bm{p}&#39;)f(\bm{p}&#39;_*)
+		- f(\bm{p})f(\bm{p}_*)\right]d\bm{p}_*d\bm{\omega}
+\end{aligned}\]
+</span>
+
+が得られます.
+これは, Boltzmann 方程式として知られています.
+詳しくは,
+[
+  <a href="/posts/202012_advent_calendar/#Cercignani1988">Cercignani 1988</a>; 
+  <a href="/posts/202012_advent_calendar/#Fujita1989">藤田 1989</a>; 
+  <a href="/posts/202012_advent_calendar/#Kardar2007">Kardar 2007</a>]
+などを参考にしてください.</p>
+<h2 id="この節のまとめ">
+  この節のまとめ
+  <a class="anchor" href="#%e3%81%93%e3%81%ae%e7%af%80%e3%81%ae%e3%81%be%e3%81%a8%e3%82%81">#</a>
+</h2>
+<p>この節では, 粒子の集団を
+
+  <a href="/posts/202012_advent_calendar/#%e5%af%86%e5%ba%a6%e9%96%a2%e6%95%b0">密度関数</a> \(f(\bm{x},\bm{p},t)\),
+粒子同士の衝突を
+
+  <a href="/posts/202012_advent_calendar/#%e5%be%ae%e5%88%86%e6%95%a3%e4%b9%b1%e6%96%ad%e9%9d%a2%e7%a9%8d">微分散乱断面積</a> \(\left|\frac{d\bm{\sigma}}{d\bm{\omega}}\right|\)
+で書いたとき,
+その密度関数が空間を動く様子が
+
+  <a href="/posts/202012_advent_calendar/#boltzmann-%e6%96%b9%e7%a8%8b%e5%bc%8f">Boltzmann 方程式</a>
+で与えられることを導きました.</p>
+<h1 id="radiative-transfer">
+  Radiative Transfer
+  <a class="anchor" href="#radiative-transfer">#</a>
+</h1>
+<h2 id="光と媒質の-boltzmann-方程式">
+  光と媒質の Boltzmann 方程式
+  <a class="anchor" href="#%e5%85%89%e3%81%a8%e5%aa%92%e8%b3%aa%e3%81%ae-boltzmann-%e6%96%b9%e7%a8%8b%e5%bc%8f">#</a>
+</h2>
+<p>空間中に光と散乱媒質の2成分から成る粒子の集団があったとき, 光に関する Boltzmann 方程式を求めます.</p>
+<p>光の密度関数を \(f_p(\bm{x},\bm{p},t)\), 媒質の密度関数を \(f_m(\bm{x},\bm{p},t)\) と書けば,
+Boltzmann 方程式は
+<span>
+  \[	\left(
+	\frac{\partial }{\partial t}
+		&#43; \dot{\bm{x}}\cdot\frac{\partial}{\partial\bm{x}}
+		&#43; \dot{\bm{p}}\cdot\frac{\partial}{\partial\bm{p}}
+	\right)f_p(\bm{p})
+	= \left(\frac{\partial f_p}{\partial t}\right)_\text{pm}
+		&#43; \left(\frac{\partial f_p}{\partial t}\right)_\text{pp}\]
+</span>
+
+<span>
+  \[\begin{aligned}
+	\left(\frac{\partial f_p}{\partial t}\right)_\text{pm}
+		&amp;= \int |\bm{v}-\bm{v}_*|
+				\left|\frac{d\bm{\sigma}_{pm}}{d\bm{\omega}}\right|\left[f_p(\bm{p}&#39;)f_m(\bm{p}&#39;_*)
+				- f_p(\bm{p})f_m(\bm{p}_*)\right]d\bm{p}_*d\bm{\omega}\\
+	\left(\frac{\partial f_p}{\partial t}\right)_\text{pp}
+		&amp;= \int |\bm{v}-\bm{v}_*|
+				\left|\frac{d\bm{\sigma}_{pp}}{d\bm{\omega}}\right|\left[f_p(\bm{p}&#39;)f_p(\bm{p}&#39;_*)
+				- f_p(\bm{p})f_p(\bm{p}_*)\right]d\bm{p}_*d\bm{\omega}
+\end{aligned}\]
+</span>
+
+となります.
+\(\sigma_{pm}\) は光が媒質へ衝突するときの散乱断面積,
+\(\sigma_{pp}\) は光が光へ衝突するときの散乱断面積です.
+また, \(f(\bm{x},\bm{p},t)\) を \(f(\bm{p})\) と略記しています.</p>
+<p>いま, 光に対して</p>
+<ul>
+<li>外力を無視する
+<span>
+  \[	\dot{\bm{p}}=0\]
+</span>
+</li>
+<li>速度は定数 \(c\,[\text{m}\,\text{s}^{-1}]\) とする</li>
+</ul>
+<p>と仮定します.</p>
+<p>そして, 媒質を Lorentz gas [
+  <a href="/posts/202012_advent_calendar/#Lorentz1905">Lorentz 1905</a>] と同様に考えて,</p>
+<ul>
+<li>光との衝突による運動量変化は無視できる
+<span>
+  \[	f_m(\bm{p}&#39;_*)\approx f_m(\bm{p}_*)\]
+</span>
+</li>
+<li>光同士の散乱断面積は, 媒質と光の散乱断面積に比べて無視できる
+<span>
+  \[	\sigma_{pm} \gg \sigma_{pp}\]
+</span>
+</li>
+<li>媒質の移動速度は, 光の速度 \(c\) に比べて無視できる
+<span>
+  \[	|\bm{v}-\bm{v}_*|\approx c\]
+</span>
+</li>
+</ul>
+<p>と仮定します.</p>
+<p>これをさきほどの Boltzmann 方程式へ適用すると,
+<span>
+  \[	\left(\frac{\partial}{\partial t}
+		&#43; \dot{\bm{x}}\cdot\frac{\partial}{\partial\bm{x}}
+	\right)f_p(\bm{p})
+	= c n_m \int
+			\left|\frac{d\bm{\sigma}_{pm}}{d\bm{\omega}}\right|\left[f_p(\bm{p}&#39;)
+			- f_p(\bm{p})\right]d\bm{\omega}\]
+</span>
+
+となります.
+ここで, 媒質の粒子密度を \(n_m = \int f_m(\bm{p}_*)d\bm{p}_*\) と書きました.</p>
+<p>いろいろと仮定を入れて方程式のかたちが変わってきたので,
+先に進む前に, いったん記号を整理します.</p>
+<h3 id="放射輝度">
+  放射輝度
+  <a class="anchor" href="#%e6%94%be%e5%b0%84%e8%bc%9d%e5%ba%a6">#</a>
+</h3>
+<p>
+  <a href="/posts/202012_advent_calendar/#%e5%be%ae%e5%88%86%e6%95%a3%e4%b9%b1%e6%96%ad%e9%9d%a2%e7%a9%8d">微分散乱断面積</a> で導入した方向 \(\bm{i}\) と \(\bm{o}\)
+を使って, 運動量 \(\bm{p}\) と \(\bm{p}'\) を
+<span>
+  \[	\bm{p}=|\bm{p}|\bm{o},\quad
+	\bm{p}&#39;=|\bm{p}&#39;|\bm{i}\]
+</span>
+
+と書き直します.
+これに伴い, 密度関数 \(f_p(\bm{x},\bm{p},t)\) の引数は \(f_p(\bm{x},\bm{o},|\bm{p}|,t)\) となります.</p>
+<p>これまで, 光は位置 \(\bm{x}\), 運動量 \(\bm{p}\) をもつ粒子として考えてきました.
+ここで, その最小単位である, 光子について考えます.</p>
+<p>
+  <a href="https://en.wikipedia.org/wiki/Visible_spectrum">可視光</a>
+は振動数 \(\nu\) が 400 THz から 800 THz 程度の
+
+  <a href="https://en.wikipedia.org/wiki/Electromagnetic_radiation">電磁波</a>
+であり, それに対応する
+
+  <a href="https://en.wikipedia.org/wiki/Quantization_of_the_electromagnetic_field">電磁場の量子</a>
+は, エネルギー \(h\nu\) をもつ
+
+  <a href="https://en.wikipedia.org/wiki/Photon">光子</a>
+です.
+そこで, 光子の運動量と電磁波の振動数が,
+Einstein - de Broglie の関係式によって\(|\bm{p}|=\frac{h\nu}{c}\) と関係していることに考慮して,
+密度関数 \(f_p(\bm{x},\bm{o},|\bm{p}|,t)\) の引数を \(f_p(\bm{x},\bm{o},\nu,t)\) とします.</p>
+<p>さらに, 放射輝度 \(L(\bm{x},\bm{\omega},\nu,t)\) とのあいだに
+<span>
+  \[	L(\bm{x},\bm{\omega},\nu,t) = \frac{2h\nu^3}{c^2}f_p(\bm{x},\bm{\omega},\nu,t)
+	\quad[\text{W}\,\text{m}^{-2}\,\text{sr}^{-1}\,\text{Hz}^{-1}]\]
+</span>
+
+という関係がある
+[
+  <a href="/posts/202012_advent_calendar/#Fujita1990">藤田 1990</a>]
+ことから,
+以降は光の密度関数 \(f_p\) の代わりに放射輝度 \(L\) を用いることにします.</p>
+<h3 id="位相関数">
+  位相関数
+  <a class="anchor" href="#%e4%bd%8d%e7%9b%b8%e9%96%a2%e6%95%b0">#</a>
+</h3>
+<p>微分散乱断面積を散乱断面積 \(\sigma\) で規格化したものを,
+位相関数 \(p(\bm{i},\bm{o})\) と定義します.
+<span>
+  \[	p(\bm{i},\bm{o}) := \frac{1}{\sigma}\left|\frac{d\bm{\sigma}}{d\bm{\omega}_i}\right|
+	\quad[\text{sr}^{-1}]\]
+</span>
+
+
+  <a href="/posts/202012_advent_calendar/#%e5%be%ae%e5%88%86%e6%95%a3%e4%b9%b1%e6%96%ad%e9%9d%a2%e7%a9%8d">微分散乱断面積</a> の定義から, 位相関数は 1 に規格化されています.
+<span>
+  \[	\int p(\bm{i},\bm{o}) d\bm{\omega}_i = 1\]
+</span>
+</p>
+<h3 id="散乱係数">
+  散乱係数
+  <a class="anchor" href="#%e6%95%a3%e4%b9%b1%e4%bf%82%e6%95%b0">#</a>
+</h3>
+<p>粒子数密度 \(n\,[\text{m}^{-3}]\) と散乱断面積 \(\sigma\,[\text{m}^2]\) を使って,
+散乱係数 \(\mu\) を
+<span>
+  \[	\mu:=n\sigma
+	\qquad[\text{m}^{-1}]\]
+</span>
+
+と定義しておきます.</p>
+<h3 id="光と媒質の-boltzmann-方程式-1">
+  光と媒質の Boltzmann 方程式
+  <a class="anchor" href="#%e5%85%89%e3%81%a8%e5%aa%92%e8%b3%aa%e3%81%ae-boltzmann-%e6%96%b9%e7%a8%8b%e5%bc%8f-1">#</a>
+</h3>
+<p>さいごに, 積分 \(\int d\bm{\omega}\) が,
+方向 \(\bm{o}\) を軸として, 方向 \(\bm{i}\) をぐるっと回すことを表すことを強調するために,
+\(\bm{o}\) と \(\bm{i}\) のなす角を \(\theta_i,\,\varphi_i\),
+微小立体角を \(d\bm{\omega}_i = \sin\theta_id\theta_id\varphi_i\) と書き直しておきます.</p>
+<p>以上で導入した
+
+  <a href="/posts/202012_advent_calendar/#%e6%94%be%e5%b0%84%e8%bc%9d%e5%ba%a6">放射輝度</a>
+と
+
+  <a href="/posts/202012_advent_calendar/#%e4%bd%8d%e7%9b%b8%e9%96%a2%e6%95%b0">位相関数</a>
+を使うと,
+さきほどの Boltzmann 方程式は,
+<span>
+  \[	\frac{\partial L(\bm{o})}{\partial t}
+		&#43; c\frac{\partial L(\bm{o})}{\partial\bm{x}}\cdot\bm{o}
+	= c n_m \sigma_{pm} \int p(\bm{i},\bm{o}) L(\bm{i}) d\bm{\omega}_i
+	  - c n_m \sigma_{pm} L(\bm{o})\]
+</span>
+
+となります.
+両辺を整理し,
+
+  <a href="/posts/202012_advent_calendar/#%e6%95%a3%e4%b9%b1%e4%bf%82%e6%95%b0">散乱係数</a>
+を使うと
+<span>
+  \[	\left(\frac{1}{c}\frac{\partial}{\partial t} &#43; \bm{o}\cdot\frac{\partial}{\partial\bm{x}} &#43; \mu_s\right)L(\bm{o})
+	= \mu_s\int p(\bm{i},\bm{o}) L(\bm{i}) d\bm{\omega}_i\]
+</span>
+
+となります.
+ここで, 放射輝度 \(L(\bm{x},\bm{\omega}, \nu, t)\) を \(L(\bm{\omega})\) と略記しました.</p>
+<p>これで, 媒質へ衝突しながら進む, 光の密度分布を表現する方程式が得られました.</p>
+<h2 id="radiative-transfer-1">
+  Radiative Transfer
+  <a class="anchor" href="#radiative-transfer-1">#</a>
+</h2>
+<h3 id="局所熱平衡">
+  局所熱平衡
+  <a class="anchor" href="#%e5%b1%80%e6%89%80%e7%86%b1%e5%b9%b3%e8%a1%a1">#</a>
+</h3>
+<p>Chandrasekhar は, 恒星大気内で局所的に熱平衡にある領域に対して,
+媒質が吸収した光 \(\mu_a(\bm{x},\nu) L(\bm{x},\bm{o},\nu,t)\) は黒体輻射 \(B(\nu,T)\) で放出されるとしました
+[
+  <a href="/posts/202012_advent_calendar/#Chandrasekhar1960">Chandrasekhar 1960</a>].
+<span>
+  \[	\int \mu_a(\bm{x},\nu) L(\bm{x},\bm{o},\nu,t) d\nu = \int \mu_a(\bm{x},\nu) B(\nu, T) d\nu\]
+</span>
+
+ここで, 媒質が光を吸収することを表現するために,
+散乱係数 \(\mu_s\) に加えて吸収係数 \(\mu_a\) を導入しました.</p>
+<h3 id="radiative-transfer-方程式">
+  Radiative Transfer 方程式
+  <a class="anchor" href="#radiative-transfer-%e6%96%b9%e7%a8%8b%e5%bc%8f">#</a>
+</h3>
+<p>
+  <a href="/posts/202012_advent_calendar/#%e5%b1%80%e6%89%80%e7%86%b1%e5%b9%b3%e8%a1%a1">局所熱平衡</a>
+を考慮して, 媒質が吸収した光 \(\mu_aL\) と, 黒体輻射による放出 \(\mu_aB\) を先ほどの Boltzmann 方程式へ
+導入すると,
+<span>
+  \[	\left(\frac{1}{c}\frac{\partial}{\partial t} &#43; \bm{o}\cdot\frac{\partial}{\partial\bm{x}} &#43; \mu_t\right)L(\bm{o})
+	= \mu_aB &#43; \mu_s\int p(\bm{i},\bm{o}) L(\bm{i}) d\bm{\omega}_i\]
+</span>
+
+となります.
+ここで全消散係数 \(\mu_t = \mu_a + \mu_s\) を導入しました.</p>
+<p>この式は Radiative Transfer 方程式と呼ばれています
+[
+  <a href="/posts/202012_advent_calendar/#Chandrasekhar1960">Chandrasekhar 1960</a>; 
+  <a href="/posts/202012_advent_calendar/#Arvo1993">Arvo 1993</a>].</p>
+<h2 id="この節のまとめ-1">
+  この節のまとめ
+  <a class="anchor" href="#%e3%81%93%e3%81%ae%e7%af%80%e3%81%ae%e3%81%be%e3%81%a8%e3%82%81-1">#</a>
+</h2>
+<p>この節では,
+
+  <a href="/posts/202012_advent_calendar/#%e5%85%89%e3%81%a8%e5%aa%92%e8%b3%aa%e3%81%ae-boltzmann-%e6%96%b9%e7%a8%8b%e5%bc%8f">光と散乱媒質の Boltzmann 方程式</a>
+へ, 光が媒質に比べてずっと軽くて速い仮定を行うとともに,
+
+  <a href="/posts/202012_advent_calendar/#%e5%b1%80%e6%89%80%e7%86%b1%e5%b9%b3%e8%a1%a1">局所熱平衡</a>
+を取り入れることで,
+
+  <a href="/posts/202012_advent_calendar/#radiative-transfer-%e6%96%b9%e7%a8%8b%e5%bc%8f">Radiative Transfer 方程式</a>
+を導きました.</p>
+<h1 id="rendering-方程式">
+  Rendering 方程式
+  <a class="anchor" href="#rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f">#</a>
+</h1>
+<h2 id="volume-rendering-方程式">
+  Volume Rendering 方程式
+  <a class="anchor" href="#volume-rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f">#</a>
+</h2>
+<p>
+  <a href="/posts/202012_advent_calendar/#radiative-transfer-%e6%96%b9%e7%a8%8b%e5%bc%8f">Radiative Transfer方程式</a>
+に対して, 人間の感覚に合わせた近似や調整を行います.</p>
+<p>まず, 人間にとって光は一瞬で伝わるものと考え, 放射輝度の時間依存性を落として
+\(L_\text{re}(\bm{x},\bm{\omega},\nu,t)\rightarrow L_\text{re}(\bm{x},\bm{\omega},\nu)\) とします.
+そして, 媒質が吸収した光の再放射は黒体輻射に限らないとして,
+黒体輻射 \(B(\nu,T)\) を一般の再放射 \(L_\text{re}(\bm{x},\bm{\omega},\nu)\)
+で書き換えます.</p>
+<p>これらを Radiative Transfer 方程式へ適用することで
+<span>
+  \[	\left(\bm{o}\cdot\frac{\partial}{\partial\bm{x}} &#43; \mu_t\right)L(\bm{o})
+	= \mu_aL_\text{re}(\bm{o}) &#43; \mu_s\int_{S^2} p(\bm{i},\bm{o}) L(\bm{i}) d\bm{\omega}_i\]
+</span>
+
+が得られます.
+ここで, 放射輝度 \(L(\bm{x},\bm{\omega},\nu)\) を \(L(\bm{\omega})\) とするなど,
+方向成分以外の引数を略して書きました.
+この記事では, この式を Volume Rendering 方程式と呼びます.</p>
+<h2 id="rendering-方程式-1">
+  Rendering 方程式
+  <a class="anchor" href="#rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f-1">#</a>
+</h2>
+<p>Volume Rendering 方程式は, 位置 \(\bm{x}\) に関する微分方程式なので,
+これを解くには空間的な境界条件が必要になります.</p>
+<p>そこで境界条件として,
+Volume Rendering 方程式から \(\bm{o}\cdot\frac{\partial L}{\partial\bm{x}}\) を落とすことで,
+衝突率 100% の表面を用意します.
+<span>
+  \[	\mu_tL(\bm{o})
+	= \mu_aB &#43; \mu_s\int_{H^&#43;} f_r(\bm{i},\bm{o})(\bm{i}\cdot\bm{n}) L(\bm{i}) d\bm{\omega}_i\]
+</span>
+
+なお, 表面の法線を \(\bm{n}\) とし, \(\bm{i}\cdot\bm{n}&gt;0\) である半球面を \(H^+\) と書きました.
+また位相関数 \(p(\bm{i},\bm{o})\) の代わりに導入した \(f_r(\bm{i},\bm{o})(\bm{i}\cdot\bm{n})\) については,
+すぐ後で説明します.</p>
+<p>ここで反射率 \(k_r:=\frac{\mu_s}{\mu_t}\),
+吸収率 \(k_a:=\frac{\mu_a}{\mu_t}\) という量を導入すれば,
+<span>
+  \[	L(\bm{o})
+	= k_aL_\text{re}(\bm{o}) &#43; k_r\int_{H^&#43;} f_r(\bm{i},\bm{o})(\bm{i}\cdot\bm{n}) L(\bm{i}) d\bm{\omega}_i\]
+</span>
+
+となります.
+なお, 散乱係数のあいだの関係 \(\mu_t=\mu_a+\mu_s\) から,
+反射率と吸収率のあいだには \(k_r + k_s = 1\) という関係があります.</p>
+<p>上式の \(k_aL_\text{re}(\bm{o})\) を自己発光 \(L_\epsilon\) に差し替えると,
+Kajiya の Rendering 方程式 [
+  <a href="/posts/202012_advent_calendar/#Kajiya1986">Kajiya 1986</a>]
+と同じものが得られることから, この記事では上式を Rendering 方程式と呼びます.</p>
+<h2 id="bidirectional-reflectance-distribution-function-brdf">
+  Bidirectional Reflectance Distribution Function (BRDF)
+  <a class="anchor" href="#bidirectional-reflectance-distribution-function-brdf">#</a>
+</h2>
+<div align="center">
+<figure>
+    <img src="brdf.svg"
+         alt="Fig. \(d\bm{\sigma}_r\) と \(d\bm{\omega}_i\)" width="280"/> <figcaption>
+            <p>Fig. \(d\bm{\sigma}_r\) と \(d\bm{\omega}_i\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>法線 \(\bm{n}\) を持つ表面の微小面積を \(d\bm{\sigma}_n\) としたとき,
+それを方向 \(\bm{i}\) へ射影した面積は \((\bm{i}\cdot\bm{n})d\bm{\sigma}_n\) です.
+これを表面の上半球面 \(H_n^+\) で集めたものを, 散乱断面積 \(\sigma_r\) とします.
+<span>
+  \[	\sigma_r = \int_{H_n^&#43;}(\bm{i}\cdot\bm{n})d\bm{\sigma}_n
+	\qquad[\text{m}^2]\]
+</span>
+</p>
+<p>そして,
+
+  <a href="/posts/202012_advent_calendar/#%e5%be%ae%e5%88%86%e6%95%a3%e4%b9%b1%e6%96%ad%e9%9d%a2%e7%a9%8d">微分散乱断面積</a>
+で行った議論と同様にして,
+単位立体角当たりの面積分布 \(\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|\) を導入します.
+<span>
+  \[	\sigma_r = \int_{H_n^&#43;}\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|(\bm{i}\cdot\bm{n})d\bm{\omega}_i
+	\qquad[\text{m}^2]\]
+</span>
+</p>
+<p>このとき, 面積分布 \(\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|\)
+を散乱断面積 \(\sigma_r\) で規格化した量 \(f(\bm{i},\bm{o})\) を BRDF と呼びます.
+<span>
+  \[	f(\bm{i},\bm{o}):=\frac{1}{\sigma_r}\left|\frac{d\bm{\sigma}_r}{d\bm{\omega}_i}\right|
+	\qquad[\text{sr}^{-1}]\]
+</span>
+</p>
+<p>なお, 方向 \(\bm{o}\) に対して法線 \(\bm{n}\) が傾いている場合,
+散乱断面積は \((\bm{o}\cdot\bm{n})\sigma_r\) となります.</p>
+<div align="center">
+<figure>
+    <img src="visible_normal.svg"
+         alt="Fig. \((\bm{o}\cdot\bm{n})\sigma_r\)" width="230"/> <figcaption>
+            <p>Fig. \((\bm{o}\cdot\bm{n})\sigma_r\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<h1 id="microfacet-モデル">
+  Microfacet モデル
+  <a class="anchor" href="#microfacet-%e3%83%a2%e3%83%87%e3%83%ab">#</a>
+</h1>
+<p>この節では, 粗い面を表現する
+
+  <a href="/posts/202012_advent_calendar/#bidirectional-reflectance-distribution-function-brdf">BRDF</a>
+である Microfacet BRDF を作ります.
+作り方は
+[
+  <a href="/posts/202012_advent_calendar/#WMLT2007">Walter et al. 2007</a>; 
+  <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]
+と同様ですが, 微分散乱断面積に焦点を当てて話を進めます.</p>
+<p>これまで考えていた, 法線 \(\bm{n}\) をもつ表面を macrosurface と呼び,
+その上の微細なデコボコを microsurface と呼びます
+そして, microsurface は完全鏡面で出来ているとします.</p>
+<div align="center">
+<figure>
+    <img src="microsurface.svg"
+         alt="Fig. Macrosurface 上の法線 \(\bm{n}\) と, microsurface 上の法線 \(\bm{m}\)" width="80"/> <figcaption>
+            <p>Fig. Macrosurface 上の法線 \(\bm{n}\) と, microsurface 上の法線 \(\bm{m}\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<h2 id="ハーフベクトル">
+  ハーフベクトル
+  <a class="anchor" href="#%e3%83%8f%e3%83%bc%e3%83%95%e3%83%99%e3%82%af%e3%83%88%e3%83%ab">#</a>
+</h2>
+<p>方向 \(\bm{i}\) と方向 \(\bm{o}\) を2分割する方向を, ハーフベクトル \(\bm{h}\) と呼びます.
+<span>
+  \[	\bm{h}:=\frac{\bm{i}&#43;\bm{o}}{|\bm{i}&#43;\bm{o}|}\]
+</span>
+
+完全鏡面の上では, その法線 \(\bm{m}\) とハーフベクトル \(\bm{h}\) は一致します.</p>
+<div align="center">
+<figure>
+    <img src="halfvector.svg"
+         alt="Fig. ハーフベクトル" width="120"/> <figcaption>
+            <p>Fig. ハーフベクトル</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>そのため以後は, microsurface 上の法線を \(\bm{m}\) の代わりに \(\bm{h}\) と表記します.</p>
+<h2 id="法線分布関数">
+  法線分布関数
+  <a class="anchor" href="#%e6%b3%95%e7%b7%9a%e5%88%86%e5%b8%83%e9%96%a2%e6%95%b0">#</a>
+</h2>
+<div align="center">
+<figure>
+    <img src="normal_distribution_function.svg"
+         alt="Fig. \(d\bm{\sigma}_h,\,d\bm{\omega}_h\)" width="200"/> <figcaption>
+            <p>Fig. \(d\bm{\sigma}_h,\,d\bm{\omega}_h\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>
+  <a href="/posts/202012_advent_calendar/#bidirectional-reflectance-distribution-function-brdf">BRDF</a>
+と同様にして,
+microsurface 上の微小面積 \(d\bm{\sigma}_h\) を考えます.
+これを方向 \(\bm{i}\) へ射影した面積 \((\bm{i}\cdot\bm{h})d\bm{\sigma}_h\) を
+microsurface 上の半球面 \(H_h^+\) で集めたものを, 散乱断面積 \(\sigma_r\) とします.</p>
+<span>
+  \[	\sigma_r = \int_{H_h^&#43;}(\bm{i}\cdot\bm{h})d\bm{\sigma}_h
+	\qquad[\text{m}^2]\]
+</span>
+
+<p>続いて, ハーフベクトルを使った微小立体角を \(d\bm{\omega}_h:=\sin\theta_hd\theta_hd\varphi_h\)
+と書き, 単位立体角当たりの面積分布 \(\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|\) を
+<span>
+  \[	\sigma_r
+	= \int_{H_h^&#43;}\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|(\bm{i}\cdot\bm{h})d\bm{\omega}_h
+	\qquad[\text{m}^2]\]
+</span>
+
+と導入します.</p>
+<p>このとき, 面積分布 \(\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|\)
+を散乱断面積 \(\sigma_r\) で規格化した量 \(D(\bm{h})\) を法線分布関数と呼びます.
+<span>
+  \[	D(\bm{h}):=\frac{1}{\sigma_r}\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|
+	\qquad[\text{sr}^{-1}]\]
+</span>
+</p>
+<p>ところで,
+
+  <a href="/posts/202012_advent_calendar/#bidirectional-reflectance-distribution-function-brdf">BRDF</a>
+では, 方向 \(\bm{o}\) に対して macrosurface が傾いている場合に,
+散乱断面積が \((\bm{o}\cdot\bm{n})\sigma_r\) となるとしました.</p>
+<div align="center">
+<figure>
+    <img src="visible_normal.svg"
+         alt="Fig. \((\bm{o}\cdot\bm{n})\sigma_r\)" width="230"/> <figcaption>
+            <p>Fig. \((\bm{o}\cdot\bm{n})\sigma_r\)</p>
+        </figcaption>
+</figure>
+
+</div>
+しかし, いまは明示的にデコボコした microsurface を考えているため,
+隣接した microsurface からの遮蔽を考慮することが必要です.
+<h2 id="masking-関数">
+  Masking 関数
+  <a class="anchor" href="#masking-%e9%96%a2%e6%95%b0">#</a>
+</h2>
+<p>Microsurface の可視面積を議論するため,
+\(\bm{i}\) か \(\bm{o}\) のいずれかを表す方向を \(\bm{\omega}\) と書きます.</p>
+<div align="center">
+<figure>
+    <img src="masking_function.svg"
+         alt="Fig. Masking 関数 \(G_1\)" width="300"/> <figcaption>
+            <p>Fig. Masking 関数 \(G_1\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>方向 \(\bm{\omega}\) へ射影した微小面積 \((\bm{i}\cdot\bm{h})d\bm{\sigma}_h\) を
+集めるとき, Microsurfaceの表側がどれくらいあるかが記述された関数 \(G_1\) があったとして,
+<span>
+  \[\begin{aligned}
+	(\bm{\omega}\cdot\bm{n})\sigma_r
+	&amp;= \int_{H_h^&#43;}G_1(\bm{\omega},\bm{h}) (\bm{\omega}\cdot\bm{h})d\bm{\sigma}_h\\
+	&amp;= \int_{H_h^&#43;}G_1(\bm{\omega},\bm{h})
+			\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|(\bm{\omega}\cdot\bm{h})d\bm{\omega}_h
+\end{aligned}\]
+</span>
+
+と求まるとします.
+この関数 \(G_1\) は, Smith masking 関数として知られています.
+詳細は
+[
+  <a href="/posts/202012_advent_calendar/#Smith1967">Smith 1967</a>; 
+  <a href="/posts/202012_advent_calendar/#WMLT2007">Walter et al. 2007</a>; 
+  <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]
+を参照してください<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<h2 id="shadowing-masking-関数">
+  Shadowing-Masking 関数
+  <a class="anchor" href="#shadowing-masking-%e9%96%a2%e6%95%b0">#</a>
+</h2>
+<p>隣接する microsurface のによる遮蔽は, 方向 \(\bm{i}\) と \(\bm{o}\) の両者に対して考える必要があります.
+ここでも詳細は [
+  <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>] に任せて, そのような遮蔽が考慮された関数 \(G_2\) があるとします.</p>
+<p>この場合, 方向 \(\bm{i}\) から入射した光が,
+microsurface 上の 1 回反射で方向 \(\bm{o}\) へ向かわない領域が生じます.</p>
+<div align="center">
+<figure>
+    <img src="shadowing_masking_function.svg"
+         alt="Fig. Shadowing-masking 関数の可視範囲" width="350"/> <figcaption>
+            <p>Fig. Shadowing-masking 関数の可視範囲</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>そこで, 両者の遮蔽を考慮した場合の可視部分を \(\sigma_r^\text{single}\),
+それ以外を \(\sigma_r^\text{multi}\) と呼び分けておきます.
+<span>
+  \[	\sigma_r
+	= \sigma_r^\text{single} &#43; \sigma_r^\text{multi}\]
+</span>
+</p>
+<p>そうすると, \(\sigma_r^\text{single}\) は Shadowing-masking 関数 \(G_2\) を使って
+<span>
+  \[	(\bm{o}\cdot\bm{n})\sigma_r^\text{single}
+	= \int_{H_h^&#43;}G_2(\bm{i},\bm{o},\bm{h})
+		\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|(\bm{i}\cdot\bm{h})d\bm{\omega}_h\]
+</span>
+
+と書けます.</p>
+<h2 id="fresnel-の式">
+  Fresnel の式
+  <a class="anchor" href="#fresnel-%e3%81%ae%e5%bc%8f">#</a>
+</h2>
+<p>光が屈折率の異なる媒質同士の境界を通過するとき, 反射と屈折が起きます.</p>
+<div align="center">
+<figure>
+    <img src="fresnel_reflection.svg"
+         alt="Fig. 入射光 \(\bm{i}\) と 反射光 \(\bm{o}\), 屈折光 \(\bm{t}\)" width="150"/> <figcaption>
+            <p>Fig. 入射光 \(\bm{i}\) と 反射光 \(\bm{o}\), 屈折光 \(\bm{t}\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>反射と屈折がどのように起こるかは
+
+  <a href="https://en.wikipedia.org/wiki/Fresnel_equations">Fresnel の式</a> によって記述されます.
+その詳細や
+
+  <a href="https://en.wikipedia.org/wiki/Schlick%27s_approximation">近似式</a>
+は参考文献
+[
+  <a href="/posts/202012_advent_calendar/#BW1999">Born and Wolf 1999</a>]
+[
+  <a href="/posts/202012_advent_calendar/#Schlick1994">Schlick 1994</a>]
+を参照してください.</p>
+<p>この記事では, 入射光が反射光と屈折光に分かれることを,
+全断面積 \(\sigma_t\), 反射断面積 \(\sigma_r\), 吸収断面積 \(\sigma_a\)
+を使って
+<span>
+  \[	\sigma_t = \sigma_r &#43; \sigma_a
+	\qquad[\text{m}^2]\]
+</span>
+
+と使って表すことにします.</p>
+<p>そして, フレネル反射率を \(F(\bm{i},\bm{h})\) と書きます.</p>
+<h2 id="microfacet-brdf">
+  Microfacet BRDF
+  <a class="anchor" href="#microfacet-brdf">#</a>
+</h2>
+<p>以上の結果を使って, Microfacet BRDF を導きます.</p>
+<p>
+  <a href="/posts/202012_advent_calendar/#shadowing-masking-%e9%96%a2%e6%95%b0">Shadowing-Masking 関数</a>と
+
+  <a href="/posts/202012_advent_calendar/#fresnel-%e3%81%ae%e5%bc%8f">Fresnel の式</a>
+で, 入射光が単一反射と屈折, そして多重反射に分かれることを
+<span>
+  \[	\sigma_t = \sigma_r^{\text{single}} &#43; \sigma_r^{\text{multi}} &#43; \sigma_a\]
+</span>
+
+と表現しました.
+そして, 単一反射は
+<span>
+  \[	\sigma_r^{\text{single}}
+	= \int_{H^&#43;_h}\frac{F(\bm{h})G_2(\bm{i},\bm{o},\bm{h})}{(\bm{o}\cdot\bm{n})}
+		\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|(\bm{i}\cdot\bm{h})d\bm{\omega}_h\]
+</span>
+
+と求まります.</p>
+<p>\(d\bm{\omega}_h=\frac{1}{4(\bm{i}\cdot\bm{h})}d\bm{\omega}_i\)
+を使って,
+\(d\bm{\omega}_h\) を \(d\bm{\omega}_i\) へ変数変換すれば
+<span>
+  \[	\sigma_r^\text{single}
+	= \int_{H^&#43;_n}\frac{F(\bm{h})G_2(\bm{i},\bm{o},\bm{h})}{4(\bm{o}\cdot\bm{n})(\bm{i}\cdot\bm{n})}
+		\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|(\bm{i}\cdot\bm{n})d\bm{\omega}_i\]
+</span>
+
+となり, これを
+
+  <a href="/posts/202012_advent_calendar/#bidirectional-reflectance-distribution-function-brdf">BRDF</a>
+の微分散乱断面積
+<span>
+  \[	\sigma_r = \int_{H_n^&#43;}\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|(\bm{i}\cdot\bm{n})d\bm{\omega}_i\]
+</span>
+
+と見比べると, 単一反射について
+<span>
+  \[	\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|
+	= \frac{F(\bm{h})G_2(\bm{i},\bm{o},\bm{h})}{4(\bm{o}\cdot\bm{n})(\bm{i}\cdot\bm{n})}
+		\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|\]
+</span>
+
+という関係が得られます.</p>
+<p>これにより, 単一反射を表す Microfacet モデルの BRDF は
+[
+  <a href="/posts/202012_advent_calendar/#WMLT2007">Walter et al. 2007</a>; 
+  <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]
+と同様に
+<span>
+  \[	f_r(\bm{i},\bm{o}) = \frac{F(\bm{h})G_2(\bm{i},\bm{o},\bm{h})D(\bm{h})}{4(\bm{o}\cdot\bm{n})(\bm{i}\cdot\bm{n})}\]
+</span>
+
+と求まりました.</p>
+<h2 id="この節のまとめ-2">
+  この節のまとめ
+  <a class="anchor" href="#%e3%81%93%e3%81%ae%e7%af%80%e3%81%ae%e3%81%be%e3%81%a8%e3%82%81-2">#</a>
+</h2>
+<p>[
+  <a href="/posts/202012_advent_calendar/#Arvo1993">Arvo 1993</a>] と同様に,
+
+  <a href="/posts/202012_advent_calendar/#radiative-transfer-%e6%96%b9%e7%a8%8b%e5%bc%8f">Radiative Transfer 方程式</a>
+で時間変化を無視できるとして
+
+  <a href="/posts/202012_advent_calendar/#volume-rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f">Volume Rendering 方程式</a>
+を導き, その境界条件として
+
+  <a href="/posts/202012_advent_calendar/#rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f-1">Rendering 方程式</a>
+を考えました.</p>
+<p>そして
+[
+  <a href="/posts/202012_advent_calendar/#WMLT2007">Walter et al. 2007</a>; 
+  <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]
+と同様にして
+
+  <a href="/posts/202012_advent_calendar/#microfacet-brdf">Microsurface BRDF</a>
+を導きました.</p>
+<h1 id="ggx-法線分布関数">
+  GGX 法線分布関数
+  <a class="anchor" href="#ggx-%e6%b3%95%e7%b7%9a%e5%88%86%e5%b8%83%e9%96%a2%e6%95%b0">#</a>
+</h1>
+<p>前節で
+
+  <a href="/posts/202012_advent_calendar/#microfacet-brdf">Microsurface BRDF</a>
+を導きました.
+BRDF は微分散乱断面積で書いたので, 散乱理論の手法を応用できます.</p>
+<p>この節では, その一例として
+
+  <a href="https://en.wikipedia.org/wiki/Impact_parameter">衝突パラメータ</a>
+を用いた GGX 法線分布関数
+[
+  <a href="/posts/202012_advent_calendar/#TR1975">Trowbridge and Reitz. 1975</a>; 
+  <a href="/posts/202012_advent_calendar/#WMLT2007">Walter et al. 2007</a>]
+の導出を行います.</p>
+<h2 id="衝突パラメータ">
+  衝突パラメータ
+  <a class="anchor" href="#%e8%a1%9d%e7%aa%81%e3%83%91%e3%83%a9%e3%83%a1%e3%83%bc%e3%82%bf">#</a>
+</h2>
+<p>はじめに, 衝突パラメータを用いた微分散乱断面積の表現方法をおさらいします
+[
+  <a href="/posts/202012_advent_calendar/#LL1976">Landau and Lifshitz 1976</a>; 
+  <a href="/posts/202012_advent_calendar/#Sunakawa1977">砂川 1977</a>].</p>
+<p>いま, microfacet が回転対称な形状をしているとして,
+その中心軸からの距離を衝突パラメータ \(b\) と呼びます.</p>
+<div align="center">
+<figure>
+    <img src="impact_parameter.svg"
+         alt="Fig. 衝突パラメータ― \(b\)" width="400"/> <figcaption>
+            <p>Fig. 衝突パラメータ― \(b\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>このとき, 微小散乱断面積 \(d\bm{\sigma}_r\) と \(b\) の関係は.
+<span>
+  \[	d\bm{\sigma}_r = bdbd\varphi_h\]
+</span>
+
+となります.</p>
+<p>ここで衝突パラメータ \(b\) が \(\theta_h\) の関数であるとすれば,
+<span>
+  \[	d\bm{\sigma}_r
+	= \left|\frac{db}{d\sigma_h}\right|d\theta_hd\varphi_h
+	= \frac{1}{\sin\theta_h}\left|\frac{db}{d\theta_h}\right|d\bm{\omega}_h\]
+</span>
+
+と書き換えることができます.
+最後の等号で, \(d\bm{\omega}_h=\sin\theta_hd\theta_hd\varphi_h\) を使いました.</p>
+<p>従って, 衝突パラメータ \(b\) を使って微分散乱断面積を
+<span>
+  \[	\left|\frac{d\bm{\sigma}_r}{d\bm{\omega}_h}\right|
+	= \frac{1}{\sin\theta_h}\left|\frac{db}{d\theta_h}\right|\]
+</span>
+
+と書くことができます.</p>
+<h2 id="衝突パラメータによる法線分布関数の表現">
+  衝突パラメータによる法線分布関数の表現
+  <a class="anchor" href="#%e8%a1%9d%e7%aa%81%e3%83%91%e3%83%a9%e3%83%a1%e3%83%bc%e3%82%bf%e3%81%ab%e3%82%88%e3%82%8b%e6%b3%95%e7%b7%9a%e5%88%86%e5%b8%83%e9%96%a2%e6%95%b0%e3%81%ae%e8%a1%a8%e7%8f%be">#</a>
+</h2>
+<p>前節の
+
+  <a href="/posts/202012_advent_calendar/#%e8%a1%9d%e7%aa%81%e3%83%91%e3%83%a9%e3%83%a1%e3%83%bc%e3%82%bf">衝突パラメータ</a>
+を使って,
+
+  <a href="/posts/202012_advent_calendar/#%e6%b3%95%e7%b7%9a%e5%88%86%e5%b8%83%e9%96%a2%e6%95%b0">法線分布関数</a>
+を表現します.</p>
+<div align="center">
+<figure>
+    <img src="microsurface_area.svg"
+         alt="Fig. \(d\bm{\sigma}_r = \cos\theta_h d\bm{\sigma_h}\)" width="200"/> <figcaption>
+            <p>Fig. \(d\bm{\sigma}_r = \cos\theta_h d\bm{\sigma_h}\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>微小散乱断面積 \(d\bm{\sigma}_r\) と microfacet 上の微小面積 \(d\bm{\sigma}_h\)
+のあいだの関係,
+<span>
+  \[	d\bm{\sigma}_r = \cos\theta_h d\bm{\sigma}_h\]
+</span>
+
+を, 前節で求めた微分散乱断面積へ用いると, 単位立体角当たりの面積分布が
+<span>
+  \[	\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|
+	= \frac{1}{\cos\theta_h}\frac{1}{\sin\theta_h}\left|\frac{db}{d\theta_h}\right|\]
+</span>
+
+と求まります.</p>
+<p>
+  <a href="/posts/202012_advent_calendar/#%e6%b3%95%e7%b7%9a%e5%88%86%e5%b8%83%e9%96%a2%e6%95%b0">法線分布関数</a>の定義は,
+<span>
+  \[	D(\bm{h}):=\frac{1}{\sigma_r}\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|
+	\qquad[\text{sr}^{-1}]\]
+</span>
+
+としたので, 次は衝突パラメータ \(b\) で具体的な形状を表現することが必要です.</p>
+<h2 id="ggx-法線分布関数の導出">
+  GGX 法線分布関数の導出
+  <a class="anchor" href="#ggx-%e6%b3%95%e7%b7%9a%e5%88%86%e5%b8%83%e9%96%a2%e6%95%b0%e3%81%ae%e5%b0%8e%e5%87%ba">#</a>
+</h2>
+<div align="center">
+<figure>
+    <img src="microfacet_slope.svg"
+         alt="Fig. \(\frac{dz}{db} = \tan\theta_h\)" width="180"/> <figcaption>
+            <p>Fig. \(\frac{dz}{db} = \tan\theta_h\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>いま, microfacet の形状が \(z(b)\) なる関数で書けて, ハーフベクトルと
+<span>
+  \[	\frac{dz}{db} = \tan\theta_h\]
+</span>
+
+という関係にあるとします[
+  <a href="/posts/202012_advent_calendar/#TR1975">Trowbridge and Reitz. 1975</a>].</p>
+<h3 id="回転楕円体">
+  回転楕円体
+  <a class="anchor" href="#%e5%9b%9e%e8%bb%a2%e6%a5%95%e5%86%86%e4%bd%93">#</a>
+</h3>
+<p>\(z(b)\) が表す形状として,
+[
+  <a href="/posts/202012_advent_calendar/#TR1975">Trowbridge and Reitz. 1975</a>]
+と同様に,
+
+  <a href="https://en.wikipedia.org/wiki/Spheroid">回転楕円体</a>
+を考えます.</p>
+<p>長半径が \(1\), 短半径が \(\alpha\) の回転楕円体は
+<span>
+  \[	x^2 &#43; y^2 &#43; \frac{z^2}{\alpha^2} = 1\]
+</span>
+
+となります.</p>
+<p>いま
+<span>
+  \[	z = \alpha\sqrt{1-x^2-y^2}\]
+</span>
+
+と書き直して, 衝突パラメータ \(b\) を使って
+<span>
+  \[	b^2 = x^2 &#43; y^2\]
+</span>
+
+とすれば,
+<span>
+  \[	z(b) = \alpha\sqrt{1-b^2}\]
+</span>
+
+と書き直せます.</p>
+<h3 id="ggxモデルの導出">
+  GGXモデルの導出
+  <a class="anchor" href="#ggx%e3%83%a2%e3%83%87%e3%83%ab%e3%81%ae%e5%b0%8e%e5%87%ba">#</a>
+</h3>
+<p>\(z(b)\) と \(\theta_h\) の関係 \(\frac{dz}{db} = \tan\theta_h\) を
+回転楕円体へ適用すれば, 衝突パラメータ \(b\) が \(\theta_h\) の関数として
+<span>
+  \[	b^2 = \frac{\tan^2\theta_h}{\alpha^2 &#43; \tan\theta_h}\]
+</span>
+
+と求まります.</p>
+<p>これを使い, 単位立体角当たりの面積分布を求めると
+<span>
+  \[	\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|
+	= \frac{1}{\cos\theta_h}\frac{1}{\sin\theta_h}\left|\frac{db}{d\theta_h}\right|
+	= \frac{\alpha^2}{\cos^4\theta_h(\alpha&#43;\tan^2\theta_h)^2}\]
+</span>
+
+となります.</p>
+<p>従って散乱断面積は
+<span>
+  \[	\sigma_r
+	=\int_{H_h^&#43;}\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|\cos\theta_hd\bm{\omega}_h
+	= \pi\]
+</span>
+
+となり, 法線分布関数は
+<span>
+  \[	\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|
+	= \frac{1}{\sigma}\left|\frac{d\bm{\sigma}_h}{d\bm{\omega}_h}\right|
+	= \frac{\alpha^2}{\cos^4\theta_h(\alpha&#43;\tan^2\theta_h)^2}\]
+</span>
+
+と求まります.</p>
+<p>以上で GGX 法線分布関数
+[
+  <a href="/posts/202012_advent_calendar/#TR1975">Trowbridge and Reitz. 1975</a>; 
+  <a href="/posts/202012_advent_calendar/#WMLT2007">Walter et al. 2007</a>]
+が求まりました.</p>
+<h2 id="この節のまとめ-3">
+  この節のまとめ
+  <a class="anchor" href="#%e3%81%93%e3%81%ae%e7%af%80%e3%81%ae%e3%81%be%e3%81%a8%e3%82%81-3">#</a>
+</h2>
+<p>この節では,
+はじめに
+
+  <a href="/posts/202012_advent_calendar/#%e6%b3%95%e7%b7%9a%e5%88%86%e5%b8%83%e9%96%a2%e6%95%b0">法線分布関数</a>
+と
+
+  <a href="/posts/202012_advent_calendar/#%e8%a1%9d%e7%aa%81%e3%83%91%e3%83%a9%e3%83%a1%e3%83%bc%e3%82%bf">衝突パラメータ</a>
+の関係を作りました.</p>
+<p>そして,
+
+  <a href="/posts/202012_advent_calendar/#%e5%9b%9e%e8%bb%a2%e6%a5%95%e5%86%86%e4%bd%93">回転楕円体</a>
+を衝突パラメータで表現することで,
+
+  <a href="/posts/202012_advent_calendar/#ggx%e3%83%a2%e3%83%87%e3%83%ab%e3%81%ae%e5%b0%8e%e5%87%ba">GGX 法線分布関数</a>
+を求めました.</p>
+<h1 id="まとめ">
+  まとめ
+  <a class="anchor" href="#%e3%81%be%e3%81%a8%e3%82%81">#</a>
+</h1>
+<p>この記事では,
+まず, 主に
+[
+  <a href="/posts/202012_advent_calendar/#Cercignani1988">Cercignani 1988</a>]
+を参考にして
+
+  <a href="/posts/202012_advent_calendar/#boltzmann-%e6%96%b9%e7%a8%8b%e5%bc%8f">Boltzmann 方程式</a>
+から出発して
+
+  <a href="/posts/202012_advent_calendar/#radiative-transfer-%e6%96%b9%e7%a8%8b%e5%bc%8f">Radiative Transfer 方程式</a>
+を導きました.</p>
+<p>それから
+[
+  <a href="/posts/202012_advent_calendar/#Arvo1993">Arvo 1993</a>]
+を参考にして
+
+  <a href="/posts/202012_advent_calendar/#volume-rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f">Volume Rendering 方程式</a>
+と
+
+  <a href="/posts/202012_advent_calendar/#rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f-1">Rendering 方程式</a>
+を導き, そして主に
+[
+  <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]
+を参考にして
+
+  <a href="/posts/202012_advent_calendar/#microfacet-brdf">Microface BRDF</a>
+を導きました.</p>
+<p>この際, 光と媒質の衝突部分を一貫して
+
+  <a href="/posts/202012_advent_calendar/#%e5%be%ae%e5%88%86%e6%95%a3%e4%b9%b1%e6%96%ad%e9%9d%a2%e7%a9%8d">微分散乱断面積</a>
+を用いて記述することで, 何らかの幾何形状から Microfacet BRDF を求められるようにしました.</p>
+<p>最後に, 散乱理論 [
+  <a href="/posts/202012_advent_calendar/#Sunakawa1977">砂川 1977</a>] で知られている
+
+  <a href="/posts/202012_advent_calendar/#%e8%a1%9d%e7%aa%81%e3%83%91%e3%83%a9%e3%83%a1%e3%83%bc%e3%82%bf">衝突パラメータ</a>
+を使って,
+
+  <a href="/posts/202012_advent_calendar/#%e5%9b%9e%e8%bb%a2%e6%a5%95%e5%86%86%e4%bd%93">回転楕円体</a>
+から
+
+  <a href="/posts/202012_advent_calendar/#ggx%e3%83%a2%e3%83%87%e3%83%ab%e3%81%ae%e5%b0%8e%e5%87%ba">GGX 法線分布関数</a>
+を求めました.</p>
+<h1 id="参考文献">
+  参考文献
+  <a class="anchor" href="#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae">#</a>
+</h1>
+<h5 id="Lorentz1905">
+  
+  <a href="https://scholar.google.com/scholar?cluster=7250541027506581536">Lorentz, H. A. 1905. The motion of electrons in metallic bodies i. In KNAW, proceedings. Vol. 7, pp. 438-453.</a>
+  <a class="anchor" href="#Lorentz1905">#</a>
+</h5>
+<h5 id="Chandrasekhar1960">
+  
+  <a href="https://scholar.google.com/scholar?cluster=16577358564419521963">Chandrasekhar, S. 1960. Radiative transfer. Dover Publications Inc.</a>
+  <a class="anchor" href="#Chandrasekhar1960">#</a>
+</h5>
+<h5 id="Smith1967">
+  
+  <a href="https://scholar.google.com/scholar?cluster=14634070624623164559">Smith, B. G. 1967. Geometrical shadowing of a random rough surface. IEEE Trans. on Antennas and Propagation, pp. 668–671.</a>
+  <a class="anchor" href="#Smith1967">#</a>
+</h5>
+<h5 id="TR1975">
+  
+  <a href="https://scholar.google.com/scholar?cluster=15749936086683752727">Trowbridge, T. S. and Reitz, K. P. 1975. Average irregularity representation of a rough surface for ray reflection. J. Opt. Soc. Am., 65(5):531–536.</a>
+  <a class="anchor" href="#TR1975">#</a>
+</h5>
+<h5 id="LL1976">
+  
+  <a href="https://en.wikipedia.org/wiki/Course_of_Theoretical_Physics#Volume_1">Landau, L. D., Lifshitz, E. M. 1976. Mechanics. Vol. 1 (3rd ed.). Butterworth-Heinemann.</a>
+  <a class="anchor" href="#LL1976">#</a>
+</h5>
+<h5 id="Sunakawa1977">
+  
+  <a href="https://www.iwanami.co.jp/book/b266863.html">砂川, 重信. 1977. 散乱の量子論. 岩波書店.</a>
+  <a class="anchor" href="#Sunakawa1977">#</a>
+</h5>
+<h5 id="CT1982">
+  
+  <a href="https://scholar.google.com/scholar?cluster=11343914356264514225">Cook, R. L. and Torrance, K. E. 1982. A reﬂectance model for computer graphics. ACM Trans. Graph., 1(1):7–24.</a>
+  <a class="anchor" href="#CT1982">#</a>
+</h5>
+<h5 id="Kajiya1986">
+  
+  <a href="https://scholar.google.com/scholar?cluster=342051946310100681">Kajiya, J. T. 1986. The rendering equation. SIGGRAPH Comput. Graph., 20(4):143–150.</a>
+  <a class="anchor" href="#Kajiya1986">#</a>
+</h5>
+<h5 id="Cercignani1988">
+  
+  <a href="https://scholar.google.com/scholar?cluster=15395539216333689338">Cercignani, C. 1988. The Boltzmann Equation and Its Applications. Springer-Verlaq.</a>
+  <a class="anchor" href="#Cercignani1988">#</a>
+</h5>
+<h5 id="Fujita1989">
+  
+  <a href="https://www.shokabo.co.jp/mybooks/ISBN978-4-7853-2037-9.htm">藤田, 重次. 原, 啓明, et al. 共訳. 1989. 統計熱物理学. 裳華房.</a>
+  <a class="anchor" href="#Fujita1989">#</a>
+</h5>
+<h5 id="Fujita1990">
+  
+  <a href="https://www.shokabo.co.jp/mybooks/ISBN978-4-7853-2038-6.htm">藤田, 重次. 原, 啓明, et al. 共訳. 1990. 量子統計物理学. 裳華房.</a>
+  <a class="anchor" href="#Fujita1990">#</a>
+</h5>
+<h5 id="Arvo1993">
+  
+  <a href="https://scholar.google.com/scholar?cluster=3697174898879580884">Arvo, J. 1993. Transfer equations in global illumination. SIGGRAPH’93 Course Notes.</a>
+  <a class="anchor" href="#Arvo1993">#</a>
+</h5>
+<h5 id="Schlick1994">
+  
+  <a href="https://scholar.google.com/scholar?cluster=15536607398896786731">Schlick, C. 1994. An inexpensive BRDF model for physically‐based rendering. In Computer graphics forum, vol. 13, no. 3, pp. 233-246.</a>
+  <a class="anchor" href="#Schlick1994">#</a>
+</h5>
+<h5 id="BW1999">
+  
+  <a href="https://www.cambridge.org/core/books/principles-of-optics/D12868B8AE26B83D6D3C2193E94FFC32">Born, M and Wolf, E. 1999. Principles of Optics (7th ed.). Cambridge University Press.</a>
+  <a class="anchor" href="#BW1999">#</a>
+</h5>
+<h5 id="Kardar2007">
+  
+  <a href="https://www.cambridge.org/jp/academic/subjects/physics/statistical-physics/statistical-physics-particles">Kardar, M. 2007. Statistical Physics of Particles. Cambridge University Press.</a>
+  <a class="anchor" href="#Kardar2007">#</a>
+</h5>
+<h5 id="WMLT2007">
+  
+  <a href="https://scholar.google.com/scholar?cluster=9157076861165060867">Walter, B., et al. 2007. Microfacet models for refraction through rough surfaces. In Proceedings of the 18th Eurographics Conference on Rendering Techniques, EGSR’07, pp. 195–206.</a>
+  <a class="anchor" href="#WMLT2007">#</a>
+</h5>
+<h5 id="Heitz2014">
+  
+  <a href="https://scholar.google.com/scholar?cluster=7232747548407448986">Heitz, E. 2014. Understanding the masking-shadowing function in microfacet-based brdfs. Journal of Computer Graphics Techniques (JCGT), 3(2):48–107</a>
+  <a class="anchor" href="#Heitz2014">#</a>
+</h5>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>このことは, 
+  <a href="https://en.wikipedia.org/wiki/Liouville%27s_theorem_%28Hamiltonian%29">Liouvilleの定理</a> の帰結として導かれます. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>Masking 関数は, Smith masking 関数のほかに V-cavity などがあります
+[
+  <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]. この記事では, microsurface に明示的な幾何形状を想定しているため, 法線分布関数から一意に求まる Smith masking 関数のみを紹介しました. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
 </p>
 </article>
  

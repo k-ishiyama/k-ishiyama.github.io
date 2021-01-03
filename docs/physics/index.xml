@@ -26,12 +26,10 @@ Euler-Lagrange Equation #  作用 \(S\) について, 始点 \(\bm{q}(a)\) と�
       
       <guid>https://k-ishiyama.github.io/docs/physics/geometrical_optics/</guid>
       <description>Geometrical Optics #  Ray of Light #  細く絞った光のビームを考え, その光が通った経路を光線と呼ぶ.
-ここで考えた光線は, のちに同じ波面を共有する光子の集団として正当化する(ToDo).
 Index of Refraction #  光は, 真空中では速さ \(c\;[\text{m}/\text{s}]\) で空間を伝搬する. そして, 物質中を伝わる光の速さ \(v\;[\text{m}/\text{s}]\) は真空中よりも遅くなる. この速度の比   \[	n = \frac{c}{v}\quad\;[-]\]  を屈折率と呼ぶ.
-物質中で光が遅くなる理由は, のちに誘電体の分極から説明する( Born and Wolf, 1999, Sec. 2.2)(ToDo).
 Optical Path Length #  時間 \(t\;[\text{s}]\) のあいだに光が真空中を進む距離は \(ct\;[\text{m}]\), 屈折率 \(n\) の媒質中を進む距離は \(vt\;[\text{m}]\) となる. このとき, 媒質中を進む距離に屈折率を掛け, 真空中を進む距離に換算した量 \(nvt\;[\text{m}]\) を光路長と呼ぶ.
 光が進む媒質が不均質で, 場所によって屈折率 \(n(\bm{r})\)が異なるときは, 光路長は次のように書ける.
-光線の経路を3次元空間中の曲線として \(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\) とし, その位置の屈折率を \(n(\bm{r})\) と書く.</description>
+光線の経路を3次元空間中の曲線として \(\bm{r}(t)=\begin{pmatrix}x(t)\\y(t)\\z(t)\end{pmatrix},\;(a\leq t\leq b)\) とし, その位置の屈折率を \(n(\bm{r})\) と書く. このとき, 光路長 \(S\) は  \[	S = \int^b_a n(\bm{r})\left|\frac{d\bm{r}}{dt}\right|dt\]  と計算できる.</description>
     </item>
     
     <item>
