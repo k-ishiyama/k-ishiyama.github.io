@@ -29,7 +29,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.0217c3ef516ac4838bfa0f134cd96eb3d082bbe0915799dd80441b5384ee3504.js" integrity="sha256-AhfD71FqxIOL&#43;g8TTNlus9CCu&#43;CRV5ndgEQbU4TuNQQ="></script>
+<script defer src="/en.search.min.6f81814993911067b83d9505dcde35c0466f40f1860e0a70de52c25cb3dce0c1.js" integrity="sha256-b4GBSZOREGe4PZUF3N41wEZvQPGGDgpw3lLCXLPc4ME="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -279,7 +279,7 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#%e5%af%86%e5%ba%a6%e9%96%a2%e6%95%b0">#</a>
 </h2>
 <p>時間 \(t\), 位置 \(\bm{x}(t)\), 運動量 \(\bm{p}(t)\) にある粒子の集団を,
-密度関数 \(f(\bm{x},\bm{p},t)\) で表します.</p>
+密度関数 \(f(\bm{x},\bm{p},t)\) で表します<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
 <p>そして, 密度関数を運動量体積要素 \(d\bm{p}=dp_xdp_ydp_z\) で積分すれば, 位置 \(\bm{x}\) の粒子数密度
 
 <link rel="stylesheet" href="/katex/katex.min.css" />
@@ -294,7 +294,7 @@ https://github.com/alex-shpak/hugo-book
 </span>
 
 と得られるとします.
-ここで, 全粒子数 \(N\) は粒子の運動に伴って変化しないとしました<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.
+ここで, 全粒子数 \(N\) は粒子の運動に伴って変化しないとしました<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.
 また, \(d\bm{x}d\bm{p}\) の単位 \([\text{J}^3\,\text{s}^3]\) をキャンセルするため,
 プランク定数 \(h\,[\text{J}\,\text{s}]\) を使った係数 \(\frac{1}{h^3}\) を掛けました.</p>
 <p>この密度関数を使い, 媒質の中を光がどう広がっていくかを考えます.
@@ -397,7 +397,7 @@ https://github.com/alex-shpak/hugo-book
 </span>
 
 とし, それらのなす角を \(\theta,\,\varphi\).
-立体角を \(\bm{\omega}=\sin\theta d\theta d\varphi\) と書きます.</p>
+立体角を \(\bm{\omega}=\sin\theta d\theta d\varphi\) と書きます<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
 <p>そして, 方向 \(\bm{\omega}\) に垂直な微小断面積 \(d\bm{\omega}\) を,
 微小立体角の関数であることを仮定して,
 <span>
@@ -1004,7 +1004,7 @@ microsurface 上の半球面 \(H_h^+\) で集めたものを, 散乱断面積 \(
   <a href="/posts/202012_advent_calendar/#Smith1967">Smith 1967</a>; 
   <a href="/posts/202012_advent_calendar/#WMLT2007">Walter et al. 2007</a>; 
   <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]
-を参照してください<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+を参照してください<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
 <h2 id="shadowing-masking-関数">
   Shadowing-Masking 関数
   <a class="anchor" href="#shadowing-masking-%e9%96%a2%e6%95%b0">#</a>
@@ -1073,7 +1073,7 @@ microsurface 上の 1 回反射で方向 \(\bm{o}\) へ向かわない領域が�
 </span>
 
 と使って表すことにします.</p>
-<p>そして, フレネル反射率を \(F(\bm{i},\bm{h})\) と書きます.</p>
+<p>そして, その反射成分の割合を表す Fresnel 反射率を \(F(\bm{i},\bm{h})\) と書きます.</p>
 <h2 id="microfacet-brdf">
   Microfacet BRDF
   <a class="anchor" href="#microfacet-brdf">#</a>
@@ -1376,14 +1376,14 @@ BRDF は微分散乱断面積で書いたので, 散乱理論の手法を応用�
 を参考にして
 
   <a href="/posts/202012_advent_calendar/#boltzmann-%e6%96%b9%e7%a8%8b%e5%bc%8f">Boltzmann 方程式</a>
-から出発して
+から
 
   <a href="/posts/202012_advent_calendar/#radiative-transfer-%e6%96%b9%e7%a8%8b%e5%bc%8f">Radiative Transfer 方程式</a>
 を導きました.</p>
 <p>それから
 [
   <a href="/posts/202012_advent_calendar/#Arvo1993">Arvo 1993</a>]
-を参考にして
+を参考に
 
   <a href="/posts/202012_advent_calendar/#volume-rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f">Volume Rendering 方程式</a>
 と
@@ -1437,7 +1437,7 @@ BRDF は微分散乱断面積で書いたので, 散乱理論の手法を応用�
 </h5>
 <h5 id="LL1976">
   
-  <a href="https://en.wikipedia.org/wiki/Course_of_Theoretical_Physics#Volume_1">Landau, L. D., Lifshitz, E. M. 1976. Mechanics. Vol. 1 (3rd ed.). Butterworth-Heinemann.</a>
+  <a href="https://en.wikipedia.org/wiki/Course_of_Theoretical_Physics#Volume_1">Landau, L. D. and Lifshitz, E. M. 1976. Mechanics. Vol. 1 (3rd ed.). Butterworth-Heinemann.</a>
   <a class="anchor" href="#LL1976">#</a>
 </h5>
 <h5 id="Sunakawa1977">
@@ -1492,25 +1492,32 @@ BRDF は微分散乱断面積で書いたので, 散乱理論の手法を応用�
 </h5>
 <h5 id="WMLT2007">
   
-  <a href="https://scholar.google.com/scholar?cluster=9157076861165060867">Walter, B., et al. 2007. Microfacet models for refraction through rough surfaces. In Proceedings of the 18th Eurographics Conference on Rendering Techniques, EGSR’07, pp. 195–206.</a>
+  <a href="https://scholar.google.com/scholar?cluster=9157076861165060867">Walter, B., et al. 2007. Microfacet Models for Refraction through Rough Surfaces. In Proceedings of the 18th Eurographics Conference on Rendering Techniques, EGSR’07, pp. 195–206.</a>
   <a class="anchor" href="#WMLT2007">#</a>
 </h5>
 <h5 id="Heitz2014">
   
-  <a href="https://scholar.google.com/scholar?cluster=7232747548407448986">Heitz, E. 2014. Understanding the masking-shadowing function in microfacet-based brdfs. Journal of Computer Graphics Techniques (JCGT), 3(2):48–107</a>
+  <a href="https://scholar.google.com/scholar?cluster=7232747548407448986">Heitz, E. 2014. Understanding the masking-shadowing function in microfacet-based BRDFs. Journal of Computer Graphics Techniques (JCGT), 3(2):48–107</a>
   <a class="anchor" href="#Heitz2014">#</a>
 </h5>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p>このことは, 
-  <a href="https://en.wikipedia.org/wiki/Liouville%27s_theorem_%28Hamiltonian%29">Liouvilleの定理</a> の帰結として導かれます. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>これは, 相空間での1体の分布関数です. しかし分布関数という名前はこの記事内で多数登場するため, 密度関数と言い換えました. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
+<p>このことは, 
+  <a href="https://en.wikipedia.org/wiki/Liouville%27s_theorem_%28Hamiltonian%29">Liouvilleの定理</a> の帰結として導かれます. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>角度をこのようにあらわすのは, 
+  <a href="/posts/202012_advent_calendar/#%e6%94%be%e5%b0%84%e8%bc%9d%e5%ba%a6">後の話</a>と整合性をとるためです. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
 <p>Masking 関数は, Smith masking 関数のほかに V-cavity などがあります
 [
-  <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]. この記事では, microsurface に明示的な幾何形状を想定しているため, 法線分布関数から一意に求まる Smith masking 関数のみを紹介しました. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+  <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]. この記事では, microsurface に明示的な幾何形状を想定しているため, 法線分布関数から一意に求まる Smith masking 関数のみを紹介しました. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
