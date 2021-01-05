@@ -24,12 +24,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://k-ishiyama.github.io/posts/202012_advent_calendar/" />
 <meta property="article:published_time" content="2020-12-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T20:37:06+09:00" />
+<meta property="article:modified_time" content="2021-01-04T23:14:24+09:00" />
 <title>散乱理論とレンダリング方程式 | Notes</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.d61c92f6d6760b99d6478506ce018b7751cb877747fbcfd31962e003fffaca97.js" integrity="sha256-1hyS9tZ2C5nWR4UGzgGLd1HLh3dH&#43;8/TGWLgA//6ypc="></script>
+<script defer src="/en.search.min.faf9fd62debd73869382a6a87f9fabe5d4b2470a25a5366e32217c8bfa4f9ef1.js" integrity="sha256-&#43;vn9Yt69c4aTgqaof5&#43;r5dSyRwolpTZuMiF8i/pPnvE="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -324,8 +324,8 @@ https://github.com/alex-shpak/hugo-book
   衝突率
   <a class="anchor" href="#%e8%a1%9d%e7%aa%81%e7%8e%87">#</a>
 </h2>
-<p>まず, 粒子同士の衝突を考えるには, 粒子同士の衝突を考える必要があります.
-そこで, 単位時間当たりの衝突率 \(\eta\,[\text{s}^{-1}]\) を導入して, 粒子の衝突による密度関数の変化を
+<p>粒子同士の衝突を考えるために,
+単位時間当たりの衝突率 \(\eta\,[\text{s}^{-1}]\) を導入し, 衝突による密度関数の変化を
 <span>
   \[	\left(\frac{\partial f}{\partial t}\right)_\text{coll}
 	\sim f\,\eta\]
@@ -541,17 +541,17 @@ Boltzmann 方程式は
 		&#43; \dot{\bm{x}}\cdot\frac{\partial}{\partial\bm{x}}
 		&#43; \dot{\bm{p}}\cdot\frac{\partial}{\partial\bm{p}}
 	\right)f_p(\bm{p})
-	= \left(\frac{\partial f_p}{\partial t}\right)_\text{pm}
-		&#43; \left(\frac{\partial f_p}{\partial t}\right)_\text{pp}\]
+	= \left(\frac{\partial f_p}{\partial t}\right)_{pm}
+		&#43; \left(\frac{\partial f_p}{\partial t}\right)_{pp}\]
 </span>
 
 <span>
   \[\begin{aligned}
-	\left(\frac{\partial f_p}{\partial t}\right)_\text{pm}
+	\left(\frac{\partial f_p}{\partial t}\right)_{pm}
 		&amp;= \int |\bm{v}-\bm{v}_*|
 				\left|\frac{d\bm{\sigma}_{pm}}{d\bm{\omega}}\right|\left[f_p(\bm{p}&#39;)f_m(\bm{p}&#39;_*)
 				- f_p(\bm{p})f_m(\bm{p}_*)\right]d\bm{p}_*d\bm{\omega}\\
-	\left(\frac{\partial f_p}{\partial t}\right)_\text{pp}
+	\left(\frac{\partial f_p}{\partial t}\right)_{pp}
 		&amp;= \int |\bm{v}-\bm{v}_*|
 				\left|\frac{d\bm{\sigma}_{pp}}{d\bm{\omega}}\right|\left[f_p(\bm{p}&#39;)f_p(\bm{p}&#39;_*)
 				- f_p(\bm{p})f_p(\bm{p}_*)\right]d\bm{p}_*d\bm{\omega}
@@ -1153,7 +1153,7 @@ microsurface 上の 1 回反射で方向 \(\bm{o}\) へ向かわない領域が�
   <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]
 と同様にして
 
-  <a href="/posts/202012_advent_calendar/#microfacet-brdf">Microsurface BRDF</a>
+  <a href="/posts/202012_advent_calendar/#microfacet-brdf">Microfacet BRDF</a>
 を導きました.</p>
 <h1 id="ggx-法線分布関数">
   GGX 法線分布関数
@@ -1161,7 +1161,7 @@ microsurface 上の 1 回反射で方向 \(\bm{o}\) へ向かわない領域が�
 </h1>
 <p>前節で
 
-  <a href="/posts/202012_advent_calendar/#microfacet-brdf">Microsurface BRDF</a>
+  <a href="/posts/202012_advent_calendar/#microfacet-brdf">Microfacet BRDF</a>
 を導きました.
 BRDF は微分散乱断面積で書いたので, 散乱理論の手法を応用できます.</p>
 <p>この節では, その一例として
@@ -1398,7 +1398,7 @@ BRDF は微分散乱断面積で書いたので, 散乱理論の手法を応用�
   <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]
 を参考にして
 
-  <a href="/posts/202012_advent_calendar/#microfacet-brdf">Microface BRDF</a>
+  <a href="/posts/202012_advent_calendar/#microfacet-brdf">Microfacet BRDF</a>
 を導きました.</p>
 <p>この際, 光と媒質の衝突部分を一貫して
 
