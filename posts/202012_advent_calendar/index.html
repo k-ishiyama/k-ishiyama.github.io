@@ -7,29 +7,29 @@
 <meta name="description" content="これは レイトレ Advent Calendar 2020 の記事です。
 はじめに #  散乱理論 [ 砂川 1977] では, 散乱現象を微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)
   Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)
-   で表現します. この概念は, Rendering 方程式にある BRDF \(f(\bm{i},\bm{o})\;[\text{sr}^{-1}]\) とよく似ています.
+   で表現します. この概念は, Rendering 方程式にある BRDF \(f_r(\bm{i},\bm{o})\;[\text{sr}^{-1}]\) とよく似ています.
 微分散乱断面積は, レイリー散乱や, 剛体球に弾かれる粒子の散乱など, 様々な散乱現象を求めるのに使われます. これと BRDF との対応関係がわかれば, 散乱理論で培われた知見を, さまざまな BRDF の考察に応用することができるかもしれません.
 この対応関係は, [ Arvo 1993] で示唆されているように, 既知であることが伺えます. しかし, このことを一貫して解説した文献を見つけることができなかったため, 自分なりにノートをまとめました.
-それでは, 空間に漂うホコリに光が当たって散乱する現象を考えることから始めていきます。
-散乱媒質と光 #  いま, 空間を漂うホコリや, それに当たって散乱する光は, 位置 \(\bm{x}\) で 運動量 \(\bm{p}\) で運動する粒子と考えます. 光が当たる対象の物質はホコリに限らず, 酸素など大気を構成する分子や, 水滴などのエアロゾルも考えます. 以降, これらの物質をまとめて散乱媒質, その粒子を散乱体と呼ぶことにします.">
+散乱媒質と光 #  散乱媒質 #  空間を漂うホコリや, 酸素や窒素など大気を構成する分子, そして水滴などのエアロゾルを まとめて散乱媒質と呼ぶことにします. そしてこれらの粒子は, 空間中を位置 \(\bm{x}\), 運動量 \(\bm{p}\) で運動するものと考えます.
+光 #  光とは, 電磁波の振動数 \(\nu\) が 可視光 の領域 400THz ～ 800THz 程度にあるものを指します.">
 <meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="散乱理論とレンダリング方程式" />
 <meta property="og:description" content="これは レイトレ Advent Calendar 2020 の記事です。
 はじめに #  散乱理論 [ 砂川 1977] では, 散乱現象を微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)
   Fig. 微分散乱断面積 \(\frac{d\bm{\sigma}}{d\bm{\omega}}\;[\text{m}^2\,\text{sr}^{-1}]\)
-   で表現します. この概念は, Rendering 方程式にある BRDF \(f(\bm{i},\bm{o})\;[\text{sr}^{-1}]\) とよく似ています.
+   で表現します. この概念は, Rendering 方程式にある BRDF \(f_r(\bm{i},\bm{o})\;[\text{sr}^{-1}]\) とよく似ています.
 微分散乱断面積は, レイリー散乱や, 剛体球に弾かれる粒子の散乱など, 様々な散乱現象を求めるのに使われます. これと BRDF との対応関係がわかれば, 散乱理論で培われた知見を, さまざまな BRDF の考察に応用することができるかもしれません.
 この対応関係は, [ Arvo 1993] で示唆されているように, 既知であることが伺えます. しかし, このことを一貫して解説した文献を見つけることができなかったため, 自分なりにノートをまとめました.
-それでは, 空間に漂うホコリに光が当たって散乱する現象を考えることから始めていきます。
-散乱媒質と光 #  いま, 空間を漂うホコリや, それに当たって散乱する光は, 位置 \(\bm{x}\) で 運動量 \(\bm{p}\) で運動する粒子と考えます. 光が当たる対象の物質はホコリに限らず, 酸素など大気を構成する分子や, 水滴などのエアロゾルも考えます. 以降, これらの物質をまとめて散乱媒質, その粒子を散乱体と呼ぶことにします." />
+散乱媒質と光 #  散乱媒質 #  空間を漂うホコリや, 酸素や窒素など大気を構成する分子, そして水滴などのエアロゾルを まとめて散乱媒質と呼ぶことにします. そしてこれらの粒子は, 空間中を位置 \(\bm{x}\), 運動量 \(\bm{p}\) で運動するものと考えます.
+光 #  光とは, 電磁波の振動数 \(\nu\) が 可視光 の領域 400THz ～ 800THz 程度にあるものを指します." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://k-ishiyama.github.io/posts/202012_advent_calendar/" />
 <meta property="article:published_time" content="2020-12-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T23:14:24+09:00" />
+<meta property="article:modified_time" content="2021-01-05T22:48:53+09:00" />
 <title>散乱理論とレンダリング方程式 | Notes</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.faf9fd62debd73869382a6a87f9fabe5d4b2470a25a5366e32217c8bfa4f9ef1.js" integrity="sha256-&#43;vn9Yt69c4aTgqaof5&#43;r5dSyRwolpTZuMiF8i/pPnvE="></script>
+<script defer src="/en.search.min.cee10c94366cd5fb700fdc75ef82a08d1765050b07009c8f1cb3b3b797132b7d.js" integrity="sha256-zuEMlDZs1ftwD9x174KgjRdlBQsHAJyPHLOzt5cTK30="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -71,82 +71,6 @@ https://github.com/alex-shpak/hugo-book
 
   
 
-
-
-  
-  <ul>
-    
-      
-        <li class="book-section-flat" >
-          
-  
-  
-
-  
-    <a href="https://k-ishiyama.github.io/docs/physics/" class="">Physics</a>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://k-ishiyama.github.io/docs/physics/analytical_mechanics/" class="">Analytical Mechanics</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://k-ishiyama.github.io/docs/physics/geometrical_optics/" class="">Geometrical Optics</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://k-ishiyama.github.io/docs/physics/particle_mechanics/" class="">Particle Mechanics</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://k-ishiyama.github.io/docs/physics/references/" class="">References</a>
-  
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
-  </ul>
 
 
 
@@ -203,10 +127,99 @@ https://github.com/alex-shpak/hugo-book
 
   <label for="toc-control">
     
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
   </label>
 </div>
 
 
+  
+  <aside class="hidden clearfix">
+    
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#はじめに">はじめに</a></li>
+    <li><a href="#散乱媒質と光">散乱媒質と光</a>
+      <ul>
+        <li><a href="#散乱媒質">散乱媒質</a></li>
+        <li><a href="#光">光</a></li>
+      </ul>
+    </li>
+    <li><a href="#気体分子運動論">気体分子運動論</a>
+      <ul>
+        <li><a href="#密度関数">密度関数</a></li>
+        <li><a href="#衝突率">衝突率</a></li>
+        <li><a href="#微分散乱断面積">微分散乱断面積</a></li>
+        <li><a href="#衝突項">衝突項</a></li>
+        <li><a href="#boltzmann-方程式">Boltzmann 方程式</a></li>
+        <li><a href="#この節のまとめ">この節のまとめ</a></li>
+      </ul>
+    </li>
+    <li><a href="#radiative-transfer">Radiative Transfer</a>
+      <ul>
+        <li><a href="#光と媒質の-boltzmann-方程式">光と媒質の Boltzmann 方程式</a>
+          <ul>
+            <li><a href="#放射輝度">放射輝度</a></li>
+            <li><a href="#位相関数">位相関数</a></li>
+            <li><a href="#散乱係数">散乱係数</a></li>
+            <li><a href="#光と媒質の-boltzmann-方程式-1">光と媒質の Boltzmann 方程式</a></li>
+          </ul>
+        </li>
+        <li><a href="#radiative-transfer-1">Radiative Transfer</a>
+          <ul>
+            <li><a href="#局所熱平衡">局所熱平衡</a></li>
+            <li><a href="#radiative-transfer-方程式">Radiative Transfer 方程式</a></li>
+          </ul>
+        </li>
+        <li><a href="#この節のまとめ-1">この節のまとめ</a></li>
+      </ul>
+    </li>
+    <li><a href="#rendering-方程式">Rendering 方程式</a>
+      <ul>
+        <li><a href="#volume-rendering-方程式">Volume Rendering 方程式</a></li>
+        <li><a href="#rendering-方程式-1">Rendering 方程式</a></li>
+        <li><a href="#bidirectional-reflectance-distribution-function-brdf">Bidirectional Reflectance Distribution Function (BRDF)</a></li>
+      </ul>
+    </li>
+    <li><a href="#microfacet-モデル">Microfacet モデル</a>
+      <ul>
+        <li><a href="#ハーフベクトル">ハーフベクトル</a></li>
+        <li><a href="#法線分布関数">法線分布関数</a></li>
+        <li><a href="#masking-関数">Masking 関数</a></li>
+        <li><a href="#shadowing-masking-関数">Shadowing-Masking 関数</a></li>
+        <li><a href="#fresnel-の式">Fresnel の式</a></li>
+        <li><a href="#microfacet-brdf">Microfacet BRDF</a></li>
+        <li><a href="#この節のまとめ-2">この節のまとめ</a></li>
+      </ul>
+    </li>
+    <li><a href="#ggx-法線分布関数">GGX 法線分布関数</a>
+      <ul>
+        <li><a href="#衝突パラメータ">衝突パラメータ</a></li>
+        <li><a href="#衝突パラメータによる法線分布関数の表現">衝突パラメータによる法線分布関数の表現</a></li>
+        <li><a href="#ggx-法線分布関数の導出">GGX 法線分布関数の導出</a>
+          <ul>
+            <li><a href="#回転楕円体">回転楕円体</a></li>
+            <li><a href="#ggxモデルの導出">GGXモデルの導出</a></li>
+          </ul>
+        </li>
+        <li><a href="#この節のまとめ-3">この節のまとめ</a></li>
+      </ul>
+    </li>
+    <li><a href="#まとめ">まとめ</a></li>
+    <li><a href="#参考文献">参考文献</a>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+  </aside>
   
  
       </header>
@@ -247,33 +260,46 @@ https://github.com/alex-shpak/hugo-book
 </div>
 <p>で表現します.
 この概念は, Rendering 方程式にある BRDF
-\(f(\bm{i},\bm{o})\;[\text{sr}^{-1}]\)
+\(f_r(\bm{i},\bm{o})\;[\text{sr}^{-1}]\)
 とよく似ています.</p>
 <p>微分散乱断面積は, レイリー散乱や, 剛体球に弾かれる粒子の散乱など, 様々な散乱現象を求めるのに使われます.
 これと BRDF との対応関係がわかれば, 散乱理論で培われた知見を, さまざまな BRDF の考察に応用することができるかもしれません.</p>
 <p>この対応関係は, [
   <a href="/posts/202012_advent_calendar/#Arvo1993">Arvo 1993</a>] で示唆されているように, 既知であることが伺えます.
 しかし, このことを一貫して解説した文献を見つけることができなかったため, 自分なりにノートをまとめました.</p>
-<p>それでは, 空間に漂うホコリに光が当たって散乱する現象を考えることから始めていきます。</p>
-<h2 id="散乱媒質と光">
+<h1 id="散乱媒質と光">
   散乱媒質と光
   <a class="anchor" href="#%e6%95%a3%e4%b9%b1%e5%aa%92%e8%b3%aa%e3%81%a8%e5%85%89">#</a>
+</h1>
+<h2 id="散乱媒質">
+  散乱媒質
+  <a class="anchor" href="#%e6%95%a3%e4%b9%b1%e5%aa%92%e8%b3%aa">#</a>
 </h2>
-<p>いま, 空間を漂うホコリや, それに当たって散乱する光は, 位置 \(\bm{x}\) で 運動量 \(\bm{p}\) で運動する粒子と考えます.
-光が当たる対象の物質はホコリに限らず, 酸素など大気を構成する分子や, 水滴などのエアロゾルも考えます.
-以降, これらの物質をまとめて散乱媒質, その粒子を散乱体と呼ぶことにします.</p>
-<p>あとは, 媒質へ入射した光の粒子が移動する場所がわかれば, それを全て計算することで,
-現実と同じ見た目を再現することが期待できます.
-しかし, 空間に漂う全ての粒子の運動を計算するのは大変です.</p>
-<p>そこで, それぞれの粒子の運動を考える代わりに, 粒子の集団の運動を考えます.</p>
+<p>空間を漂うホコリや, 酸素や窒素など大気を構成する分子, そして水滴などのエアロゾルを
+まとめて散乱媒質と呼ぶことにします.
+そしてこれらの粒子は, 空間中を位置 \(\bm{x}\), 運動量 \(\bm{p}\) で運動するものと考えます.</p>
+<h2 id="光">
+  光
+  <a class="anchor" href="#%e5%85%89">#</a>
+</h2>
+<p>光とは, 電磁波の振動数 \(\nu\) が
+
+  <a href="https://en.wikipedia.org/wiki/Visible_spectrum">可視光</a>
+の領域 400THz ～ 800THz 程度にあるものを指します.
+電磁波にはその最小単位があり, それはエネルギー \(h\nu\) をもつ光子として知られています.
+光子には, 空間を波動として伝搬し, 物質と粒子として相互作用する性質があります.</p>
+<p>ここでは, 光子の波動的性質を無視します.
+つまり光子を, 空間を粒子として伝搬し, 物質と粒子として相互作用する物体とします.</p>
+<p>この簡略化によって, 散乱媒質と光の両者は, 位置 \(\bm{x}\), 運動量 \(\bm{p}\) で空間を運動する
+粒子として等しく扱うことができるようになります.</p>
 <h1 id="気体分子運動論">
   気体分子運動論
   <a class="anchor" href="#%e6%b0%97%e4%bd%93%e5%88%86%e5%ad%90%e9%81%8b%e5%8b%95%e8%ab%96">#</a>
 </h1>
-<p>それぞれが力学に基づいて運動する粒子の集団があったとき, その集団の性質を考える体系は
+<p>位置 \(\bm{x}\), 運動量 \(\bm{p}\) で空間を運動する粒子の集団があったとき, その集団の性質を考える体系は
 
   <a href="https://en.wikipedia.org/wiki/Kinetic_theory_of_gases">気体分子運動論</a> として知られています.
-のちに, 媒質による光の散乱をこの体系に基づいて議論するため, ここで必要な知識をおさらいしておきます.</p>
+のちに, 散乱媒質による光の散乱を議論するため, ここで必要な知識をおさらいしておきます.</p>
 <h2 id="密度関数">
   密度関数
   <a class="anchor" href="#%e5%af%86%e5%ba%a6%e9%96%a2%e6%95%b0">#</a>
@@ -569,12 +595,16 @@ Boltzmann 方程式は
   \[	\dot{\bm{p}}=0\]
 </span>
 </li>
-<li>速度は定数 \(c\,[\text{m}\,\text{s}^{-1}]\) とする</li>
+<li>速度は \(c\,[\text{m}\,\text{s}^{-1}]\) で一定とする</li>
 </ul>
 <p>と仮定します.</p>
-<p>そして, 媒質を Lorentz gas [
-  <a href="/posts/202012_advent_calendar/#Lorentz1905">Lorentz 1905</a>] と同様に考えて,</p>
+<p>そして, 媒質に対して,</p>
 <ul>
+<li>媒質の移動速度は, 光の速度 \(c\) に比べて無視できる
+<span>
+  \[	|\bm{v}-\bm{v}_*|\approx c\]
+</span>
+</li>
 <li>光との衝突による運動量変化は無視できる
 <span>
   \[	f_m(\bm{p}&#39;_*)\approx f_m(\bm{p}_*)\]
@@ -583,11 +613,6 @@ Boltzmann 方程式は
 <li>光同士の散乱断面積は, 媒質と光の散乱断面積に比べて無視できる
 <span>
   \[	\sigma_{pm} \gg \sigma_{pp}\]
-</span>
-</li>
-<li>媒質の移動速度は, 光の速度 \(c\) に比べて無視できる
-<span>
-  \[	|\bm{v}-\bm{v}_*|\approx c\]
 </span>
 </li>
 </ul>
@@ -620,23 +645,11 @@ Boltzmann 方程式は
 
 と書き直します.
 これに伴い, 密度関数 \(f_p(\bm{x},\bm{p},t)\) の引数は \(f_p(\bm{x},\bm{o},|\bm{p}|,t)\) となります.</p>
-<p>これまで, 光は位置 \(\bm{x}\), 運動量 \(\bm{p}\) をもつ粒子として考えてきました.
-ここで, その最小単位である, 光子について考えます.</p>
 <p>
-  <a href="https://en.wikipedia.org/wiki/Visible_spectrum">可視光</a>
-は振動数 \(\nu\) が 400 THz から 800 THz 程度の
-
-  <a href="https://en.wikipedia.org/wiki/Electromagnetic_radiation">電磁波</a>
-であり, それに対応する
-
-  <a href="https://en.wikipedia.org/wiki/Quantization_of_the_electromagnetic_field">電磁場の量子</a>
-は, エネルギー \(h\nu\) をもつ
-
-  <a href="https://en.wikipedia.org/wiki/Photon">光子</a>
-です.
-そこで, 光子の運動量と電磁波の振動数が,
-Einstein - de Broglie の関係式によって\(|\bm{p}|=\frac{h\nu}{c}\) と関係していることを考慮して,
-密度関数 \(f_p(\bm{x},\bm{o},|\bm{p}|,t)\) の引数を \(f_p(\bm{x},\bm{o},\nu,t)\) とします.</p>
+  <a href="/posts/202012_advent_calendar/#%e5%85%89">以前</a>に言及したように, いま光の粒子はエネルギー \(h\nu\) をもつ
+光子であるとしています.
+そこで, Einstein - de Broglie の関係式 \(|\bm{p}|=\frac{h\nu}{c}\) を用いて,
+密度関数 \(f_p(\bm{x},\bm{o},|\bm{p}|,t)\) の引数を \(f_p(\bm{x},\bm{o},\nu,t)\) と書き直します.</p>
 <p>さらに, 放射輝度 \(L(\bm{x},\bm{\omega},\nu,t)\) とのあいだに
 <span>
   \[	L(\bm{x},\bm{\omega},\nu,t) = \frac{2h\nu^3}{c^2}f_p(\bm{x},\bm{\omega},\nu,t)
@@ -853,9 +866,9 @@ Kajiya の Rendering 方程式 [
 </span>
 </p>
 <p>このとき, 面積分布 \(\left|\frac{d\bm{\sigma}_n}{d\bm{\omega}_i}\right|\)
-を散乱断面積 \(\sigma_r\) で規格化した量 \(f(\bm{i},\bm{o})\) を BRDF と呼びます.
+を散乱断面積 \(\sigma_r\) で規格化した量 \(f_r(\bm{i},\bm{o})\) を BRDF と呼びます.
 <span>
-  \[	f(\bm{i},\bm{o}):=\frac{1}{\sigma_r}\left|\frac{d\bm{\sigma}_r}{d\bm{\omega}_i}\right|
+  \[	f_r(\bm{i},\bm{o}):=\frac{1}{\sigma_r}\left|\frac{d\bm{\sigma}_r}{d\bm{\omega}_i}\right|
 	\qquad[\text{sr}^{-1}]\]
 </span>
 </p>
@@ -1373,38 +1386,37 @@ BRDF は微分散乱断面積で書いたので, 散乱理論の手法を応用�
   まとめ
   <a class="anchor" href="#%e3%81%be%e3%81%a8%e3%82%81">#</a>
 </h1>
-<p>この記事では,
-まず, 主に
+<p>この記事では, 主に
 [
   <a href="/posts/202012_advent_calendar/#Cercignani1988">Cercignani 1988</a>]
+[
+  <a href="/posts/202012_advent_calendar/#Arvo1993">Arvo 1993</a>]
 を参考にして
 
   <a href="/posts/202012_advent_calendar/#boltzmann-%e6%96%b9%e7%a8%8b%e5%bc%8f">Boltzmann 方程式</a>
 から
 
   <a href="/posts/202012_advent_calendar/#radiative-transfer-%e6%96%b9%e7%a8%8b%e5%bc%8f">Radiative Transfer 方程式</a>
-を導きました.</p>
-<p>それから
-[
-  <a href="/posts/202012_advent_calendar/#Arvo1993">Arvo 1993</a>]
-を参考に
+を導き, そこから
 
   <a href="/posts/202012_advent_calendar/#volume-rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f">Volume Rendering 方程式</a>
 と
 
   <a href="/posts/202012_advent_calendar/#rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f-1">Rendering 方程式</a>
-を導き, そして主に
+を導きました.</p>
+<p>次に
 [
   <a href="/posts/202012_advent_calendar/#Heitz2014">Heitz 2014</a>]
 を参考にして
 
   <a href="/posts/202012_advent_calendar/#microfacet-brdf">Microfacet BRDF</a>
-を導きました.</p>
-<p>この際, 光と媒質の衝突部分を一貫して
+を導きました.
+この際, 光と媒質の衝突部分を一貫して
 
   <a href="/posts/202012_advent_calendar/#%e5%be%ae%e5%88%86%e6%95%a3%e4%b9%b1%e6%96%ad%e9%9d%a2%e7%a9%8d">微分散乱断面積</a>
 を用いて記述することで, 何らかの幾何形状から Microfacet BRDF を求められるようにしました.</p>
-<p>最後に, 散乱理論 [
+<p>最後に, Microfacet BRDF を求める例のひとつとして,
+散乱理論 [
   <a href="/posts/202012_advent_calendar/#Sunakawa1977">砂川 1977</a>] で知られている
 
   <a href="/posts/202012_advent_calendar/#%e8%a1%9d%e7%aa%81%e3%83%91%e3%83%a9%e3%83%a1%e3%83%bc%e3%82%bf">衝突パラメータ</a>
@@ -1414,7 +1426,7 @@ BRDF は微分散乱断面積で書いたので, 散乱理論の手法を応用�
 から
 
   <a href="/posts/202012_advent_calendar/#ggx%e3%83%a2%e3%83%87%e3%83%ab%e3%81%ae%e5%b0%8e%e5%87%ba">GGX 法線分布関数</a>
-を求めました.</p>
+を求める例を紹介しました.</p>
 <h1 id="参考文献">
   参考文献
   <a class="anchor" href="#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae">#</a>
@@ -1555,6 +1567,93 @@ BRDF は微分散乱断面積で書いたので, 散乱理論の手法を応用�
       <label for="menu-control" class="hidden book-menu-overlay"></label>
     </div>
 
+    
+    <aside class="book-toc">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#はじめに">はじめに</a></li>
+    <li><a href="#散乱媒質と光">散乱媒質と光</a>
+      <ul>
+        <li><a href="#散乱媒質">散乱媒質</a></li>
+        <li><a href="#光">光</a></li>
+      </ul>
+    </li>
+    <li><a href="#気体分子運動論">気体分子運動論</a>
+      <ul>
+        <li><a href="#密度関数">密度関数</a></li>
+        <li><a href="#衝突率">衝突率</a></li>
+        <li><a href="#微分散乱断面積">微分散乱断面積</a></li>
+        <li><a href="#衝突項">衝突項</a></li>
+        <li><a href="#boltzmann-方程式">Boltzmann 方程式</a></li>
+        <li><a href="#この節のまとめ">この節のまとめ</a></li>
+      </ul>
+    </li>
+    <li><a href="#radiative-transfer">Radiative Transfer</a>
+      <ul>
+        <li><a href="#光と媒質の-boltzmann-方程式">光と媒質の Boltzmann 方程式</a>
+          <ul>
+            <li><a href="#放射輝度">放射輝度</a></li>
+            <li><a href="#位相関数">位相関数</a></li>
+            <li><a href="#散乱係数">散乱係数</a></li>
+            <li><a href="#光と媒質の-boltzmann-方程式-1">光と媒質の Boltzmann 方程式</a></li>
+          </ul>
+        </li>
+        <li><a href="#radiative-transfer-1">Radiative Transfer</a>
+          <ul>
+            <li><a href="#局所熱平衡">局所熱平衡</a></li>
+            <li><a href="#radiative-transfer-方程式">Radiative Transfer 方程式</a></li>
+          </ul>
+        </li>
+        <li><a href="#この節のまとめ-1">この節のまとめ</a></li>
+      </ul>
+    </li>
+    <li><a href="#rendering-方程式">Rendering 方程式</a>
+      <ul>
+        <li><a href="#volume-rendering-方程式">Volume Rendering 方程式</a></li>
+        <li><a href="#rendering-方程式-1">Rendering 方程式</a></li>
+        <li><a href="#bidirectional-reflectance-distribution-function-brdf">Bidirectional Reflectance Distribution Function (BRDF)</a></li>
+      </ul>
+    </li>
+    <li><a href="#microfacet-モデル">Microfacet モデル</a>
+      <ul>
+        <li><a href="#ハーフベクトル">ハーフベクトル</a></li>
+        <li><a href="#法線分布関数">法線分布関数</a></li>
+        <li><a href="#masking-関数">Masking 関数</a></li>
+        <li><a href="#shadowing-masking-関数">Shadowing-Masking 関数</a></li>
+        <li><a href="#fresnel-の式">Fresnel の式</a></li>
+        <li><a href="#microfacet-brdf">Microfacet BRDF</a></li>
+        <li><a href="#この節のまとめ-2">この節のまとめ</a></li>
+      </ul>
+    </li>
+    <li><a href="#ggx-法線分布関数">GGX 法線分布関数</a>
+      <ul>
+        <li><a href="#衝突パラメータ">衝突パラメータ</a></li>
+        <li><a href="#衝突パラメータによる法線分布関数の表現">衝突パラメータによる法線分布関数の表現</a></li>
+        <li><a href="#ggx-法線分布関数の導出">GGX 法線分布関数の導出</a>
+          <ul>
+            <li><a href="#回転楕円体">回転楕円体</a></li>
+            <li><a href="#ggxモデルの導出">GGXモデルの導出</a></li>
+          </ul>
+        </li>
+        <li><a href="#この節のまとめ-3">この節のまとめ</a></li>
+      </ul>
+    </li>
+    <li><a href="#まとめ">まとめ</a></li>
+    <li><a href="#参考文献">参考文献</a>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+ 
+    </aside>
     
   </main>
 
