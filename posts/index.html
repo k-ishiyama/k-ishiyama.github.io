@@ -14,7 +14,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.cee10c94366cd5fb700fdc75ef82a08d1765050b07009c8f1cb3b3b797132b7d.js" integrity="sha256-zuEMlDZs1ftwD9x174KgjRdlBQsHAJyPHLOzt5cTK30="></script>
+<script defer src="/en.search.min.71ba70b45045b4896f706921f06dd16379df970cca6eca1be5a04596f5cb3f51.js" integrity="sha256-cbpwtFBFtIlvcGkh8G3RY3nflwzKbsob5aBFlvXLP1E="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <link rel="alternate" type="application/rss+xml" href="https://k-ishiyama.github.io/posts/index.xml" title="Notes" />
@@ -123,6 +123,33 @@ https://github.com/alex-shpak/hugo-book
 
       
       
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/202112_advent_calendar/">局所一様媒質に対する Volume Rendering 方程式の漸化式</a>
+    </h2>
+    
+  <h5>December 16, 2021</h5>
+
+
+
+  
+
+  
+
+
+    <p>これは レイトレ Advent Calendar 2021 の記事です.
+はじめに #  ゲームに使われるリアルアイムレンダリングの話をします.
+[ Hillaire 2016] の 5.6.3 節では, 散乱媒質を描画するときに, Volume Rendering 方程式の内部散乱項に対して入射光と散乱媒質を一様としたときに得られる, 解析解を利用しています.
+後に述べるように, この解析解は 指数フォグを一般化したものに相当します.
+     \[\begin{aligned} L(s) = L(0)e^{-\mu s} &#43; L_{\text{in}}(1-e^{-\mu s}) \end{aligned}\]  解析解には, 数値積分の誤差が生じません. このため, レイマーチング[ Wrenninge and Zafar 2011]などによって散乱媒質を描画するとき, 入射光と散乱媒質が局所的に一様とみなせるところで, その計算精度を改善してくれます.
+ただし [ Hillaire 2016] で行われている議論は, ひとつの散乱媒質と単一散乱に絞ったものです. より一般的な議論を行うためには, 複数の散乱媒質と多重散乱を含んだものを, Volume Rendering 方程式から明示的に求めた資料が欲しいところです.
+そこで, この記事では複数媒質の Volume Rendering 方程式から出発して, 入射光と散乱媒質を局所的に一様としたときの漸化式を導きます1.
+複数媒質の Volume Rendering 方程式 #  まずは, Volume Rendering 方程式を導入します.
+        <a href="/posts/202112_advent_calendar/">...</a>
+      
+    </p>
+  </article>
   
   <article class="markdown book-post">
     <h2>

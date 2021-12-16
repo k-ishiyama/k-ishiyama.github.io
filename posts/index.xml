@@ -6,6 +6,22 @@
     <description>Recent content in Blog on Notes</description>
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://k-ishiyama.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>局所一様媒質に対する Volume Rendering 方程式の漸化式</title>
+      <link>https://k-ishiyama.github.io/posts/202112_advent_calendar/</link>
+      <pubDate>Thu, 16 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://k-ishiyama.github.io/posts/202112_advent_calendar/</guid>
+      <description>これは レイトレ Advent Calendar 2021 の記事です.
+はじめに #  ゲームに使われるリアルアイムレンダリングの話をします.
+[ Hillaire 2016] の 5.6.3 節では, 散乱媒質を描画するときに, Volume Rendering 方程式の内部散乱項に対して入射光と散乱媒質を一様としたときに得られる, 解析解を利用しています.
+後に述べるように, この解析解は 指数フォグを一般化したものに相当します.
+     \[\begin{aligned} L(s) = L(0)e^{-\mu s} &amp;#43; L_{\text{in}}(1-e^{-\mu s}) \end{aligned}\]  解析解には, 数値積分の誤差が生じません. このため, レイマーチング[ Wrenninge and Zafar 2011]などによって散乱媒質を描画するとき, 入射光と散乱媒質が局所的に一様とみなせるところで, その計算精度を改善してくれます.
+ただし [ Hillaire 2016] で行われている議論は, ひとつの散乱媒質と単一散乱に絞ったものです. より一般的な議論を行うためには, 複数の散乱媒質と多重散乱を含んだものを, Volume Rendering 方程式から明示的に求めた資料が欲しいところです.
+そこで, この記事では複数媒質の Volume Rendering 方程式から出発して, 入射光と散乱媒質を局所的に一様としたときの漸化式を導きます1.
+複数媒質の Volume Rendering 方程式 #  まずは, Volume Rendering 方程式を導入します.</description>
+    </item>
+    
+    <item>
       <title>散乱理論とレンダリング方程式</title>
       <link>https://k-ishiyama.github.io/posts/202012_advent_calendar/</link>
       <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>

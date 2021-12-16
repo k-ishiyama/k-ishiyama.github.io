@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en" dir=>
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="これは レイトレ Advent Calendar 2021 の記事です.
+はじめに #  ゲームに使われるリアルアイムレンダリングの話をします.
+[ Hillaire 2016] の 5.6.3 節では, 散乱媒質を描画するときに, Volume Rendering 方程式の内部散乱項に対して入射光と散乱媒質を一様としたときに得られる, 解析解を利用しています.
+後に述べるように, この解析解は 指数フォグを一般化したものに相当します.
+     \[\begin{aligned} L(s) = L(0)e^{-\mu s} &#43; L_{\text{in}}(1-e^{-\mu s}) \end{aligned}\]  解析解には, 数値積分の誤差が生じません. このため, レイマーチング[ Wrenninge and Zafar 2011]などによって散乱媒質を描画するとき, 入射光と散乱媒質が局所的に一様とみなせるところで, その計算精度を改善してくれます.
+ただし [ Hillaire 2016] で行われている議論は, ひとつの散乱媒質と単一散乱に絞ったものです. より一般的な議論を行うためには, 複数の散乱媒質と多重散乱を含んだものを, Volume Rendering 方程式から明示的に求めた資料が欲しいところです.
+そこで, この記事では複数媒質の Volume Rendering 方程式から出発して, 入射光と散乱媒質を局所的に一様としたときの漸化式を導きます1.
+複数媒質の Volume Rendering 方程式 #  まずは, Volume Rendering 方程式を導入します.">
+<meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="局所一様媒質に対する Volume Rendering 方程式の漸化式" />
+<meta property="og:description" content="これは レイトレ Advent Calendar 2021 の記事です.
+はじめに #  ゲームに使われるリアルアイムレンダリングの話をします.
+[ Hillaire 2016] の 5.6.3 節では, 散乱媒質を描画するときに, Volume Rendering 方程式の内部散乱項に対して入射光と散乱媒質を一様としたときに得られる, 解析解を利用しています.
+後に述べるように, この解析解は 指数フォグを一般化したものに相当します.
+     \[\begin{aligned} L(s) = L(0)e^{-\mu s} &#43; L_{\text{in}}(1-e^{-\mu s}) \end{aligned}\]  解析解には, 数値積分の誤差が生じません. このため, レイマーチング[ Wrenninge and Zafar 2011]などによって散乱媒質を描画するとき, 入射光と散乱媒質が局所的に一様とみなせるところで, その計算精度を改善してくれます.
+ただし [ Hillaire 2016] で行われている議論は, ひとつの散乱媒質と単一散乱に絞ったものです. より一般的な議論を行うためには, 複数の散乱媒質と多重散乱を含んだものを, Volume Rendering 方程式から明示的に求めた資料が欲しいところです.
+そこで, この記事では複数媒質の Volume Rendering 方程式から出発して, 入射光と散乱媒質を局所的に一様としたときの漸化式を導きます1.
+複数媒質の Volume Rendering 方程式 #  まずは, Volume Rendering 方程式を導入します." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://k-ishiyama.github.io/posts/202112_advent_calendar/" />
+<meta property="article:published_time" content="2021-12-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-12-16T01:26:35+09:00" />
+<title>局所一様媒質に対する Volume Rendering 方程式の漸化式 | Notes</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
+<script defer src="/en.search.min.71ba70b45045b4896f706921f06dd16379df970cca6eca1be5a04596f5cb3f51.js" integrity="sha256-cbpwtFBFtIlvcGkh8G3RY3nflwzKbsob5aBFlvXLP1E="></script>
+
+<script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body dir=>
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/"><span>Notes</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://twitter.com/ishiyama_" target="_blank" rel="noopener">
+        Twitter
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>局所一様媒質に対する Volume Rendering 方程式の漸化式</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#はじめに">はじめに</a></li>
+    <li><a href="#複数媒質の-volume-rendering-方程式">複数媒質の Volume Rendering 方程式</a>
+      <ul>
+        <li><a href="#散乱媒質と光">散乱媒質と光</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+        <li><a href="#volume-rendering-方程式">Volume Rendering 方程式</a></li>
+        <li><a href="#volume-rendering-方程式の積分形">Volume Rendering 方程式の積分形</a></li>
+      </ul>
+    </li>
+    <li><a href="#局所的に一様な媒質に対する漸化式">局所的に一様な媒質に対する漸化式</a>
+      <ul>
+        <li><a href="#局所的に一様な媒質">局所的に一様な媒質</a></li>
+        <li><a href="#解析解">解析解</a></li>
+        <li><a href="#漸化式">漸化式</a></li>
+        <li><a href="#まとめ">まとめ</a></li>
+      </ul>
+    </li>
+    <li><a href="#漸化式の考察">漸化式の考察</a></li>
+    <li><a href="#さいごに">さいごに</a></li>
+    <li><a href="#参考文献">参考文献</a>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/posts/202112_advent_calendar/">局所一様媒質に対する Volume Rendering 方程式の漸化式</a>
+  </h1>
+  
+  <h5>December 16, 2021</h5>
+
+
+
+  
+
+  
+
+
+  <p><p>これは 
+  <a href="https://qiita.com/advent-calendar/2021/raytracing">レイトレ Advent Calendar 2021</a> の記事です.</p>
+<h1 id="はじめに">
+  はじめに
+  <a class="anchor" href="#%e3%81%af%e3%81%98%e3%82%81%e3%81%ab">#</a>
+</h1>
+<p>ゲームに使われるリアルアイムレンダリングの話をします.</p>
+<p>[
+  <a href="/posts/202112_advent_calendar/#Hillaire2016">Hillaire 2016</a>] の 5.6.3 節では,
+散乱媒質を描画するときに,
+Volume Rendering 方程式の内部散乱項に対して入射光と散乱媒質を一様としたときに得られる,
+解析解を利用しています.</p>
+<p>後に述べるように, この解析解は
+  <a href="https://docs.microsoft.com/en-us/windows/win32/direct3d9/fog-formulas">指数フォグ</a>を一般化したものに相当します.</p>
+<div align="center">
+<figure>
+    <img src="intro-1.jpg" width="250"/> 
+</figure>
+
+</div>
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[\begin{aligned}
+	L(s) = L(0)e^{-\mu s} &#43; L_{\text{in}}(1-e^{-\mu s})
+\end{aligned}\]
+</span>
+
+<p>解析解には, 数値積分の誤差が生じません.
+このため, レイマーチング[
+  <a href="/posts/202112_advent_calendar/#Wrenninge2011">Wrenninge and Zafar 2011</a>]などによって散乱媒質を描画するとき,
+入射光と散乱媒質が局所的に一様とみなせるところで, その計算精度を改善してくれます.</p>
+<p>ただし [
+  <a href="/posts/202112_advent_calendar/#Hillaire2016">Hillaire 2016</a>]
+で行われている議論は, ひとつの散乱媒質と単一散乱に絞ったものです.
+より一般的な議論を行うためには, 複数の散乱媒質と多重散乱を含んだものを,
+Volume Rendering 方程式から明示的に求めた資料が欲しいところです.</p>
+<p>そこで, この記事では複数媒質の Volume Rendering 方程式から出発して,
+入射光と散乱媒質を局所的に一様としたときの漸化式を導きます<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<h1 id="複数媒質の-volume-rendering-方程式">
+  複数媒質の Volume Rendering 方程式
+  <a class="anchor" href="#%e8%a4%87%e6%95%b0%e5%aa%92%e8%b3%aa%e3%81%ae-volume-rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f">#</a>
+</h1>
+<p>まずは, Volume Rendering 方程式を導入します.</p>
+<p>Volume Rendering 方程式とは, 散乱媒質内を進行する光の輝度の変化を記述する方程式で,
+資料によっては Radiative Transfer 方程式とも呼ばれます.
+この記事では, 時間に依存しない Radiative Transfer 方程式を Volume Rendering 方程式と呼びます<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<p>ただし, その導出の詳細<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>には触れず, 現象論的な導入
+[
+  <a href="/posts/202112_advent_calendar/#Arvo1993">Arvo. 1993</a>]
+[
+  <a href="/posts/202112_advent_calendar/#Fong2017">Fong et al. 2017</a>]
+[
+  <a href="/posts/202112_advent_calendar/#Novak2018">Novák et al. 2018</a>]
+のみをおさらいします.
+また, この記事では, レイリー散乱とミー散乱をする2種類の媒質を混ぜて扱えるように,
+複数の散乱媒質に対する Volume Rendering 方程式を導入します.</p>
+<h2 id="散乱媒質と光">
+  散乱媒質と光
+  <a class="anchor" href="#%e6%95%a3%e4%b9%b1%e5%aa%92%e8%b3%aa%e3%81%a8%e5%85%89">#</a>
+</h2>
+<div align="center">
+<figure>
+    <img src="participating-media.jpg"
+         alt="白丸:フォトン,  赤:1種類めの散乱媒質,  青:2種類めの散乱媒質" width="250"/> <figcaption>
+            <p>白丸:フォトン,  赤:1種類めの散乱媒質,  青:2種類めの散乱媒質</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>空気中のちりを \(I\) 種類の散乱体からなる粒子の集団,
+そして空間を進む光を光子からなる粒子の集団であると簡略化<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>します.
+そして, 散乱体の集団を「散乱媒質」, 光子の集団を「フォトン」と呼ぶことにします<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>.
+簡単のため, 粒子の形状は全て球とします.</p>
+<p>Volume Rendering 方程式に進む準備として, フォトンの密度を表す輝度と, 散乱媒質の密度を表す散乱係数,
+そして散乱媒質によるフォトンの散乱を表す位相関数を導入します.</p>
+<h4 id="輝度">
+  輝度
+  <a class="anchor" href="#%e8%bc%9d%e5%ba%a6">#</a>
+</h4>
+<div align="center">
+<figure>
+    <img src="photon.jpg" width="180"/> 
+</figure>
+
+</div>
+<p>フォトンの密度は, 位置 \(\bm{x}\) と方向 \(\bm{\omega}\) に対する輝度 \(L(\bm{x},\bm{\omega})\) で表します.</p>
+<h4 id="散乱係数">
+  散乱係数
+  <a class="anchor" href="#%e6%95%a3%e4%b9%b1%e4%bf%82%e6%95%b0">#</a>
+</h4>
+<div align="center">
+<figure>
+    <img src="cross-section.jpg" width="270"/> 
+</figure>
+
+</div>
+<p>ある方向から \(i\) 種類めの散乱体を眺めたときの断面積を散乱断面積 \(\sigma^{(i)}\) と呼び,
+その散乱体の個数密度を \(n^{(i)}(\bm{x})\) とします.
+このとき, 単位体積当たりの散乱断面積を散乱係数 \(\mu^{(i)}_s(\bm{x}):=\sigma^{(i)}n^{(i)}(\bm{x})\) で表します.</p>
+<h4 id="散乱の位相関数">
+  散乱の位相関数
+  <a class="anchor" href="#%e6%95%a3%e4%b9%b1%e3%81%ae%e4%bd%8d%e7%9b%b8%e9%96%a2%e6%95%b0">#</a>
+</h4>
+<p>散乱体の性質に応じて, 光との相互作用は単に弾性散乱を考えるだけで良い場合もあれば,
+電磁波の散乱を考慮する必要がある場合もあります.</p>
+<div align="center">
+<figure>
+    <img src="phase-function.jpg" width="270"/> 
+</figure>
+
+</div>
+<p>そこで, \(i\) 種類めの散乱媒質が, 方向 \(\bm{\omega}'\) から来たフォトンを方向 \(\bm{\omega}\) に散乱する割合を
+位相関数 \(p^{(i)}(\bm{\omega},\bm{\omega}')\) と書き,
+その中に様々な効果によって起こる散乱の方向分布を埋め込むことにします.</p>
+<p>なお, 位相関数は, 球面上で積分したときに 1 となるように規格化されています.
+<span>
+  \[\begin{aligned}
+	\int_{\bm{\omega}&#39;\in\mathcal{S}^2} p^{(i)}(\bm{\omega},\bm{\omega}&#39;)d\bm{\omega}&#39; = 1
+\end{aligned}\]
+</span>
+</p>
+<h4 id="光の吸収と放出">
+  光の吸収と放出
+  <a class="anchor" href="#%e5%85%89%e3%81%ae%e5%90%b8%e5%8f%8e%e3%81%a8%e6%94%be%e5%87%ba">#</a>
+</h4>
+<p>散乱媒質はフォトンを吸収する場合もあるとして, 吸収係数 \(\mu^{(i)}_a(\bm{x})\) を考えます.
+散乱係数と吸収係数を合算したものを,
+消散係数 \(\mu^{(i)}_e(\bm{x}) = \mu^{(i)}_s(\bm{x}) + \mu^{(i)}_a(\bm{x})\)
+と呼びます.</p>
+<p>そして, フォトンの放出は source 項 \(S^{(i)}(\bm{x})\) で表します.<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>.</p>
+<h2 id="volume-rendering-方程式">
+  Volume Rendering 方程式
+  <a class="anchor" href="#volume-rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f">#</a>
+</h2>
+<p>このようにしてフォトンと散乱媒質を表現したとき, 散乱媒質中を進行するフォトンの輝度の変化は,
+次の Volume Rendering 方程式で記述されます.</p>
+<p><blockquote class="book-hint info">
+  <p><strong>Volume Rendering 方程式</strong></p>
+<span>
+  \[\begin{aligned}
+	(\bm{\omega}\cdot\nabla)L(\bm{x},\bm{\omega})
+	= \sum^I_i\left[\lambda^{(i)}(\bm{x},\bm{\omega}) - \mu_e^{(i)}(\bm{x})L(\bm{x},\bm{\omega})\right]
+\end{aligned}\]
+</span>
+
+</blockquote>
+
+ただし
+<span>
+  \[\begin{aligned}
+	\lambda^{(i)}(\bm{x},\bm{\omega})
+	:= S^{(i)}(\bm{x},\bm{\omega}) &#43; \mu_s^{(i)}(\bm{x}) \int_{\mathcal{S}^2}
+		p^{(i)}(\bm{\omega},\bm{\omega}&#39;)L(\bm{x},\bm{\omega}&#39;)d\bm{\omega}&#39;
+\end{aligned}\]
+</span>
+
+です.</p>
+<div align="center">
+<figure>
+    <img src="vre-gain.jpg"
+         alt="Fig. gain 項の各項" width="400"/> <figcaption>
+            <p>Fig. gain 項の各項</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>右辺の \(\lambda^{(i)}(\bm{x},\bm{\omega})\) は,
+source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
+内部散乱項 \(\mu_s^{(i)}(\bm{x}) \int_{\mathcal{S}^2}p^{(i)}(\bm{\omega},\bm{\omega}')L(\bm{x},\bm{\omega}')d\bm{\omega}'\)
+による輝度の増加を表します.
+この記事では, この項を gain 項と呼びます.</p>
+<div align="center">
+<figure>
+    <img src="vre-loss.jpg"
+         alt="Fig. loss 項 \(-\mu_eL = -(\mu_a&#43;\mu_s)L\)" width="400"/> <figcaption>
+            <p>Fig. loss 項 \(-\mu_eL = -(\mu_a+\mu_s)L\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>右辺の \(\mu_e^{(i)}(\bm{x})L(\bm{x},\bm{\omega})\)
+は, 媒質に衝突して失われる輝度の減少を表します.
+この記事では, この項を loss 項と呼びます.</p>
+<p>そして,
+左辺の方向微分 \((\bm{\omega}\cdot\nabla)L(\bm{x},\bm{\omega})\) によって,
+散乱媒質中を進行するフォトンの輝度の変化を表します.</p>
+<h2 id="volume-rendering-方程式の積分形">
+  Volume Rendering 方程式の積分形
+  <a class="anchor" href="#volume-rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f%e3%81%ae%e7%a9%8d%e5%88%86%e5%bd%a2">#</a>
+</h2>
+<p>輝度 \(L(\bm{x},\bm{\omega})\) を求めるため, Volume Rendering 方程式の積分形を考えます.
+方向 \(\bm{\omega}\) に沿った積分をわかりやすくするために, 距離 \(s\) を使って位置 \(\bm{x}\) を
+\(\bm{x}(s)=\bm{x}(0)+\bm{\omega}s\) と表し, 方向微分を
+\(\left(\bm{\omega}\cdot\nabla\right)L\left(\bm{x},\bm{\omega}\right) = \frac{dL\left(\bm{x}(s),\bm{\omega}\right)}{ds}\)
+と書き換えます<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup>.</p>
+<p>すると Volume Rendering 方程式は
+<span>
+  \[\begin{aligned}
+    \frac{dL\left(s,\,\bm{\omega}\right)}{ds}
+    = \sum^I_i\left[\lambda^{(i)}(s,\,\bm{\omega})
+			- \mu^{(i)}_e(s)L\left(s,\,\bm{\omega}\right)\right]
+\end{aligned}\]
+</span>
+
+となります.
+ここで \(L(\bm{x}(s),\bm{\omega})\) を \(L(s,\bm{\omega})\) と略記しました.
+\(\lambda^{(i)}(s,\bm{\omega})\) や \(\mu^{(i)}_e(s)\) も同様です.</p>
+<p>上式は一階線形微分方程式なので, その積分形は次のように求まります<sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup></p>
+<p><blockquote class="book-hint info">
+  <h4 id="vre-integ">Volume Rendering 方程式(積分形)</h4>
+<span>
+  \[	\begin{aligned}
+		L(s,\bm{\omega})
+		=L\left(0,\bm{\omega}\right)\tau(0,s)
+		&#43; \int^s_{s&#39;=0}\lambda(s&#39;,\bm{\omega})\tau(s&#39;,s) ds&#39;
+	\end{aligned}\]
+</span>
+
+</blockquote>
+
+ただし
+<span>
+  \[	\begin{aligned}
+		\tau(a,b)
+			&amp;:= \exp\left[-\int^b_{s&#39;&#39;=a}\left(\sum^I_i\mu_e^{(i)}(s&#39;&#39;)\right)ds&#39;&#39;\right]\\
+		\lambda(s&#39;,\bm{\omega})
+			&amp;:= \sum_i\left[S^{(i)}(s&#39;,\bm{\omega}) &#43; \mu_s^{(i)}(s&#39;)
+				\int_{\mathcal{S}^2} p^{(i)}(\bm{\omega},\bm{\omega}&#39;)L(s&#39;,\bm{\omega}&#39;)d\bm{\omega}&#39;\right]
+	\end{aligned}\]
+</span>
+
+です.
+ここで導入した \(\tau(a,b)\) を transmittance と呼びます.</p>
+<p>以上により, 位置 \(\bm{x}(0)\) で輝度 \(L(0,\bm{\omega})\) を持つ物体を
+位置 \(\bm{x}(s)\) から眺めたときの輝度 \(L(s,\bm{\omega})\) は,
+
+  <a href="/posts/202112_advent_calendar/#vre-integ">Volume Rendering 方程式</a>を解けば求まることがわかりました.</p>
+<p>ただし, 内部散乱項に対する入射光 \(L(s', \bm{\omega}')\) は,
+どこかの光源から直接来たフォトン \(L^{\text{0th}}\) のほか,
+他の物体に1回散乱してから来たフォトン \(L^{\text{1st}}\) や
+2回散乱して来たフォトン \(L^{\text{2nd}}\) .. などと
+媒質に繰り返し散乱してから来たフォトンを含んでいます.</p>
+<span>
+  \[	\begin{aligned}
+		u_s^{(i)}(s&#39;)\int_{\mathcal{S}^2} p^{(i)}(\bm{\omega},\bm{\omega}&#39;)
+			\left[L^{\text{0th}}(s&#39;,\bm{\omega}&#39;) &#43; L^{\text{1st}}(s&#39;,\bm{\omega}&#39;)
+				&#43; L^{\text{2nd}}(s&#39;,\bm{\omega}&#39;) &#43; \cdots\right] d\bm{\omega}&#39;\\
+	\end{aligned}\]
+</span>
+
+<p>これらのフォトンの輝度もまた, Volume Rendering 方程式によって解かれていなければならないため,
+この方程式は簡単に解くことはできません.
+この問題は, モンテカルロ法を用いて
+多数のフォトンの経路に沿って Volume Rendering 方程式を再帰的に解き, 輝度 \(L(s,\bm{\omega})\) の期待値を求めることで
+解決できることが知られています<sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup>.</p>
+<p>一方, リアルタイムレンダリングでは一般的に, 散乱の高次項をさまざまな近似手法で取り扱います.
+この資料ではその詳細には触れず, 単に入射光が直接光
+\(L_{\text{in}}^{\text{direct}}\) と間接光 \(L_{\text{in}}^{\text{indirect}}\)
+で書けるとしておきます.</p>
+<p><span>
+  \[	\begin{aligned}
+		u_s^{(i)}(s&#39;)\int_{\mathcal{S}^2} p^{(i)}(\bm{\omega},\bm{\omega}&#39;)
+		L_{\text{in}}(s&#39;,\bm{\omega}&#39;) d\bm{\omega}&#39;
+	\end{aligned}\]
+</span>
+
+<span>
+  \[	\begin{aligned}
+		L_{\text{in}}(s&#39;,\bm{\omega}&#39;)
+			&amp;= L_{\text{in}}^{\text{direct}}(s&#39;,\bm{\omega}&#39;) &#43; L_{\text{in}}^{\text{indirect}}(s&#39;\bm{\omega}&#39;)\\
+		L_{\text{in}}^{\text{direct}}(s&#39;,\bm{\omega}&#39;)
+			&amp;:= L^{\text{0th}}(s&#39;,\bm{\omega}&#39;)\\
+		L_{\text{in}}^{\text{indirect}}(s&#39;,\bm{\omega}&#39;)
+			&amp;:= L^{\text{1st}}(s&#39;,\bm{\omega}&#39;) &#43; L^{\text{2nd}}(s&#39;,\bm{\omega}&#39;) &#43; \cdots
+	\end{aligned}\]
+</span>
+</p>
+<p>ここで, 内部散乱項に対する入射光を明示するため,
+\(L(s',\bm{\omega}')\) を \(L_{\text{in}}(s',\bm{\omega}')\) と書きました.</p>
+<h1 id="局所的に一様な媒質に対する漸化式">
+  局所的に一様な媒質に対する漸化式
+  <a class="anchor" href="#%e5%b1%80%e6%89%80%e7%9a%84%e3%81%ab%e4%b8%80%e6%a7%98%e3%81%aa%e5%aa%92%e8%b3%aa%e3%81%ab%e5%af%be%e3%81%99%e3%82%8b%e6%bc%b8%e5%8c%96%e5%bc%8f">#</a>
+</h1>
+<p>この節では, レイマーチング[
+  <a href="/posts/202112_advent_calendar/#Wrenninge2011">Wrenninge and Zafar 2011</a>]やボリュームフォグ[
+  <a href="/posts/202112_advent_calendar/#Wronski2014">Wronski 2014</a>]といった手法を導くことを念頭に置いて,
+視点 \(\bm{x}(s_e)\) ともう一方の端点 \(\bm{x}(s_s)\) の間を \(N\) 個の区間に分割し,
+その区間に沿って Volume Rendering 方程式を繰り返し解くことを考えます.</p>
+<div align="center">
+<figure>
+    <img src="raymarching-1.jpg" width="350"/> 
+</figure>
+
+</div>
+<h2 id="局所的に一様な媒質">
+  局所的に一様な媒質
+  <a class="anchor" href="#%e5%b1%80%e6%89%80%e7%9a%84%e3%81%ab%e4%b8%80%e6%a7%98%e3%81%aa%e5%aa%92%e8%b3%aa">#</a>
+</h2>
+<p>いま, Volume Rendering 方程式を1ステップ計算するあいだ,
+散乱媒質と入射光が局所的に一様であると仮定します<sup id="fnref:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup>.</p>
+<div align="center">
+<figure>
+    <img src="raymarching-2.jpg" width="350"/> 
+</figure>
+
+</div>
+<p>以下で, その各ステップの積分が解析的に解けることを示します.</p>
+<h2 id="解析解">
+  解析解
+  <a class="anchor" href="#%e8%a7%a3%e6%9e%90%e8%a7%a3">#</a>
+</h2>
+<p>散乱係数と入射光が一様, すなわち \(\bm{x}\) に依存しないとき,
+
+  <a href="/posts/202112_advent_calendar/#vre-integ">Volume Rendering 方程式</a>は次のように書けます.
+<span>
+  \[\begin{aligned}
+	L(s_n,\bm{\omega})
+	= L\left(s_{n-1},\bm{\omega}\right)\tau(s_{n-1},s_n)
+	&#43; \int^{s_n}_{s&#39;=s_{n-1}}\lambda(\bm{\omega})\tau(s&#39;,s_n) ds&#39;
+\end{aligned}\]
+</span>
+
+<span>
+  \[\begin{aligned}
+	&amp;\tau(a,b)
+		:=\exp\left[-\left(\sum^I_i\mu^{(i)}_e\right)|b-a|\right]\\
+	&amp;\lambda(\bm{\omega})
+		:= \sum^I_i\left[
+			S^{(i)}(\bm{\omega}) &#43; \mu^{(i)}_s \int_{\mathcal{S}^2} p^{(i)}(\bm{\omega},\bm{\omega}&#39;)L_{\text{in}}(\bm{\omega}&#39;)d\bm{\omega}&#39;
+		\right]
+\end{aligned}\]
+</span>
+</p>
+<p>このとき, 次の項は解析的に解けます.
+<span>
+  \[\begin{aligned}
+	\int^{s_n}_{s&#39;=s_{n-1}}\lambda(\bm{\omega})\tau(s&#39;,s_n) ds&#39;
+		&amp;= \int^{s_n}_{s&#39;=s_{n-1}}\lambda(\bm{\omega})e^{-\left(\sum^I_i\mu^{(i)}_e\right)(s_n-s&#39;)} ds&#39;\\
+		&amp;= \lambda(\bm{\omega})
+					e^{-\left(\sum^I_i\mu^{(i)}_e\right)s_n}\int^{s_n}_{s&#39;=s_{n-1}}e^{\left(\sum^I_i\mu^{(i)}_e\right)s&#39;} ds&#39;\\
+		&amp;= \frac{\lambda(\bm{\omega})}{\sum^I_i\mu^{(i)}_e}\left[1-\tau(s_{n-1},s_n)\right]
+\end{aligned}\]
+</span>
+</p>
+<p>これにより, Volume Rendering 方程式の解析解が次のように得られます.</p>
+<blockquote class="book-hint info">
+  <h4 id="vre-u">Volume Rendering 方程式の解析解</h4>
+<span>
+  \[\begin{aligned}
+	L(s_n,\bm{\omega})
+	= L\left(s_{n-1}, \bm{\omega}\right)\tau(s_{n-1}, s_n)
+	&#43; \frac{\lambda(\bm{\omega})}{\sum^I_i\mu^{(i)}_e}\left[1-\tau(s_{n-1}, s_n)\right]
+\end{aligned}\]
+</span>
+
+</blockquote>
+
+<p>こうして, [
+  <a href="/posts/202112_advent_calendar/#Hillaire2016">Hillaire 2016</a>] の 5.6.3 節で
+示されている解析解を一般化したものが得られました.
+この式は \(\tau(s_{n-1}, s_n)\) をアルファとする, 単純なアルファブレンドの形になっていることも特筆すべきところです.</p>
+<p>なお, 上式で吸収係数 \(\mu^{(i)}_a\) と source 項 \(S^{(i)}(\bm{\omega})\) をゼロ,
+そして位相関数を等方 \(p^{(i)}(\bm{\omega},\bm{\omega}')=\frac{1}{4\pi}\),
+入射光も等方 \(L_{\text{in}}(\bm{\omega}')=L_{\text{in}}\) としたとき,
+
+  <a href="/posts/202112_advent_calendar/#%e3%81%af%e3%81%98%e3%82%81%e3%81%ab">はじめに</a>で取り上げた
+  <a href="https://docs.microsoft.com/en-us/windows/win32/direct3d9/fog-formulas">指数フォグ</a></p>
+<blockquote class="book-hint info">
+  <h4 id="exponential-fog">指数フォグ</h4>
+<span>
+  \[\begin{aligned}
+	L(s) = L(0)e^{-\mu_s s} &#43; L_{\text{in}}(1-e^{-\mu_s s})
+\end{aligned}\]
+</span>
+
+</blockquote>
+
+<p>が得られます<sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup>.</p>
+<h2 id="漸化式">
+  漸化式
+  <a class="anchor" href="#%e6%bc%b8%e5%8c%96%e5%bc%8f">#</a>
+</h2>
+<p>
+  <a href="/posts/202112_advent_calendar/#vre-u">Volume Rendering 方程式の解析解</a>を次々に解くために, 次のような表記を行います.
+<span>
+  \[	\begin{aligned}
+		L_n:=L(s_n,\bm{\omega}),\quad
+		t_n:=\tau(s_{n-1}, s_n),\quad
+		l_n:= \frac{\lambda(\bm{\omega})}{\sum^I_i\mu^{(i)}_e}(1-t_n)
+	\end{aligned}\]
+</span>
+</p>
+<p>この表記のもとで, 
+  <a href="/posts/202112_advent_calendar/#vre-u">Volume Rendering 方程式の解析解</a>
+は以下のように書けます</p>
+<span>
+  \[	\begin{aligned}
+		L_n
+		=L_{n-1}t_n &#43; l_n
+	\end{aligned}\]
+</span>
+
+<p>これを使い, \(\bm{x}(s_s)\) に輝度 \(L_s\) の物体があり, それを
+視点 \(\bm{x}(s_e)\) から眺めたときの輝度 \(L_e\) を \(N\) ステップの計算で求めることを考えます.</p>
+<p>まず, \(\bm{x}(s_s)\) を1ステップ手前の位置 \(\bm{x}(s_0)\) から眺めたときの輝度 \(L_e\) は</p>
+<div align="center">
+<figure>
+    <img src="raymarching-rr1.jpg" width="140"/> 
+</figure>
+
+</div>
+<p><span>
+  \[	\begin{aligned}
+		L_e=L_st_1&#43;l_1
+	\end{aligned}\]
+</span>
+
+と求まります.
+そして, 2ステップ手前から眺めたときの輝度 \(L_e\) は,</p>
+<div align="center">
+<figure>
+    <img src="raymarching-rr2.jpg" width="180"/> 
+</figure>
+
+</div>
+<p><span>
+  \[	\begin{aligned}
+		L_e=L_st_2t_1 &#43; l_2t_1 &#43; l_1
+	\end{aligned}\]
+</span>
+
+となります.
+これを \(N\) 回繰り返すと, \(L_e\) は</p>
+<div align="center">
+<figure>
+    <img src="raymarching-rr3.jpg" width="250"/> 
+</figure>
+
+</div>
+<p><span>
+  \[	\begin{aligned}
+		L_e=L_sT_N &#43; L_N
+	\end{aligned}\]
+</span>
+
+<span>
+  \[	\begin{aligned}
+		T_n:=T_{n-1}t_n,\quad
+		L_n:=l_nT_{n-1} &#43; L_{n-1}
+	\end{aligned}\]
+</span>
+
+という漸化式として得られます.</p>
+<h2 id="まとめ">
+  まとめ
+  <a class="anchor" href="#%e3%81%be%e3%81%a8%e3%82%81">#</a>
+</h2>
+<p>こうして, 位置 \(\bm{x}(s_s)\) で輝度 \(L_s\) をもつ物体を,
+散乱媒質を通して方向 \(\bm{\omega}\) から眺めたとき,
+視点 \(\bm{x}(s_e)\) に到達するフォトンの輝度 \(L_e\) は,
+次の漸化式によって与えられることがわかりました.</p>
+<blockquote class="book-hint info">
+  <h4 id="vre-rm">漸化式</h4>
+<span>
+  \[	\begin{aligned}
+		L_e=L_sT_N &#43; L_N
+	\end{aligned}\]
+</span>
+<span>
+  \[	\begin{aligned}
+		T_n:=T_{n-1}t_n,\quad
+		L_n:=l_{n-1}T_n &#43; L_{n-1}
+	\end{aligned}\]
+</span>
+
+</blockquote>
+
+<p>その1ステップで計算される \(t_n\) と \(l_n\) は,
+次のように与えられます.
+<span>
+  \[	\begin{aligned}
+		t_n:=e^{-\left[\sum^I_i\mu^{(i)}_e\right] |s_n-s_{n-1}|},\quad
+		l_n:= \frac{\lambda(\bm{\omega})}{\sum^I_i\mu^{(i)}_e}(1-t_n)
+	\end{aligned}\]
+</span>
+
+<span>
+  \[\begin{aligned}
+	\lambda(\bm{\omega})
+		:= \sum^I_i\left[
+			S^{(i)}(\bm{\omega})
+			&#43; \mu^{(i)}_s \int_{\mathcal{S}^2} p^{(i)}(\bm{\omega},\bm{\omega}&#39;)
+				\left(L_{\text{in}}^{\text{direct}}(\bm{\omega}&#39;) &#43; L_{\text{in}}^{\text{indirect}}(\bm{\omega}&#39;)\right)
+				d\bm{\omega}&#39;
+		\right]
+\end{aligned}\]
+</span>
+</p>
+<h1 id="漸化式の考察">
+  漸化式の考察
+  <a class="anchor" href="#%e6%bc%b8%e5%8c%96%e5%bc%8f%e3%81%ae%e8%80%83%e5%af%9f">#</a>
+</h1>
+<p>前節で求めた
+  <a href="/posts/202112_advent_calendar/#vre-rm">漸化式</a>を使うことで,
+ステップ数を \(N=1\) とすればいわゆる depth ベースのフォグ,
+\(N\gt1\) とすれば, レイマーチングの積分の1ステップが得られます.
+\(T_n\) と \(L_n\) を3Dテクスチャのボクセルに保管すれば, それはボリュームフォグとなります.</p>
+<p>また, 
+  <a href="/posts/202112_advent_calendar/#vre-rm">漸化式</a> は \(T_N\) をアルファとする pre-multiplied アルファブレンド
+の形になっています.
+これは, 2つの独立なレイマーチングによって \(T_M, L_M\) と \(T_N, L_N\) が得られたとしたとき,
+これらもまた同じ漸化式で合成できることを意味しています.
+この性質は, 例えば近景でボリュームフォグ、遠景でレイマーチングと別々に計算した結果を, 後で合成するといった用途に使えるでしょう.</p>
+<h1 id="さいごに">
+  さいごに
+  <a class="anchor" href="#%e3%81%95%e3%81%84%e3%81%94%e3%81%ab">#</a>
+</h1>
+<p>この記事では, 
+  <a href="/posts/202112_advent_calendar/#vre-integ">複数媒質の Volume Rendering 方程式</a>に対し,
+入射光と散乱媒質が局所的に一様な場合の
+  <a href="/posts/202112_advent_calendar/#vre-u">解析解</a>を求め,
+その
+  <a href="/posts/202112_advent_calendar/#vre-rm">漸化式</a>を導出しました.
+そして, 
+  <a href="/posts/202112_advent_calendar/#%e6%bc%b8%e5%8c%96%e5%bc%8f%e3%81%ae%e8%80%83%e5%af%9f">漸化式の考察</a>で, それが depth ベースのフォグ同士,
+あるいは pre-multiplied アルファによる半透明物体同士の連結を一般化した概念になっていることがわかりました.</p>
+<p>
+  <a href="/posts/202112_advent_calendar/#exponential-fog">指数フォグの導出例</a>で見たように,
+この漸化式に散乱媒質や光源を与えることで, その具体的な実装を導くことができます.</p>
+<p>リアルタイムレンダリングの散乱媒質の計算について,
+どのような手法を組み合わせ, どのような媒質や光源を与え, そしてどのような近似を取るかを議論するとき,
+この記事が参考になれば幸いです.</p>
+<h1 id="参考文献">
+  参考文献
+  <a class="anchor" href="#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae">#</a>
+</h1>
+<h5 id="Chandrasekhar1960">
+  
+  <a href="https://scholar.google.com/scholar?cluster=16577358564419521963">Chandrasekhar, S. 1960. Radiative transfer. Dover Publications Inc.</a>
+  <a class="anchor" href="#Chandrasekhar1960">#</a>
+</h5>
+<h5 id="Cercignani1988">
+  
+  <a href="https://scholar.google.com/scholar?cluster=15395539216333689338">Cercignani, C. 1988. The Boltzmann Equation and Its Applications. Springer-Verlaq.</a>
+  <a class="anchor" href="#Cercignani1988">#</a>
+</h5>
+<h5 id="Arvo1993">
+  
+  <a href="https://scholar.google.com/scholar?cluster=3697174898879580884">Arvo, J. 1993. Transfer equations in global illumination. SIGGRAPH’93 Course Notes.</a>
+  <a class="anchor" href="#Arvo1993">#</a>
+</h5>
+<h5 id="Pauly2000">
+  
+  <a href="https://scholar.google.com/scholar?cluster=5251263946691541231">Pauly, M., Kollig, T. and Keller, A., 2000, June. Metropolis light transport for participating media. In Eurographics Workshop on Rendering Techniques (pp. 11-22). Springer, Vienna.</a>
+  <a class="anchor" href="#Pauly2000">#</a>
+</h5>
+<h5 id="Jensen2001">
+  
+  <a href="https://scholar.google.com/scholar?cluster=4122032723751651280">Jensen, H.W., 2001. Realistic image synthesis using photon mapping. AK Peters/crc Press.</a>
+  <a class="anchor" href="#Jensen2001">#</a>
+</h5>
+<h5 id="Harris2001">
+  
+  <a href="https://scholar.google.com/scholar?cluster=14675147078212707273">Harris, M.J. and Lastra, A., 2001, September. Real‐time cloud rendering. In Computer graphics forum (Vol. 20, No. 3, pp. 76-85). Oxford, UK and Boston, USA: Blackwell Publishers Ltd.</a>
+  <a class="anchor" href="#Harris2001">#</a>
+</h5>
+<h5 id="HP2002">
+  
+  <a href="https://scholar.google.com/scholar?cluster=17858569871834005738">Hoffman, N. and Preetham, A.J., 2002, March. Rendering outdoor light scattering in real time. In Proceedings of Game Developer Conference (Vol. 2002, pp. 337-352).</a>
+  <a class="anchor" href="#HP2002">#</a>
+</h5>
+<h5 id="Mishchenko2002">
+  
+  <a href="https://scholar.google.com/scholar?cluster=11290707430664565753">Mishchenko, M.I., 2002. Vector radiative transfer equation for arbitrarily shaped and arbitrarily oriented particles: a microphysical derivation from statistical electromagnetics. Applied optics, 41(33), pp.7114-7134.</a>
+  <a class="anchor" href="#Mishchenko2002">#</a>
+</h5>
+<h5 id="ramamoorthi-r-2005-modeling-illumination-variation-with-spherical-harmonics-face-processing-advanced-modeling-and-methods-100-pp104-110httpsscholargooglecomscholarcluster2111574496761867168">
+  
+  <a href="https://scholar.google.com/scholar?cluster=2111574496761867168">Ramamoorthi, R., 2005. Modeling illumination variation with spherical harmonics. Face Processing: Advanced Modeling and Methods, 100, pp.104-110.</a>
+  <a class="anchor" href="#ramamoorthi-r-2005-modeling-illumination-variation-with-spherical-harmonics-face-processing-advanced-modeling-and-methods-100-pp104-110httpsscholargooglecomscholarcluster2111574496761867168">#</a>
+</h5>
+<h5 id="lenoble-j-herman-m-deuzé-jl-lafrance-b-santer-r-and-tanré-d-2007-a-successive-order-of-scattering-code-for-solving-the-vector-equation-of-transfer-in-the-earths-atmosphere-with-aerosols-journal-of-quantitative-spectroscopy-and-radiative-transfer-1073-pp479-507httpsscholargooglecomscholarcluster18265459925710626945">
+  
+  <a href="https://scholar.google.com/scholar?cluster=18265459925710626945">Lenoble, J., Herman, M., Deuzé, J.L., Lafrance, B., Santer, R. and Tanré, D., 2007. A successive order of scattering code for solving the vector equation of transfer in the earth&rsquo;s atmosphere with aerosols. Journal of Quantitative Spectroscopy and Radiative Transfer, 107(3), pp.479-507.</a>
+  <a class="anchor" href="#lenoble-j-herman-m-deuz%c3%a9-jl-lafrance-b-santer-r-and-tanr%c3%a9-d-2007-a-successive-order-of-scattering-code-for-solving-the-vector-equation-of-transfer-in-the-earths-atmosphere-with-aerosols-journal-of-quantitative-spectroscopy-and-radiative-transfer-1073-pp479-507httpsscholargooglecomscholarcluster18265459925710626945">#</a>
+</h5>
+<h5 id="bruneton-e-and-neyret-f-2008-june-precomputed-atmospheric-scattering-in-computer-graphics-forum-vol-27-no-4-pp-1079-1086-oxford-uk-blackwell-publishing-ltdhttpsscholargooglecojpscholarcluster4249413603397264184">
+  
+  <a href="https://scholar.google.co.jp/scholar?cluster=4249413603397264184">Bruneton, E. and Neyret, F., 2008, June. Precomputed atmospheric scattering. In Computer graphics forum (Vol. 27, No. 4, pp. 1079-1086). Oxford, UK: Blackwell Publishing Ltd.</a>
+  <a class="anchor" href="#bruneton-e-and-neyret-f-2008-june-precomputed-atmospheric-scattering-in-computer-graphics-forum-vol-27-no-4-pp-1079-1086-oxford-uk-blackwell-publishing-ltdhttpsscholargooglecojpscholarcluster4249413603397264184">#</a>
+</h5>
+<h5 id="Wrenninge2011">
+  
+  <a href="https://scholar.google.com/scholar?cluster=10602336361454039476">Wrenninge, M. and Zafar, N.B., 2011. Production Volume Rendering 1: Fundamentals. ACM, New York, NY, USA, ACM SIGGRAPH.</a>
+  <a class="anchor" href="#Wrenninge2011">#</a>
+</h5>
+<h5 id="Wronski2014">
+  
+  <a href="https://scholar.google.com/scholar?cluster=2794901955218144726">Wronski, B., 2014, August. Volumetric Fog: Unified Compute Shader-Based Solution to Atmospheric Scattering. In ACM SIGGRAPH.</a>
+  <a class="anchor" href="#Wronski2014">#</a>
+</h5>
+<h5 id="Hillaire2016">
+  
+  <a href="https://scholar.google.com/scholar?cluster=9983307093301956988">Hillaire, S., 2016, July. Physically based sky, atmosphere and cloud rendering in frostbite. In ACM SIGGRAPH.</a>
+  <a class="anchor" href="#Hillaire2016">#</a>
+</h5>
+<h5 id="Fong2017">
+  
+  <a href="https://scholar.google.com/scholar?cluster=2608014107758733891">Fong, J., Wrenninge, M., Kulla, C. and Habel, R., 2017. Production volume rendering: Siggraph 2017 course. In ACM SIGGRAPH 2017 Courses (pp. 1-79).</a>
+  <a class="anchor" href="#Fong2017">#</a>
+</h5>
+<h5 id="Novak2018">
+  
+  <a href="https://scholar.google.com/scholar?cluster=17156070357278963289">Novák, J., Georgiev, I., Hanika, J., Krivánek, J. and Jarosz, W., 2018, August. Monte Carlo methods for physically based volume rendering. In SIGGRAPH Courses (pp. 14-1).</a>
+  <a class="anchor" href="#Novak2018">#</a>
+</h5>
+<h5 id="Raab2019">
+  
+  <a href="https://scholar.google.com/scholar?cluster=16136017810369538019">Raab, M., 2019. Ray Tracing Inhomogeneous Volumes. In Ray Tracing Gems (pp. 521-531). Apress, Berkeley, CA.</a>
+  <a class="anchor" href="#Raab2019">#</a>
+</h5>
+<h5 id="hillaire-s-2020-july-a-scalable-and-production-ready-sky-and-atmosphere-rendering-technique-in-computer-graphics-forum-vol-39-no-4-pp-13-22httpsscholargooglecomscholarcluster8451948284750301734">
+  
+  <a href="https://scholar.google.com/scholar?cluster=8451948284750301734">Hillaire, S., 2020, July. A Scalable and Production Ready Sky and Atmosphere Rendering Technique. In Computer Graphics Forum (Vol. 39, No. 4, pp. 13-22).</a>
+  <a class="anchor" href="#hillaire-s-2020-july-a-scalable-and-production-ready-sky-and-atmosphere-rendering-technique-in-computer-graphics-forum-vol-39-no-4-pp-13-22httpsscholargooglecomscholarcluster8451948284750301734">#</a>
+</h5>
+<h5 id="Patry2021">
+  
+  <a href="https://advances.realtimerendering.com/s2021/jpatry_advances2021/">Patry, J., 2021. Real-Time Samurai Cinema Lighiting, Atmosphere, and Tonemapping in Ghost of Tshushima. SIGGRAPH 2021 Advances in Real-Time Rendering in Games Course.</a>
+  <a class="anchor" href="#Patry2021">#</a>
+</h5>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>要するに, Volume Rendering 方程式の解の Neumann 級数展開[
+  <a href="/posts/202112_advent_calendar/#Pauly2000">Pauly et al. 2000</a>]
+について, 入射光と媒質が局所的に一様とした場合に得られる漸化式について書きます. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>正確には, Radiative Transfer 方程式 [
+  <a href="/posts/202112_advent_calendar/#Chandrasekhar1960">Chandrasekhar 1960</a>]
+から時間依存性を除き, 媒質の光の放射を熱輻射に限らないとしたものを, この記事では Volume Rendering 方程式と呼びます.
+時間依存性を除くのは, 日常の風景のシミュレーションをする用途で, 光の速度を無限と考えて良いと仮定するからです.
+光の放射を熱放射に限らないとするのは, 蛍光放射や, ゲームの魔法発動時のエフェクトなど, 一般の発光現象を扱いたいからです. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>Radiative Transfer 方程式 [
+  <a href="/posts/202112_advent_calendar/#Chandrasekhar1960">Chandrasekhar 1960</a>] は,
+光の粒子的性質に着目する場合は Boltzmann 方程式から [
+  <a href="/posts/202112_advent_calendar/#Cercignani1988">Cercignani 1988</a>] ,
+波動的性質に着目する場合は電場に対する Lipmann-Schwinger 方程式から [
+  <a href="/posts/202112_advent_calendar/#Mishchenko2002">Mishchenko 2002</a>]
+導かれます.
+両者とも, 多体の散乱体による光の散乱問題を取り扱うのは共通ですが, 光を粒子として扱うか, 電磁波として扱うかが違います. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p>光の波動的性質を無視して, その運動が気体分子運動論で近似できる場合のみ考えます.
+屈折率による進行方向の変化も無視します.
+そして, 媒質粒子との相互作用の際に起こる量子効果は, 散乱係数や位相関数に隠蔽されるものとします. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p>光子とその英語名であるフォトンは、一般的に
+  <a href="https://en.wikipedia.org/wiki/Photon">電磁場の量子</a>のことを指します.
+この記事では, パストレーシングの分野で言及されるフォトンマッピング[
+  <a href="/posts/202112_advent_calendar/#Jensen2001">Jensen 2001</a>]と無矛盾に話を進めたいため, 光子の集団をフォトンと呼びます. <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6" role="doc-endnote">
+<p>この記事では source 項へなんでも入れられるよう, 単に
+\(S\) と書いています. ただし特別な理由が無ければ, 吸収と放出のバランスが取れるように
+\(S=\mu_aL_{\text{emission}}\) などと吸収係数 \(\mu_a\) を使って書くのが無難です. <a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7" role="doc-endnote">
+<p>\(\left(\bm{\omega}\cdot\nabla\right)L\left(\bm{x},\bm{\omega}\right) = \left(\frac{d\bm{x}(s)}{ds}\cdot\nabla\right)L\left(\bm{x}(s),\bm{\omega}\right) = \frac{dL\left(\bm{x}(s),\bm{\omega}\right)}{ds}\) <a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8" role="doc-endnote">
+<p>\(\frac{dy(x)}{dx}+p(x)L(x)=q(x)\) の一般解は
+\(y(x)=ce^{-\int^x p(\xi)d\xi}+ \int^x q(\zeta)e^{-\int^x_\zeta p(\xi)d\xi}d\zeta\).
+積分範囲を \(0\) から \(x\) とすれば, 積分定数は \(c=y(0)\) となります. <a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:9" role="doc-endnote">
+<p>入門的な文献は [
+  <a href="/posts/202112_advent_calendar/#Raab2019">Raab 2019</a>] を,
+詳細は [
+  <a href="/posts/202112_advent_calendar/#Fong2017">Fong et al. 2017</a>] [
+  <a href="/posts/202112_advent_calendar/#Novak2018">Novák et al. 2018</a>] を参照してください. <a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:10" role="doc-endnote">
+<p>Boltzmann 方程式から Radiative Transfer 方程式を導くとき,
+既に散乱媒質の分布が時間変化によって変わらない, すなわち平衡状態であるという仮定が入っています.
+ここでは更に, 散乱媒質に対する外場の作用を局所的に無視できるとして, その分布を一様とみなせるとしています. <a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:11" role="doc-endnote">
+<p>さらに例を挙げると, 媒質にミー散乱とレイリー散乱の2種類を, そして光源に太陽光を考え,
+内部散乱項でその単一散乱のみを計算するとしたとき,
+[
+  <a href="/posts/202112_advent_calendar/#HP2002">Hoffman and Preetham 2002</a>] の Implementation Note にあるモデルが得られます. <a href="#fnref:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#はじめに">はじめに</a></li>
+    <li><a href="#複数媒質の-volume-rendering-方程式">複数媒質の Volume Rendering 方程式</a>
+      <ul>
+        <li><a href="#散乱媒質と光">散乱媒質と光</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+        <li><a href="#volume-rendering-方程式">Volume Rendering 方程式</a></li>
+        <li><a href="#volume-rendering-方程式の積分形">Volume Rendering 方程式の積分形</a></li>
+      </ul>
+    </li>
+    <li><a href="#局所的に一様な媒質に対する漸化式">局所的に一様な媒質に対する漸化式</a>
+      <ul>
+        <li><a href="#局所的に一様な媒質">局所的に一様な媒質</a></li>
+        <li><a href="#解析解">解析解</a></li>
+        <li><a href="#漸化式">漸化式</a></li>
+        <li><a href="#まとめ">まとめ</a></li>
+      </ul>
+    </li>
+    <li><a href="#漸化式の考察">漸化式の考察</a></li>
+    <li><a href="#さいごに">さいごに</a></li>
+    <li><a href="#参考文献">参考文献</a>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+ 
+    </aside>
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
