@@ -29,7 +29,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.71ba70b45045b4896f706921f06dd16379df970cca6eca1be5a04596f5cb3f51.js" integrity="sha256-cbpwtFBFtIlvcGkh8G3RY3nflwzKbsob5aBFlvXLP1E="></script>
+<script defer src="/en.search.min.4213bd40b26182144837fd30f1bfd38c4d48d2e994cb86dcb0bf3083e982c44a.js" integrity="sha256-QhO9QLJhghRIN/0w8b/TjE1I0umUy4bcsL8wg&#43;mCxEo="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -240,7 +240,7 @@ Volume Rendering 方程式から明示的に求めた資料が欲しいところ
 </h1>
 <p>まずは, Volume Rendering 方程式を導入します.</p>
 <p>Volume Rendering 方程式とは, 散乱媒質内を進行する光の輝度の変化を記述する方程式で,
-資料によっては Radiative Transfer 方程式とも呼ばれます.
+文献によっては Radiative Transfer 方程式とも呼ばれます.
 この記事では, 時間に依存しない Radiative Transfer 方程式を Volume Rendering 方程式と呼びます<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
 <p>ただし, その導出の詳細<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>には触れず, 現象論的な導入
 [
@@ -452,7 +452,7 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
 多数のフォトンの経路に沿って Volume Rendering 方程式を再帰的に解き, 輝度 \(L(s,\bm{\omega})\) の期待値を求めることで
 解決できることが知られています<sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup>.</p>
 <p>一方, リアルタイムレンダリングでは一般的に, 散乱の高次項をさまざまな近似手法で取り扱います.
-この資料ではその詳細には触れず, 単に入射光が直接光
+この記事ではその詳細には触れず, 単に入射光が直接光
 \(L_{\text{in}}^{\text{direct}}\) と間接光 \(L_{\text{in}}^{\text{indirect}}\)
 で書けるとしておきます.</p>
 <p><span>
@@ -567,13 +567,17 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
   <h4 id="exponential-fog">指数フォグ</h4>
 <span>
   \[\begin{aligned}
-	L(s) = L(0)e^{-\mu_s s} &#43; L_{\text{in}}(1-e^{-\mu_s s})
+	L(s,\bm{\omega}) = L(0,\bm{\omega})e^{-\mu_s s} &#43; L_{\text{in}}(1-e^{-\mu_s s})
 \end{aligned}\]
 </span>
 
 </blockquote>
 
-<p>が得られます<sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup>.</p>
+<p>が得られます<sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup>.
+ここで計算の視点を \(\bm{x}(s)\), もう一方の端点を \(\bm{x}(0)\) としました.</p>
+<p>このように, 距離 \(s\) に基づいて1回の計算で散乱媒質の計算を行うものは, 距離ベースのフォグ
+[
+  <a href="/posts/202112_advent_calendar/#Wenzel2007">Wenzel 2007</a>]などと呼ばれます.</p>
 <h2 id="漸化式">
   漸化式
   <a class="anchor" href="#%e6%bc%b8%e5%8c%96%e5%bc%8f">#</a>
@@ -599,8 +603,9 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
 </span>
 
 <p>これを使い, \(\bm{x}(s_s)\) に輝度 \(L_s\) の物体があり, それを
-視点 \(\bm{x}(s_e)\) から眺めたときの輝度 \(L_e\) を \(N\) ステップの計算で求めることを考えます.</p>
-<p>まず, \(\bm{x}(s_s)\) を1ステップ手前の位置 \(\bm{x}(s_0)\) から眺めたときの輝度 \(L_e\) は</p>
+視点 \(\bm{x}(s_e)\) から眺めたときの輝度 \(L_e\) を \(N\) ステップの計算で求めることを考えます.
+このとき, 計算は視点\(\bm{x}(s_s)\) から \(\bm{x}(s_0)\) に向かって行うことにします<sup id="fnref:12"><a href="#fn:12" class="footnote-ref" role="doc-noteref">12</a></sup>.</p>
+<p>まず, \(\bm{x}(s_s)\) を1ステップ手前から眺めたときの輝度 \(L_e\) は</p>
 <div align="center">
 <figure>
     <img src="raymarching-rr1.jpg" width="140"/> 
@@ -667,7 +672,7 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
 <span>
   \[	\begin{aligned}
 		T_n:=T_{n-1}t_n,\quad
-		L_n:=l_{n-1}T_n &#43; L_{n-1}
+		L_n:=l_nT_{n-1} &#43; L_{n-1}
 	\end{aligned}\]
 </span>
 
@@ -700,7 +705,7 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
 </h1>
 <p>前節で求めた
   <a href="/posts/202112_advent_calendar/#vre-rm">漸化式</a>を使うことで,
-ステップ数を \(N=1\) とすればいわゆる depth ベースのフォグ,
+ステップ数を \(N=1\) とすれば距離ベースのフォグ,
 \(N\gt1\) とすれば, レイマーチングの積分の1ステップが得られます.
 \(T_n\) と \(L_n\) を3Dテクスチャのボクセルに保管すれば, それはボリュームフォグとなります.</p>
 <p>また, 
@@ -720,7 +725,7 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
 その
   <a href="/posts/202112_advent_calendar/#vre-rm">漸化式</a>を導出しました.
 そして, 
-  <a href="/posts/202112_advent_calendar/#%e6%bc%b8%e5%8c%96%e5%bc%8f%e3%81%ae%e8%80%83%e5%af%9f">漸化式の考察</a>で, それが depth ベースのフォグ同士,
+  <a href="/posts/202112_advent_calendar/#%e6%bc%b8%e5%8c%96%e5%bc%8f%e3%81%ae%e8%80%83%e5%af%9f">漸化式の考察</a>で, それが距離ベースのフォグ同士,
 あるいは pre-multiplied アルファによる半透明物体同士の連結を一般化した概念になっていることがわかりました.</p>
 <p>
   <a href="/posts/202112_advent_calendar/#exponential-fog">指数フォグの導出例</a>で見たように,
@@ -757,11 +762,6 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
   <a href="https://scholar.google.com/scholar?cluster=4122032723751651280">Jensen, H.W., 2001. Realistic image synthesis using photon mapping. AK Peters/crc Press.</a>
   <a class="anchor" href="#Jensen2001">#</a>
 </h5>
-<h5 id="Harris2001">
-  
-  <a href="https://scholar.google.com/scholar?cluster=14675147078212707273">Harris, M.J. and Lastra, A., 2001, September. Real‐time cloud rendering. In Computer graphics forum (Vol. 20, No. 3, pp. 76-85). Oxford, UK and Boston, USA: Blackwell Publishers Ltd.</a>
-  <a class="anchor" href="#Harris2001">#</a>
-</h5>
 <h5 id="HP2002">
   
   <a href="https://scholar.google.com/scholar?cluster=17858569871834005738">Hoffman, N. and Preetham, A.J., 2002, March. Rendering outdoor light scattering in real time. In Proceedings of Game Developer Conference (Vol. 2002, pp. 337-352).</a>
@@ -772,20 +772,10 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
   <a href="https://scholar.google.com/scholar?cluster=11290707430664565753">Mishchenko, M.I., 2002. Vector radiative transfer equation for arbitrarily shaped and arbitrarily oriented particles: a microphysical derivation from statistical electromagnetics. Applied optics, 41(33), pp.7114-7134.</a>
   <a class="anchor" href="#Mishchenko2002">#</a>
 </h5>
-<h5 id="ramamoorthi-r-2005-modeling-illumination-variation-with-spherical-harmonics-face-processing-advanced-modeling-and-methods-100-pp104-110httpsscholargooglecomscholarcluster2111574496761867168">
+<h5 id="Wenzel2007">
   
-  <a href="https://scholar.google.com/scholar?cluster=2111574496761867168">Ramamoorthi, R., 2005. Modeling illumination variation with spherical harmonics. Face Processing: Advanced Modeling and Methods, 100, pp.104-110.</a>
-  <a class="anchor" href="#ramamoorthi-r-2005-modeling-illumination-variation-with-spherical-harmonics-face-processing-advanced-modeling-and-methods-100-pp104-110httpsscholargooglecomscholarcluster2111574496761867168">#</a>
-</h5>
-<h5 id="lenoble-j-herman-m-deuzé-jl-lafrance-b-santer-r-and-tanré-d-2007-a-successive-order-of-scattering-code-for-solving-the-vector-equation-of-transfer-in-the-earths-atmosphere-with-aerosols-journal-of-quantitative-spectroscopy-and-radiative-transfer-1073-pp479-507httpsscholargooglecomscholarcluster18265459925710626945">
-  
-  <a href="https://scholar.google.com/scholar?cluster=18265459925710626945">Lenoble, J., Herman, M., Deuzé, J.L., Lafrance, B., Santer, R. and Tanré, D., 2007. A successive order of scattering code for solving the vector equation of transfer in the earth&rsquo;s atmosphere with aerosols. Journal of Quantitative Spectroscopy and Radiative Transfer, 107(3), pp.479-507.</a>
-  <a class="anchor" href="#lenoble-j-herman-m-deuz%c3%a9-jl-lafrance-b-santer-r-and-tanr%c3%a9-d-2007-a-successive-order-of-scattering-code-for-solving-the-vector-equation-of-transfer-in-the-earths-atmosphere-with-aerosols-journal-of-quantitative-spectroscopy-and-radiative-transfer-1073-pp479-507httpsscholargooglecomscholarcluster18265459925710626945">#</a>
-</h5>
-<h5 id="bruneton-e-and-neyret-f-2008-june-precomputed-atmospheric-scattering-in-computer-graphics-forum-vol-27-no-4-pp-1079-1086-oxford-uk-blackwell-publishing-ltdhttpsscholargooglecojpscholarcluster4249413603397264184">
-  
-  <a href="https://scholar.google.co.jp/scholar?cluster=4249413603397264184">Bruneton, E. and Neyret, F., 2008, June. Precomputed atmospheric scattering. In Computer graphics forum (Vol. 27, No. 4, pp. 1079-1086). Oxford, UK: Blackwell Publishing Ltd.</a>
-  <a class="anchor" href="#bruneton-e-and-neyret-f-2008-june-precomputed-atmospheric-scattering-in-computer-graphics-forum-vol-27-no-4-pp-1079-1086-oxford-uk-blackwell-publishing-ltdhttpsscholargooglecojpscholarcluster4249413603397264184">#</a>
+  <a href="https://scholar.google.com/scholar?cluster=10498911820203279517">Wenzel, C., 2007, March. Real-Time atmospheric effects in games revisited. In Game Developers Conference (pp. 551-556).</a>
+  <a class="anchor" href="#Wenzel2007">#</a>
 </h5>
 <h5 id="Wrenninge2011">
   
@@ -817,16 +807,6 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
   <a href="https://scholar.google.com/scholar?cluster=16136017810369538019">Raab, M., 2019. Ray Tracing Inhomogeneous Volumes. In Ray Tracing Gems (pp. 521-531). Apress, Berkeley, CA.</a>
   <a class="anchor" href="#Raab2019">#</a>
 </h5>
-<h5 id="hillaire-s-2020-july-a-scalable-and-production-ready-sky-and-atmosphere-rendering-technique-in-computer-graphics-forum-vol-39-no-4-pp-13-22httpsscholargooglecomscholarcluster8451948284750301734">
-  
-  <a href="https://scholar.google.com/scholar?cluster=8451948284750301734">Hillaire, S., 2020, July. A Scalable and Production Ready Sky and Atmosphere Rendering Technique. In Computer Graphics Forum (Vol. 39, No. 4, pp. 13-22).</a>
-  <a class="anchor" href="#hillaire-s-2020-july-a-scalable-and-production-ready-sky-and-atmosphere-rendering-technique-in-computer-graphics-forum-vol-39-no-4-pp-13-22httpsscholargooglecomscholarcluster8451948284750301734">#</a>
-</h5>
-<h5 id="Patry2021">
-  
-  <a href="https://advances.realtimerendering.com/s2021/jpatry_advances2021/">Patry, J., 2021. Real-Time Samurai Cinema Lighiting, Atmosphere, and Tonemapping in Ghost of Tshushima. SIGGRAPH 2021 Advances in Real-Time Rendering in Games Course.</a>
-  <a class="anchor" href="#Patry2021">#</a>
-</h5>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -850,7 +830,7 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
 波動的性質に着目する場合は電場に対する Lipmann-Schwinger 方程式から [
   <a href="/posts/202112_advent_calendar/#Mishchenko2002">Mishchenko 2002</a>]
 導かれます.
-両者とも, 多体の散乱体による光の散乱問題を取り扱うのは共通ですが, 光を粒子として扱うか, 電磁波として扱うかが違います. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+両者とも, 散乱体による光の散乱問題を取り扱うのは共通ですが, 光を粒子として扱うか, 電磁波として扱うかが違います. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
 <p>光の波動的性質を無視して, その運動が気体分子運動論で近似できる場合のみ考えます.
@@ -889,10 +869,15 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
 ここでは更に, 散乱媒質に対する外場の作用を局所的に無視できるとして, その分布を一様とみなせるとしています. <a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:11" role="doc-endnote">
-<p>さらに例を挙げると, 媒質にミー散乱とレイリー散乱の2種類を, そして光源に太陽光を考え,
-内部散乱項でその単一散乱のみを計算するとしたとき,
+<p>さらに例を挙げると, 媒質にミー散乱とレイリー散乱の2種類を, そして光源に平行光
+\(L_{\text{sun}} \delta(\bm{\omega}'-\bm{\omega}_{\text{sun}})\)
+を考え, 内部散乱項でその単一散乱のみを計算するとしたとき,
 [
   <a href="/posts/202112_advent_calendar/#HP2002">Hoffman and Preetham 2002</a>] の Implementation Note にあるモデルが得られます. <a href="#fnref:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:12" role="doc-endnote">
+<p>視点から奥に向かって行う計算を紹介するのは, transmittance が 1 になったら計算を打ち切るなど,
+実用上の利点があるからです. <a href="#fnref:12" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
