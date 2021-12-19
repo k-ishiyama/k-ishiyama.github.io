@@ -24,12 +24,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://k-ishiyama.github.io/posts/202112_advent_calendar/" />
 <meta property="article:published_time" content="2021-12-16T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-12-16T01:26:35+09:00" />
+<meta property="article:modified_time" content="2021-12-18T09:54:51+09:00" />
 <title>局所一様媒質に対する Volume Rendering 方程式の漸化式 | Notes</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.4213bd40b26182144837fd30f1bfd38c4d48d2e994cb86dcb0bf3083e982c44a.js" integrity="sha256-QhO9QLJhghRIN/0w8b/TjE1I0umUy4bcsL8wg&#43;mCxEo="></script>
+<script defer src="/en.search.min.ff5695562f7d19f613b4c02cd919dd042a1e5a2db820ebbab1e78b8281fb3a95.js" integrity="sha256-/1aVVi99GfYTtMAs2RndBCoeWi24IOu6seeLgoH7OpU="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -325,7 +325,7 @@ Volume Rendering 方程式から明示的に求めた資料が欲しいところ
 散乱係数と吸収係数を合算したものを,
 消散係数 \(\mu^{(i)}_e(\bm{x}) = \mu^{(i)}_s(\bm{x}) + \mu^{(i)}_a(\bm{x})\)
 と呼びます.</p>
-<p>そして, フォトンの放出は source 項 \(S^{(i)}(\bm{x})\) で表します.<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>.</p>
+<p>そして, フォトンの放出は source 項 \(S^{(i)}(\bm{x})\) で表します<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>.</p>
 <h2 id="volume-rendering-方程式">
   Volume Rendering 方程式
   <a class="anchor" href="#volume-rendering-%e6%96%b9%e7%a8%8b%e5%bc%8f">#</a>
@@ -567,17 +567,16 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
   <h4 id="exponential-fog">指数フォグ</h4>
 <span>
   \[\begin{aligned}
-	L(s,\bm{\omega}) = L(0,\bm{\omega})e^{-\mu_s s} &#43; L_{\text{in}}(1-e^{-\mu_s s})
+	L(s_n,\bm{\omega}) = L(s_{n-1},\bm{\omega})e^{-\mu_s |s_n-s_{n-1}|} &#43; L_{\text{in}}(1-e^{-\mu_s |s_n-s_{n-1}|})
 \end{aligned}\]
 </span>
 
 </blockquote>
 
 <p>が得られます<sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup>.
-ここで計算の視点を \(\bm{x}(s)\), もう一方の端点を \(\bm{x}(0)\) としました.</p>
-<p>このように, 距離 \(s\) に基づいて1回の計算で散乱媒質の計算を行うものは, 距離ベースのフォグ
+以後, ひとつの距離に基づいて散乱媒質の計算を行う手法を, 距離ベースのフォグ
 [
-  <a href="/posts/202112_advent_calendar/#Wenzel2007">Wenzel 2007</a>]などと呼ばれます.</p>
+  <a href="/posts/202112_advent_calendar/#Wenzel2007">Wenzel 2007</a>]と呼びます.</p>
 <h2 id="漸化式">
   漸化式
   <a class="anchor" href="#%e6%bc%b8%e5%8c%96%e5%bc%8f">#</a>
@@ -807,6 +806,11 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
   <a href="https://scholar.google.com/scholar?cluster=16136017810369538019">Raab, M., 2019. Ray Tracing Inhomogeneous Volumes. In Ray Tracing Gems (pp. 521-531). Apress, Berkeley, CA.</a>
   <a class="anchor" href="#Raab2019">#</a>
 </h5>
+<h5 id="Guo2021">
+  
+  <a href="https://scholar.google.com/scholar?cluster=10138208789318053488">Guo, Y., Jarabo, A. and Zhao, S., 2021. Beyond mie theory: systematic computation of bulk scattering parameters based on microphysical wave optics. ACM Transactions on Graphics (TOG), 40(6), pp.1-12.</a>
+  <a class="anchor" href="#Guo2021">#</a>
+</h5>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -818,17 +822,20 @@ source 項 \(S^{(i)}(\bm{x},\bm{\omega})\) と
 <li id="fn:2" role="doc-endnote">
 <p>正確には, Radiative Transfer 方程式 [
   <a href="/posts/202112_advent_calendar/#Chandrasekhar1960">Chandrasekhar 1960</a>]
-から時間依存性を除き, 媒質の光の放射を熱輻射に限らないとしたものを, この記事では Volume Rendering 方程式と呼びます.
+から時間依存性を除き, 媒質の光の放射を黒体輻射に限らないとしたものを, この記事では Volume Rendering 方程式と呼びます.
 時間依存性を除くのは, 日常の風景のシミュレーションをする用途で, 光の速度を無限と考えて良いと仮定するからです.
-光の放射を熱放射に限らないとするのは, 蛍光放射や, ゲームの魔法発動時のエフェクトなど, 一般の発光現象を扱いたいからです. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+光の放射を黒体輻射に限らないとするのは, 蛍光放射や, ゲームの魔法発動時のエフェクトなど, 一般の発光現象を扱いたいからです. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
 <p>Radiative Transfer 方程式 [
   <a href="/posts/202112_advent_calendar/#Chandrasekhar1960">Chandrasekhar 1960</a>] は,
 光の粒子的性質に着目する場合は Boltzmann 方程式から [
   <a href="/posts/202112_advent_calendar/#Cercignani1988">Cercignani 1988</a>] ,
-波動的性質に着目する場合は電場に対する Lipmann-Schwinger 方程式から [
+波動的性質に着目する場合は Maxwell 方程式から
+[
   <a href="/posts/202112_advent_calendar/#Mishchenko2002">Mishchenko 2002</a>]
+[
+  <a href="/posts/202112_advent_calendar/#Guo2021">Guo et al. 2021</a>]
 導かれます.
 両者とも, 散乱体による光の散乱問題を取り扱うのは共通ですが, 光を粒子として扱うか, 電磁波として扱うかが違います. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
