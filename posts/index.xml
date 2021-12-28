@@ -12,7 +12,7 @@
       
       <guid>https://k-ishiyama.github.io/posts/202112_advent_calendar/</guid>
       <description>これは レイトレ Advent Calendar 2021 の記事です.
-はじめに #  ゲームに使われるリアルアイムレンダリングの話をします.
+はじめに #  リアルアイムレンダリングの話をします.
 [ Hillaire 2016] の 5.6.3 節では, 散乱媒質を描画するときに, Volume Rendering 方程式の内部散乱項に対して入射光と散乱媒質を一様としたときに得られる, 解析解を利用しています.
 後に述べるように, この解析解は 指数フォグを一般化したものに相当します.
      \[\begin{aligned} L(s) = L(0)e^{-\mu s} &amp;#43; L_{\text{in}}(1-e^{-\mu s}) \end{aligned}\]  解析解には, 数値積分の誤差が生じません. このため, レイマーチング[ Wrenninge and Zafar 2011]などによって散乱媒質を描画するとき, 入射光と散乱媒質が局所的に一様とみなせるところで, その計算精度を改善してくれます.
