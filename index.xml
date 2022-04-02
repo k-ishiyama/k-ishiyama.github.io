@@ -12,7 +12,7 @@
       
       <guid>https://k-ishiyama.github.io/posts/202112_advent_calendar/</guid>
       <description>これは レイトレ Advent Calendar 2021 の記事です.
-はじめに #  ゲームに使われるリアルアイムレンダリングの話をします.
+はじめに #  リアルアイムレンダリングの話をします.
 [ Hillaire 2016] の 5.6.3 節では, 散乱媒質を描画するときに, Volume Rendering 方程式の内部散乱項に対して入射光と散乱媒質を一様としたときに得られる, 解析解を利用しています.
 後に述べるように, この解析解は 指数フォグを一般化したものに相当します.
      \[\begin{aligned} L(s) = L(0)e^{-\mu s} &amp;#43; L_{\text{in}}(1-e^{-\mu s}) \end{aligned}\]  解析解には, 数値積分の誤差が生じません. このため, レイマーチング[ Wrenninge and Zafar 2011]などによって散乱媒質を描画するとき, 入射光と散乱媒質が局所的に一様とみなせるところで, その計算精度を改善してくれます.
@@ -38,11 +38,11 @@
     </item>
     
     <item>
-      <title>Setting up this site with hugo</title>
-      <link>https://k-ishiyama.github.io/posts/20201021_setting_up_this_site_with_hugo/</link>
+      <title>ウェブサイトのセットアップ</title>
+      <link>https://k-ishiyama.github.io/posts/20201021_setup/</link>
       <pubDate>Wed, 21 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://k-ishiyama.github.io/posts/20201021_setting_up_this_site_with_hugo/</guid>
+      <guid>https://k-ishiyama.github.io/posts/20201021_setup/</guid>
       <description>このウェブサイトは、 https://themes.gohugo.io/theme/hugo-book/ を元に作った。 そのときの備忘録をこの記事に残しておく。
 インストール #   https://github.com/spf13/hugo/releases から実行ファイルを取得  手元の環境は Windows 10 64bit なので、hugo_0.76.5_Windows-64bit を選択   hugo.exe を適当なディレクトリに置き、パスを通す  サイトの作成 #   サイトを作る hugo new site [サイト名]  作成したサイトのディレクトリで git init して、そこを Git のリポジトリにする  テーマの適用 #   https://themes.gohugo.io/hugo-book/ を適用する git submodule add https://github.com/alex-shpak/hugo-book themes/book  https://github.com/alex-shpak/hugo-book にある説明を見て記事を作成  サイトのプレビューと生成 #   プレビュー hugo server  public ディレクトリにサイトを生成 hugo   生成されたサイトを GitHub Pages として公開 #   GitHub Pages用のリポジトリを作成  GitHub へアクセスし、[ユーザー名].</description>
     </item>
