@@ -6,6 +6,21 @@
     <description>Recent content on Notes</description>
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://k-ishiyama.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Walk on Spheres について</title>
+      <link>https://k-ishiyama.github.io/posts/202212_advent_calendar/</link>
+      <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://k-ishiyama.github.io/posts/202212_advent_calendar/</guid>
+      <description>これは レイトレ Advent Calendar 2022 の記事です.
+はじめに #  透明な容器に薄めた牛乳を入れ, 懐中電灯で照らすことで簡易ランタンを作る技があります.
+    ぼんやりと光る牛乳をパストレーシングで描きたいとき, 単純にはランダムウォークする経路に沿って, ボリュームレンダリング方程式を評価することが考えられます. それほど計算コストをかけたくない場合は, ボリュームレンダリング方程式の拡散近似から, てきとうな近似式を作ることがあるかもしれません.
+光に限らず, 熱や電荷など何かが媒質の中に拡散する現象はありふれたものです. 一般の拡散現象に応用できるような, ランダムウォークと拡散方程式を対応付ける基盤として, Feynman-Kac の公式が知られています [ 江沢 and 中村. 2020].
+今年, Feynman-Kac の公式とボリュームレンダリング方程式の類似性から, ボリュームレンダリングの手法 [ Novák et al. 2018] を応用することによって, 空間的に非一様な係数を持った楕円型偏微分方程式を効率よく解く手法が提案されました [ Sawhney et al. 2022]
+この記事では, 楕円型偏微分方程式の最も簡単な場合である Laplace 方程式を取り上げ, その手法の基礎となる Walk on Spheres アルゴリズムを実装することを目標にします.
+Dirichlet 境界値問題 #     \(d\) 次元空間の中の領域 \(\Omega\) とその境界 \(\partial\Omega\) について, 以下の関数 \(u(x)\) を考えます.</description>
+    </item>
+    
+    <item>
       <title>局所一様媒質に対する Volume Rendering 方程式の漸化式</title>
       <link>https://k-ishiyama.github.io/posts/202112_advent_calendar/</link>
       <pubDate>Thu, 16 Dec 2021 00:00:00 +0000</pubDate>

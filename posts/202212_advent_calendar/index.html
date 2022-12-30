@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" dir=>
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="これは レイトレ Advent Calendar 2022 の記事です.
+はじめに #  透明な容器に薄めた牛乳を入れ, 懐中電灯で照らすことで簡易ランタンを作る技があります.
+    ぼんやりと光る牛乳をパストレーシングで描きたいとき, 単純にはランダムウォークする経路に沿って, ボリュームレンダリング方程式を評価することが考えられます. それほど計算コストをかけたくない場合は, ボリュームレンダリング方程式の拡散近似から, てきとうな近似式を作ることがあるかもしれません.
+光に限らず, 熱や電荷など何かが媒質の中に拡散する現象はありふれたものです. 一般の拡散現象に応用できるような, ランダムウォークと拡散方程式を対応付ける基盤として, Feynman-Kac の公式が知られています [ 江沢 and 中村. 2020].
+今年, Feynman-Kac の公式とボリュームレンダリング方程式の類似性から, ボリュームレンダリングの手法 [ Novák et al. 2018] を応用することによって, 空間的に非一様な係数を持った楕円型偏微分方程式を効率よく解く手法が提案されました [ Sawhney et al. 2022]
+この記事では, 楕円型偏微分方程式の最も簡単な場合である Laplace 方程式を取り上げ, その手法の基礎となる Walk on Spheres アルゴリズムを実装することを目標にします.
+Dirichlet 境界値問題 #     \(d\) 次元空間の中の領域 \(\Omega\) とその境界 \(\partial\Omega\) について, 以下の関数 \(u(x)\) を考えます.">
+<meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Walk on Spheres について" />
+<meta property="og:description" content="これは レイトレ Advent Calendar 2022 の記事です.
+はじめに #  透明な容器に薄めた牛乳を入れ, 懐中電灯で照らすことで簡易ランタンを作る技があります.
+    ぼんやりと光る牛乳をパストレーシングで描きたいとき, 単純にはランダムウォークする経路に沿って, ボリュームレンダリング方程式を評価することが考えられます. それほど計算コストをかけたくない場合は, ボリュームレンダリング方程式の拡散近似から, てきとうな近似式を作ることがあるかもしれません.
+光に限らず, 熱や電荷など何かが媒質の中に拡散する現象はありふれたものです. 一般の拡散現象に応用できるような, ランダムウォークと拡散方程式を対応付ける基盤として, Feynman-Kac の公式が知られています [ 江沢 and 中村. 2020].
+今年, Feynman-Kac の公式とボリュームレンダリング方程式の類似性から, ボリュームレンダリングの手法 [ Novák et al. 2018] を応用することによって, 空間的に非一様な係数を持った楕円型偏微分方程式を効率よく解く手法が提案されました [ Sawhney et al. 2022]
+この記事では, 楕円型偏微分方程式の最も簡単な場合である Laplace 方程式を取り上げ, その手法の基礎となる Walk on Spheres アルゴリズムを実装することを目標にします.
+Dirichlet 境界値問題 #     \(d\) 次元空間の中の領域 \(\Omega\) とその境界 \(\partial\Omega\) について, 以下の関数 \(u(x)\) を考えます." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://k-ishiyama.github.io/posts/202212_advent_calendar/" />
+<meta property="article:published_time" content="2022-11-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-11-10T00:00:00+00:00" />
+<title>Walk on Spheres について | Notes</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
+<script defer src="/en.search.min.4a659e2c5508a40a5e10de92bf2590e2f06c9ea601662273dda482579f332dc4.js" integrity="sha256-SmWeLFUIpApeEN6SvyWQ4vBsnqYBZiJz3aSCV58zLcQ="></script>
+
+<script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body dir=>
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/"><span>Notes</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://twitter.com/ishiyama_" target="_blank" rel="noopener">
+        Twitter
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Walk on Spheres について</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#はじめに">はじめに</a></li>
+    <li><a href="#dirichlet-problem">Dirichlet 境界値問題</a></li>
+    <li><a href="#walk-on-spheres-アルゴリズム">Walk-on-Spheres アルゴリズム</a>
+      <ul>
+        <li><a href="#kakutani-principle">角谷の原理</a></li>
+        <li><a href="#mean-value-prop">平均値の性質</a></li>
+        <li><a href="#walk-on-spheres-アルゴリズム-1">Walk-on-Spheres アルゴリズム</a></li>
+      </ul>
+    </li>
+    <li><a href="#実装">実装</a></li>
+    <li><a href="#結果">結果</a></li>
+    <li><a href="#さいごに">さいごに</a></li>
+    <li><a href="#参考文献">参考文献</a>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/posts/202212_advent_calendar/">Walk on Spheres について</a>
+  </h1>
+  
+  <h5>November 10, 2022</h5>
+
+
+
+  
+
+  
+
+
+  <p><p>これは 
+  <a href="https://qiita.com/advent-calendar/2022/raytracing">レイトレ Advent Calendar 2022</a> の記事です.</p>
+<h1 id="はじめに">
+  はじめに
+  <a class="anchor" href="#%e3%81%af%e3%81%98%e3%82%81%e3%81%ab">#</a>
+</h1>
+<p>透明な容器に薄めた牛乳を入れ, 懐中電灯で照らすことで簡易ランタンを作る技があります.</p>
+<center>
+<figure>
+<img src="fl_1.jpg" width="300">
+<img src="fl_2.jpg" width="300">
+</figure>
+</center>
+<p>ぼんやりと光る牛乳をパストレーシングで描きたいとき,
+単純にはランダムウォークする経路に沿って, ボリュームレンダリング方程式を評価することが考えられます.
+それほど計算コストをかけたくない場合は,
+ボリュームレンダリング方程式の拡散近似から, てきとうな近似式を作ることがあるかもしれません.</p>
+<p>光に限らず, 熱や電荷など何かが媒質の中に拡散する現象はありふれたものです.
+一般の拡散現象に応用できるような, ランダムウォークと拡散方程式を対応付ける基盤として, Feynman-Kac の公式が知られています
+[
+  <a href="/posts/202212_advent_calendar/#Ezawa2020">江沢 and 中村. 2020</a>].</p>
+<p>今年, Feynman-Kac の公式とボリュームレンダリング方程式の類似性から,
+ボリュームレンダリングの手法 [
+  <a href="/posts/202212_advent_calendar/#Novak2018">Novák et al. 2018</a>] を応用することによって,
+空間的に非一様な係数を持った楕円型偏微分方程式を効率よく解く手法が提案されました
+[
+  <a href="/posts/202212_advent_calendar/#Sawhney2022">Sawhney et al. 2022</a>]</p>
+<p>この記事では, 楕円型偏微分方程式の最も簡単な場合である Laplace 方程式を取り上げ,
+その手法の基礎となる Walk on Spheres アルゴリズムを実装することを目標にします.</p>
+<h1 id="dirichlet-problem">
+  Dirichlet 境界値問題
+  <a class="anchor" href="#dirichlet-problem">#</a>
+</h1>
+<div align="center">
+<figure>
+    <img src="wos_1.png" width="240"/> 
+</figure>
+
+</div>
+<p>\(d\) 次元空間の中の領域 \(\Omega\) とその境界 \(\partial\Omega\) について,
+以下の関数 \(u(x)\) を考えます.
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[\left\{
+\begin{array}{ll}
+	\frac{1}{2}\Delta u(x) = 0 &amp; x\in\Omega\\
+	u(x) = g(x) &amp; x\in\partial\Omega
+	\tag{1}
+\end{array}
+\right.\]
+</span>
+
+ここで \(\Delta u=0\) は Laplace 方程式と呼ばれ, Laplace 方程式を満たす \(u\) は調和関数と呼ばれています.
+そして, 境界で \(u\) が何かしらの関数 \(g\) の値となることを課す条件は Dirichlet 境界条件と呼ばれています.</p>
+<p>このように, Dirichret 境界条件の下で調和関数 \(u\) を求める問題 (1) を, Dirichlet 境界値問題といいます.</p>
+<p>さきほどの牛乳内の光拡散で例えると,
+容器のふち \(\partial\Omega\) に光源 \(g(x)\) を置いたときに,
+牛乳内 \(\Omega\) へ広がる光拡散 \(u(x)\) を計算する問題に対応します.</p>
+<h1 id="walk-on-spheres-アルゴリズム">
+  Walk-on-Spheres アルゴリズム
+  <a class="anchor" href="#walk-on-spheres-%e3%82%a2%e3%83%ab%e3%82%b4%e3%83%aa%e3%82%ba%e3%83%a0">#</a>
+</h1>
+<p>次に, 角谷の原理と,
+調和関数の平均値の性質について簡単に触れ,
+Walk-on-Spheres アルゴリズムの概要の説明へ進みます.</p>
+<h2 id="kakutani-principle">
+  角谷の原理
+  <a class="anchor" href="#kakutani-principle">#</a>
+</h2>
+<p>1ステップの移動幅が無限に小さいランダムウォークを, ブラウン運動と呼びます.
+ここで, \(x\) から出発してブラウン運動によって到着した境界上の点を \(W_\tau\) と書きます.</p>
+<div align="center">
+<figure>
+    <img src="wos_2.png" width="240"/> 
+</figure>
+
+</div>
+<p>角谷の原理によれば, Dirichlet 境界値問題の解 \(u(x)\) は,
+\(x\) から出発したブラウン運動で到達した境界の値 \(g(W_\tau)\) の期待値で表されます.</p>
+<span>
+  \[\begin{aligned}
+	u(x)=\mathbb{E}\left[g(W_\tau)\right]
+	\tag{2}
+\end{aligned}\]
+</span>
+
+<p>&ldquo;角谷の原理&rdquo; という名前は一般的な呼称ではないようですが,
+この記事では
+[
+  <a href="/posts/202212_advent_calendar/#Sawhney2022">Sawhney et al. 2022</a>]
+に倣ってそう呼びます.
+より一般的な偏微分方程式に対する表現については Feynman-Kac の公式を参照してください.</p>
+<h2 id="mean-value-prop">
+  平均値の性質
+  <a class="anchor" href="#mean-value-prop">#</a>
+</h2>
+<p>点 \(x\) を中心とする球の球面を \(\partial B(x)\) と書いたとき,
+調和関数 \(u(x)\)の値は \(\partial B(x)\) 上の平均値で与えられます.</p>
+<p><span>
+  \[\begin{aligned}
+	u(x)
+	= \frac{1}{|\partial B(x)|}\int_{y\in\partial B(x)}u(y)dy
+	\tag{3}
+\end{aligned}\]
+</span>
+
+ここで, \(|\partial B|\) は球面の面積です.</p>
+<div align="center">
+<figure>
+    <img src="wos_3.png" width="240"/> 
+</figure>
+
+</div>
+<h2 id="walk-on-spheres-アルゴリズム-1">
+  Walk-on-Spheres アルゴリズム
+  <a class="anchor" href="#walk-on-spheres-%e3%82%a2%e3%83%ab%e3%82%b4%e3%83%aa%e3%82%ba%e3%83%a0-1">#</a>
+</h2>
+<p>
+  <a href="/posts/202212_advent_calendar/#mean-value-prop">平均値の性質</a> の積分を, モンテカルロ積分で解くことを考えます.
+乱数を使って球面 \(\partial B(x)\) に対して一様に点を \((x^{(1)}, x^{(2)}, \dots, x^{(N)})\) と \(N\) 個生成したとき,
+(3) の積分は以下のように見積もることができます.
+<span>
+  \[\begin{aligned}
+	\hat{u}(x)
+	= \frac{1}{N}\sum_{i=1}^N \hat{u}(x^{(i)})
+	\tag{4}
+\end{aligned}\]
+</span>
+
+ここで, モンテカルロ積分による推定値を \(\hat{u}\) と表記しました.</p>
+<p>上式の \(\hat{u}(x^{(i)})\) がランダムウォークで到着した境界上の点での値になっていれば,
+
+  <a href="/posts/202212_advent_calendar/#kakutani-principle">角谷の原理</a>より,
+解 \(u(x)\) が近似的に求まります.</p>
+<p>Walk-on-Spheres アルゴリズムでは, 球の半径を境界への最近接距離として,
+境界へ至るまで球面上に一様に生成した点をランダムに辿ることを考えます.
+ランダムに辿る球面の順番を \(k\), それぞれの球面上で選んだ点を \(x_k\) と改めて書くと,
+\(\hat{u}(x_k)\) は以下の漸化式で評価できます.</p>
+<span>
+  \[\hat{u}(x_k):=
+\left\{
+\begin{array}{ll}
+	\hat{u}(x_{k&#43;1}) &amp; x_k\in\Omega\\
+	g(\bar{x}_k) &amp; x_k\in\partial\Omega_\epsilon\\
+	\tag{5}
+\end{array}
+\right.\]
+</span>
+
+<div align="center">
+<figure>
+    <img src="wos_4.png" width="400"/> 
+</figure>
+
+</div>
+<p>なお, ランダムウォークを有限回で打ち切るために, \(x_k\) と境界上の最近接点 \(\bar{x}_k\) の間の距離が
+\(\epsilon\) 以下であれば, 境界に達したとみなします.
+そして, 本来の境界 \(\partial\Omega\) より \(\epsilon\) だけ離れた境界を \(\partial\Omega_\epsilon\)
+と書きます.</p>
+<p>この漸化式 (5) によって, \(x^{(i)}=x_1^{(i)}\) から出発して \(\bar{x}_k\) に到達したランダムウォーク \(W^{(i)}_\tau\)
+で境界の値が \(g(W^{(i)}_\tau)\) と得られたとすれば, (4) は</p>
+<span>
+  \[\begin{aligned}
+	\hat{u}(x)
+	= \frac{1}{N}\sum_{i=1}^N g(W_\tau^{(i)})
+	\tag{6}
+\end{aligned}\]
+</span>
+
+<p>と書けます.</p>
+<h1 id="実装">
+  実装
+  <a class="anchor" href="#%e5%ae%9f%e8%a3%85">#</a>
+</h1>
+<p>前節の議論から,</p>
+<ol>
+<li>(5)式: 球面上にランダムに生成した点を境界に至るまで辿り, 境界での値 \(g(W^{(i)}_\tau)\) を求める</li>
+<li>(6)式: \(g(W^{(i)}_\tau)\) の算術平均をとる</li>
+</ol>
+<p>とすれば, Dirichlet 境界値問題 (1) を数値的に解くことができることがわかりました.</p>
+<p>このサンプルとして, 2次元の Dirichlet 境界値問題に対する Walk-on-Spheres を, ShaderToy に実装しました.
+<a href="https://www.shadertoy.com/view/csjXRw">https://www.shadertoy.com/view/csjXRw</a></p>
+<p>以下に, ひとつの経路の計算と, その算術平均をとる部分を抜粋します.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">//------------------------------------------------------------------------</span>
+<span style="color:#75715e">// 1. 球面上にランダムに生成した点を境界に至るまで辿り, 境界での値を求める</span>
+<span style="color:#75715e">//------------------------------------------------------------------------</span>
+<span style="color:#66d9ef">float</span> WalkOnSphere(<span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec2</span> p)
+{
+	<span style="color:#66d9ef">vec2</span> result <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec2</span>(<span style="color:#ae81ff">0.0</span>);
+	<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> MAX_STEPS; i<span style="color:#f92672">++</span>) {
+		<span style="color:#75715e">// 境界への最近接距離を得る</span>
+		result <span style="color:#f92672">=</span> SDF(p);
+		<span style="color:#66d9ef">float</span> closest_dist <span style="color:#f92672">=</span> result.x;
+		<span style="color:#75715e">// 最近接距離が 0.001 以下ならループを抜ける</span>
+		<span style="color:#66d9ef">if</span>(closestDist <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.001</span>) {
+		    <span style="color:#66d9ef">break</span>;
+		}
+		<span style="color:#75715e">// 半径 closest_dist の円上へランダムに生成した点に移動する</span>
+		p <span style="color:#f92672">+=</span> closest_dist <span style="color:#f92672">*</span> RandomInCircle();
+	}
+	<span style="color:#75715e">// 境界の値を取得する</span>
+	<span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#66d9ef">int</span>(result.y);
+	<span style="color:#66d9ef">return</span> BoundaryValue(p, id);
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">//--------------------------------------------------</span>
+<span style="color:#75715e">// 2. 境界での値の算術平均をとる</span>
+<span style="color:#75715e">//--------------------------------------------------</span>
+<span style="color:#75715e">// Walk on spheres のひとつの経路から得た値を取得</span>
+<span style="color:#66d9ef">float</span> v <span style="color:#f92672">=</span> WalkOnSphere(pos);
+<span style="color:#75715e">// 過去に得た history との算術平均をとる</span>
+outColor <span style="color:#f92672">=</span> mix(history, <span style="color:#66d9ef">vec3</span>(v), <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> numSamples);
+</code></pre></div><h1 id="結果">
+  結果
+  <a class="anchor" href="#%e7%b5%90%e6%9e%9c">#</a>
+</h1>
+<p><a href="https://www.shadertoy.com/view/csjXRw">https://www.shadertoy.com/view/csjXRw</a> で得られた結果です.
+左側に解析解, 右側に数値解の結果を並べてあります.</p>
+<div align="center">
+<figure>
+    <img src="wos-s0.png"
+         alt="\(N=1\)" width="500"/> <figcaption>
+            <p>\(N=1\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>Walk-on-Spheres の経路の数 \(N\) がひとつのときは, ノイズだらけの見た目ですが..</p>
+<div align="center">
+<figure>
+    <img src="wos-s2.png"
+         alt="\(N=10000\)" width="500"/> <figcaption>
+            <p>\(N=10000\)</p>
+        </figcaption>
+</figure>
+
+</div>
+<p>経路の数 \(N\) が十分に大きければ, 数値解が解析解に近いことがわかります.</p>
+<h1 id="さいごに">
+  さいごに
+  <a class="anchor" href="#%e3%81%95%e3%81%84%e3%81%94%e3%81%ab">#</a>
+</h1>
+<p>この記事では, [
+  <a href="/posts/202212_advent_calendar/#Sawhney2022">Sawhney et al. 2022</a>] の入口に当たる内容として
+Laplace 方程式の Dirichret 境界値問題を取り上げ, Walk-on-Spheres アルゴリズムの実装を行いました.</p>
+<p>参考文献では, より一般的な楕円型編微分方程式に対して
+multiple importance sampling [
+  <a href="/posts/202212_advent_calendar/#Sawhney2020">Sawhney and Krane 2020</a>]
+や
+delta tracking [
+  <a href="/posts/202212_advent_calendar/#Sawhney2022">Sawhney et al. 2022</a>]
+といった, パストレーシングの技術が応用されています.</p>
+<p>著者による解説動画
+<a href="https://www.youtube.com/watch?v=bZbuKOxH71o">https://www.youtube.com/watch?v=bZbuKOxH71o</a>
+も要点がわかりやすく説明されているため, 詳しい内容に興味のある方は参考にしてください.</p>
+<h1 id="参考文献">
+  参考文献
+  <a class="anchor" href="#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae">#</a>
+</h1>
+<h5 id="Novak2018">
+  
+  <a href="https://scholar.google.com/scholar?cluster=17156070357278963289">Novák, J., Georgiev, I., Hanika, J., Krivánek, J. and Jarosz, W., 2018, August. Monte Carlo methods for physically based volume rendering. In SIGGRAPH Courses (pp. 14-1).</a>
+  <a class="anchor" href="#Novak2018">#</a>
+</h5>
+<h5 id="Ezawa2020">
+  
+  <a href="https://www.asakura.co.jp/detail.php?book_code=13792">江沢, 洋 and 中村, 徹. 2020. ブラウン運動. 朝倉書店.</a>
+  <a class="anchor" href="#Ezawa2020">#</a>
+</h5>
+<h5 id="Sawhney2020">
+  
+  <a href="https://scholar.google.co.jp/scholar?cluster=7262572096236208484">Sawhney, R. and Crane, K., 2020. Monte Carlo geometry processing: A grid-free approach to PDE-based methods on volumetric domains. ACM Transactions on Graphics, 39(4).</a>
+  <a class="anchor" href="#Sawhney2020">#</a>
+</h5>
+<h5 id="Sawhney2022">
+  
+  <a href="https://scholar.google.co.jp/scholar?cluster=5483047500042440984">Sawhney, R., Seyb, D., Jarosz, W. and Crane, K., 2022. Grid-free Monte Carlo for PDEs with spatially varying coefficients. ACM Transactions on Graphics (TOG), 41(4), pp.1-17.</a>
+  <a class="anchor" href="#Sawhney2022">#</a>
+</h5>
+</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#はじめに">はじめに</a></li>
+    <li><a href="#dirichlet-problem">Dirichlet 境界値問題</a></li>
+    <li><a href="#walk-on-spheres-アルゴリズム">Walk-on-Spheres アルゴリズム</a>
+      <ul>
+        <li><a href="#kakutani-principle">角谷の原理</a></li>
+        <li><a href="#mean-value-prop">平均値の性質</a></li>
+        <li><a href="#walk-on-spheres-アルゴリズム-1">Walk-on-Spheres アルゴリズム</a></li>
+      </ul>
+    </li>
+    <li><a href="#実装">実装</a></li>
+    <li><a href="#結果">結果</a></li>
+    <li><a href="#さいごに">さいごに</a></li>
+    <li><a href="#参考文献">参考文献</a>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+ 
+    </aside>
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
