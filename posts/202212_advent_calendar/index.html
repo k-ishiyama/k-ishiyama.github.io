@@ -7,27 +7,27 @@
 <meta name="description" content="これは レイトレ Advent Calendar 2022 の記事です.
 はじめに #  透明な容器に薄めた牛乳を入れ, 懐中電灯で照らすことで簡易ランタンを作る技があります.
     ぼんやりと光る牛乳をパストレーシングで描きたいとき, 単純にはランダムウォークする経路に沿って, ボリュームレンダリング方程式を評価することが考えられます. それほど計算コストをかけたくない場合は, ボリュームレンダリング方程式の拡散近似から, てきとうな近似式を作ることがあるかもしれません.
-光に限らず, 熱や電荷など何かが媒質の中に拡散する現象はありふれたものです. 一般の拡散現象に応用できるような, ランダムウォークと拡散方程式を対応付ける基盤として, Feynman-Kac の公式が知られています [ 江沢 and 中村. 2020].
-今年, Feynman-Kac の公式とボリュームレンダリング方程式の類似性から, ボリュームレンダリングの手法 [ Novák et al. 2018] を応用することによって, 空間的に非一様な係数を持った楕円型偏微分方程式を効率よく解く手法が提案されました [ Sawhney et al. 2022]
+光に限らず, 熱や電荷など何かが媒質の中に拡散する現象はありふれたものです. 一般の拡散現象に応用できるような, ランダムウォークと 拡散方程式を対応付ける基盤として, Feynman-Kac の公式が知られています [ 江沢 and 中村. 2020].
+今年, Feynman-Kac の公式とボリュームレンダリング方程式の類似性から, ボリュームレンダリングの手法 [ Novák et al. 2018] を応用することによって, 空間的に非一様な係数を持った 楕円型偏微分方程式を効率よく解く手法が提案されました [ Sawhney et al. 2022]
 この記事では, 楕円型偏微分方程式の最も簡単な場合である Laplace 方程式を取り上げ, その手法の基礎となる Walk on Spheres アルゴリズムを実装することを目標にします.
 Dirichlet 境界値問題 #     \(d\) 次元空間の中の領域 \(\Omega\) とその境界 \(\partial\Omega\) について, 以下の関数 \(u(x)\) を考えます.">
 <meta name="theme-color" content="#FFFFFF"><meta property="og:title" content="Walk on Spheres について" />
 <meta property="og:description" content="これは レイトレ Advent Calendar 2022 の記事です.
 はじめに #  透明な容器に薄めた牛乳を入れ, 懐中電灯で照らすことで簡易ランタンを作る技があります.
     ぼんやりと光る牛乳をパストレーシングで描きたいとき, 単純にはランダムウォークする経路に沿って, ボリュームレンダリング方程式を評価することが考えられます. それほど計算コストをかけたくない場合は, ボリュームレンダリング方程式の拡散近似から, てきとうな近似式を作ることがあるかもしれません.
-光に限らず, 熱や電荷など何かが媒質の中に拡散する現象はありふれたものです. 一般の拡散現象に応用できるような, ランダムウォークと拡散方程式を対応付ける基盤として, Feynman-Kac の公式が知られています [ 江沢 and 中村. 2020].
-今年, Feynman-Kac の公式とボリュームレンダリング方程式の類似性から, ボリュームレンダリングの手法 [ Novák et al. 2018] を応用することによって, 空間的に非一様な係数を持った楕円型偏微分方程式を効率よく解く手法が提案されました [ Sawhney et al. 2022]
+光に限らず, 熱や電荷など何かが媒質の中に拡散する現象はありふれたものです. 一般の拡散現象に応用できるような, ランダムウォークと 拡散方程式を対応付ける基盤として, Feynman-Kac の公式が知られています [ 江沢 and 中村. 2020].
+今年, Feynman-Kac の公式とボリュームレンダリング方程式の類似性から, ボリュームレンダリングの手法 [ Novák et al. 2018] を応用することによって, 空間的に非一様な係数を持った 楕円型偏微分方程式を効率よく解く手法が提案されました [ Sawhney et al. 2022]
 この記事では, 楕円型偏微分方程式の最も簡単な場合である Laplace 方程式を取り上げ, その手法の基礎となる Walk on Spheres アルゴリズムを実装することを目標にします.
 Dirichlet 境界値問題 #     \(d\) 次元空間の中の領域 \(\Omega\) とその境界 \(\partial\Omega\) について, 以下の関数 \(u(x)\) を考えます." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://k-ishiyama.github.io/posts/202212_advent_calendar/" />
-<meta property="article:published_time" content="2022-11-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-11-10T00:00:00+00:00" />
+<meta property="article:published_time" content="2022-12-30T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-12-30T22:42:35+09:00" />
 <title>Walk on Spheres について | Notes</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.891c5b58a7a694942d519238f3c4138504c9ad2e207c0fd6541f9cd4f8d6220a.css" integrity="sha256-iRxbWKemlJQtUZI488QThQTJrS4gfA/WVB&#43;c1PjWIgo=">
-<script defer src="/en.search.min.4a659e2c5508a40a5e10de92bf2590e2f06c9ea601662273dda482579f332dc4.js" integrity="sha256-SmWeLFUIpApeEN6SvyWQ4vBsnqYBZiJz3aSCV58zLcQ="></script>
+<script defer src="/en.search.min.63bd0b3e43276f54b2bb65775b411cca4df964701d31a8ae5045ba30be13db52.js" integrity="sha256-Y70LPkMnb1Syu2V3W0Ecyk35ZHAdMaiuUEW6ML4T21I="></script>
 
 <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ="></script>
 <!--
@@ -173,7 +173,7 @@ https://github.com/alex-shpak/hugo-book
     <a href="/posts/202212_advent_calendar/">Walk on Spheres について</a>
   </h1>
   
-  <h5>November 10, 2022</h5>
+  <h5>December 30, 2022</h5>
 
 
 
@@ -200,17 +200,22 @@ https://github.com/alex-shpak/hugo-book
 それほど計算コストをかけたくない場合は,
 ボリュームレンダリング方程式の拡散近似から, てきとうな近似式を作ることがあるかもしれません.</p>
 <p>光に限らず, 熱や電荷など何かが媒質の中に拡散する現象はありふれたものです.
-一般の拡散現象に応用できるような, ランダムウォークと拡散方程式を対応付ける基盤として, Feynman-Kac の公式が知られています
+一般の拡散現象に応用できるような, ランダムウォークと
+  <a href="https://en.wikipedia.org/wiki/Heat_equation">拡散方程式</a>を対応付ける基盤として,
+
+  <a href="https://en.wikipedia.org/wiki/Feynman%E2%80%93Kac_formula">Feynman-Kac の公式</a>が知られています
 [
   <a href="/posts/202212_advent_calendar/#Ezawa2020">江沢 and 中村. 2020</a>].</p>
 <p>今年, Feynman-Kac の公式とボリュームレンダリング方程式の類似性から,
 ボリュームレンダリングの手法 [
   <a href="/posts/202212_advent_calendar/#Novak2018">Novák et al. 2018</a>] を応用することによって,
-空間的に非一様な係数を持った楕円型偏微分方程式を効率よく解く手法が提案されました
+空間的に非一様な係数を持った
+  <a href="https://en.wikipedia.org/wiki/Parabolic_partial_differential_equation">楕円型偏微分方程式</a>を効率よく解く手法が提案されました
 [
   <a href="/posts/202212_advent_calendar/#Sawhney2022">Sawhney et al. 2022</a>]</p>
 <p>この記事では, 楕円型偏微分方程式の最も簡単な場合である Laplace 方程式を取り上げ,
-その手法の基礎となる Walk on Spheres アルゴリズムを実装することを目標にします.</p>
+その手法の基礎となる 
+  <a href="https://en.wikipedia.org/wiki/Walk-on-spheres_method">Walk on Spheres アルゴリズム</a>を実装することを目標にします.</p>
 <h1 id="dirichlet-problem">
   Dirichlet 境界値問題
   <a class="anchor" href="#dirichlet-problem">#</a>
@@ -275,7 +280,8 @@ Walk-on-Spheres アルゴリズムの概要の説明へ進みます.</p>
 [
   <a href="/posts/202212_advent_calendar/#Sawhney2022">Sawhney et al. 2022</a>]
 に倣ってそう呼びます.
-より一般的な偏微分方程式に対する表現については Feynman-Kac の公式を参照してください.</p>
+より一般的な偏微分方程式に対する表現については 
+  <a href="https://en.wikipedia.org/wiki/Feynman%E2%80%93Kac_formula">Feynman-Kac の公式</a>を参照してください.</p>
 <h2 id="mean-value-prop">
   平均値の性質
   <a class="anchor" href="#mean-value-prop">#</a>
